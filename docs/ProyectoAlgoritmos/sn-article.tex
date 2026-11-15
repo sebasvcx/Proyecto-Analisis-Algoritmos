@@ -1,0 +1,384 @@
+%Version 3.1 December 2024 -- plantilla Springer Nature (sn-jnl)
+%
+% Proyecto 2026-30 -- Analisis de Algoritmos -- Pontificia Universidad Javeriana
+% Entrega 1: Diseno y estrategia de datos
+%
+% Archivos que acompanan este .tex (subirlos a Overleaf junto a sn-jnl.cls):
+%   carpeta figuras/  (diagramas en PDF y mockups en PNG)
+%   sn-bibliography.bib  (reemplaza al de la plantilla)
+
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
+
+%%%% Paquetes estandar de la plantilla
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{listings}%
+%%%% Paquetes adicionales
+\usepackage[utf8]{inputenc}%
+\usepackage[T1]{fontenc}%
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-tabla]{babel}%
+\usepackage{tabularx}%
+\usepackage{array}%
+\usepackage{float}
+\usepackage{placeins}
+\renewcommand{\keywordname}{Palabras clave}
+\hypersetup{hypertexnames=false}
+%% Columnas de tabla con texto alineado a la izquierda
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+
+%% Estilo de los ejemplos JSON
+\lstdefinestyle{json}{
+  basicstyle=\ttfamily\scriptsize,
+  columns=fullflexible,
+  breaklines=true,
+  frame=single,
+  framesep=4pt,
+  showstringspaces=false,
+  literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1
+}
+
+\raggedbottom
+
+\begin{document}
+
+\title[Asignación de horarios estudiantiles]{Asignación de horarios estudiantiles con preferencias: diseño y estrategia de datos}
+
+\author[1]{\fnm{Andrés José} \sur{Castrillo Torres}}
+\email{ancastrillo@javeriana.edu.co}
+
+\author[1]{\fnm{Sebastián} \sur{Vargas Casquete}}
+\email{se.vargas@javeriana.edu.co}
+
+\affil[1]{%
+    \orgdiv{Ingeniería de Sistemas},
+    \orgname{Pontificia Universidad Javeriana},
+    \orgaddress{\city{Bogotá}, \country{Colombia}}%
+}
+
+\abstract{Este documento presenta el diseño de un sistema que asigna secciones de materias a un grupo de estudiantes. El sistema tiene en cuenta cupos, créditos, cruces de horario, disponibilidad y tiempos de traslado. Primero busca atender las materias de prioridad 5, luego las de prioridad 4 y así hasta 1. Si hay empate, puede dar prioridad por semestre; después considera las preferencias sobre horarios, profesores y compañeros. Se define qué datos recibe, qué resultados debe entregar y qué reglas deben cumplirse. También se propone cómo crear datos de prueba, obtener respuestas esperadas y comprobar la calidad de las asignaciones. Se propone un desarrollo por diez niveles y se describe la aplicación web para cargar datos y consultar horarios. Esta primera entrega corresponde al diseño y al plan de pruebas; la implementación se realizará en la siguiente etapa.}
+
+\keywords{asignación de horarios, restricciones, optimización lexicográfica, datos sintéticos, verificación de algoritmos}
+
+\maketitle
+
+%%==================================================================%%
+\section{Introducción}\label{sec:intro}
+
+Organizar un horario requiere encontrar secciones que permitan cursar las materias necesarias sin cruces y con cupos disponibles. La decisión también afecta a otros estudiantes: una persona puede ocupar el único cupo que le sirve a otra, aunque tenga varias alternativas. A esto se suman preferencias sobre profesores, tiempos libres, cercanía de salones y compañeros.
+
+El proyecto de Análisis de Algoritmos 2026-30 pide diseñar un algoritmo para asignar horarios a un conjunto de estudiantes. Para la primera entrega solicita dos cosas: definir con precisión las entradas y salidas, sin depender del algoritmo elegido, y proponer cómo obtener los datos de prueba y sus respuestas esperadas \cite{enunciado}.
+
+La propuesta parte de una oferta de secciones con profesores, horarios y salones ya definidos. Cada estudiante indica qué materias necesita y les asigna una prioridad de 1 a 5. Se comparan primero las materias atendidas de prioridad 5; solo si hay empate se pasa a la prioridad 4, y así hasta 1. Después puede usarse el semestre como desempate y, finalmente, las preferencias personales.
+
+Las Secciones~\ref{sec:formal} y~\ref{sec:datos} desarrollan los dos puntos principales de esta entrega. Las demás describen el sistema, los datos, la propuesta de desarrollo y la interfaz. Los límites de horas y créditos son supuestos del equipo para este proyecto. La implementación y las pruebas del programa corresponden a la segunda entrega.
+
+%%==================================================================%%
+\section{Descripción del sistema}\label{sec:sistema}
+
+\subsection{Qué hace}
+
+El sistema recibe la \textbf{oferta} del semestre (materias, secciones, profesores y edificios) y las \textbf{solicitudes y preferencias} de los estudiantes, y en una sola corrida decide qué sección de cada materia le corresponde a cada uno. La salida final debe cumplir las reglas obligatorias y, dentro de ellas, el sistema busca primero inscribir la mayor cantidad posible de materias importantes y después respetar las preferencias personales.
+
+En este documento, una \emph{materia} es lo que el estudiante quiere cursar (por ejemplo, Cálculo~I) y una \emph{sección} es una oferta concreta de esa materia, con profesor, horario y cupo (por ejemplo, Cálculo~I grupo~02); en el día a día a la sección también se le llama ``clase''.
+
+La asignación se hace \textbf{por lotes}, considerando a todos los estudiantes a la vez, y no por orden de llegada. Esto permite mover estudiantes entre secciones para dejar cupos a quienes tienen menos alternativas. La propuesta intentará mejorar el reparto, aunque no asegura encontrar siempre el mejor.
+
+\subsection{Usuarios}
+
+\begin{itemize}
+\item \textbf{Estudiante.} Usuario principal. Declara sus materias, sus horas ocupadas y sus preferencias, y consulta el horario que le quedó.
+\item \textbf{Universidad.} Carga la oferta, ajusta los parámetros generales y lanza las corridas.
+\item \textbf{Profesor.} No usa el sistema; aparece como dato de cada sección y como objeto de las preferencias de los estudiantes.
+\end{itemize}
+
+\subsection{Supuestos y decisiones de diseño}\label{sec:supuestos}
+
+\begin{itemize}
+\item Las clases son de lunes a sábado, entre las \textbf{07:00 y las 20:00}. Cada sesión de clase dura \textbf{2 horas} y empieza en hora en punto, de modo que la última sesión del día empieza a las 18:00.
+\item Una clase termina \textbf{10 minutos} antes de su hora oficial; ese es el tiempo para cambiar de salón.
+\item Los créditos pertenecen a la materia: todas sus secciones valen lo mismo. Cada materia vale entre 1 y 6 créditos y \textbf{todo estudiante puede inscribir como máximo 20 créditos}.
+\item La información se guarda en \textbf{archivos JSON locales}, no en una base de datos; se actualiza editando esos archivos o desde la aplicación.
+\item La aplicación \textbf{no tiene inicio de sesión}: se elige el estudiante en un selector, lo que evita entrar y salir por cada uno.
+\item No se validan prerrequisitos, no se asignan salones ni profesores (vienen en la oferta) y no hay inscripción en tiempo real ni listas de espera.
+\end{itemize}
+
+%%==================================================================%%
+\section{Requerimientos}\label{sec:req}
+
+Los requerimientos se dividen en \emph{reglas obligatorias}, que nunca se violan, y \emph{preferencias}, que se intentan cumplir pero pueden ceder. La última columna indica en qué nivel del algoritmo (Sección~\ref{sec:niveles}) se incorpora cada una.
+
+\begin{table}[hbtp]
+\caption{Reglas obligatorias}\label{tab:reglas}
+\small
+\begin{tabularx}{\textwidth}{@{}llLc@{}}
+\toprule
+ID & Regla & Descripción & Nivel \\
+\midrule
+R1 & Solo lo solicitado & Se inscriben solo las materias pedidas o sus sustitutas & N1 \\
+R2 & Una sección por materia & Nadie queda en dos secciones de la misma materia & N1 \\
+R3 & Sin choques & Las clases de un estudiante no se cruzan & N1 \\
+R4 & Cupos & Ninguna sección supera su cupo & N1 \\
+R5 & Tope de créditos & Nadie supera 20 créditos & N2 \\
+R6 & Franjas obligatorias & Ninguna clase cae en una franja que el estudiante marcó como no disponible (por ejemplo, trabajo) & N2 \\
+R7 & Profesores vetados & Nunca se asigna una sección de un profesor vetado & N2 \\
+R8 & Traslado posible & Entre dos clases seguidas hay tiempo para caminar de un edificio al otro & N3 \\
+R9 & Sustituta excluyente & Una sustituta solo se inscribe si la materia principal no quedó & N4 \\
+\botrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\caption{Preferencias}\label{tab:prefs}
+\small
+\begin{tabularx}{\textwidth}{@{}llLc@{}}
+\toprule
+ID & Preferencia & Descripción & Nivel \\
+\midrule
+P1 & Prioridad de materias & De 1 (``puedo vivir sin ella'') a 5 (``la necesito''); decide qué se atiende primero & N1 \\
+P2 & Materias sustitutas & Otra materia que se acepta si la principal no cabe & N4 \\
+P3 & Afinidad con profesores & De $-2$ a $+2$ por profesor; el veto (R7) se declara por separado & N5 \\
+P4 & Horario ideal & Franjas preferidas (por ejemplo, mañanas) y franjas a evitar & N6 \\
+P5 & Franjas libres deseables & Por ejemplo, de 13:00 a 14:00 para almorzar & N6 \\
+P6 & Evitar huecos & Pocas horas muertas entre clases (peso bajo) & N6 \\
+P7 & Salones cerca & Poca caminata entre clases seguidas & N7 \\
+P8 & Importancia personal & Alta, media o baja para cada criterio & N8 \\
+P9 & Amigos y personas a evitar & Quedar o no en la misma sección que otros estudiantes & N9 \\
+P10 & Prioridad institucional & Desempate por semestre si se activa, después de comparar las materias atendidas & N10 \\
+\botrule
+\end{tabularx}
+\end{table}
+
+\subsection{Cómo se decide qué asignación es mejor}\label{sec:mejor}
+
+Primero se comprueba que el horario cumpla todas las reglas obligatorias. Después se comparan las materias atendidas, empezando por las de prioridad 5 y siguiendo hasta 1. Una principal inscrita cuenta 1 y una sustituta cuenta 0,8 dentro de la prioridad de su solicitud.
+
+Si los resultados empatan en las cinco prioridades, puede usarse el semestre para decidir, si esa opción está activada. Las preferencias personales se comparan después. Por ejemplo, tener las clases en la mañana no justifica perder una materia más prioritaria. La Sección~\ref{sec:objetivo} explica el cálculo y la Sección~\ref{sec:metricas} indica cómo medir las preferencias.
+
+\subsection{Qué pasa cuando no se puede cumplir}\label{sec:fallos}
+
+Si una materia no cabe tal como se pidió, el sistema prueba otras secciones y luego las sustitutas. Si tampoco puede asignarla, genera un \textbf{aviso} con la causa y una sugerencia (Tabla~\ref{tab:causas}). Cuando hay varias causas, registra todas y destaca la más frecuente; si empatan, usa el número de regla.
+
+El aviso explica lo ocurrido en el horario obtenido. No asegura que sea imposible encontrar otra asignación mejor. Si el algoritmo dejó pasar una alternativa válida, se indica como limitación del algoritmo. Solo se dice que un cupo se cedió por semestre cuando la decisión quedó registrada.
+
+\begin{table}[htbp]
+\caption{Causas de no inscripción}\label{tab:causas}
+\small
+\begin{tabularx}{\textwidth}{@{}lLL@{}}
+\toprule
+Causa & Significado & Sugerencia \\
+\midrule
+Sin secciones & La materia no tiene secciones en la oferta & Revisar el código de la materia \\
+Cupo lleno & Todas las secciones compatibles están llenas & Revisar alternativas y oferta de cupos \\
+Choque de horario & Las alternativas chocan con el horario obtenido & Revisar secciones y prioridades declaradas \\
+Tope de créditos & Inscribirla superaría los 20 créditos & Quitar una materia de menor prioridad \\
+Franja obligatoria & Todas las secciones caen en horas no disponibles & Revisar las franjas obligatorias \\
+Profesor vetado & Todas las secciones son de profesores vetados & Cambiar el veto por una afinidad negativa \\
+Traslado imposible & No hay tiempo para caminar entre edificios & Aceptar otra franja \\
+Cedida por prioridad & El cupo se dio a un estudiante con prioridad institucional mayor & --- \\
+\botrule
+\end{tabularx}
+\end{table}
+
+%%==================================================================%%
+\section{Tipos abstractos de datos}\label{sec:tads}
+
+Primero se define cada TAD por separado, con sus atributos, invariantes y operaciones (Figuras~\ref{fig:tads-oferta} y~\ref{fig:tads-estudiante}), y después se muestra cómo se relacionan (Figura~\ref{fig:relaciones}). Las horas se escriben en formato de 24 horas y los días son L, M, X, J, V y S.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.35\textwidth]{figuras/tad_edificio.pdf}\hfill
+\includegraphics[width=0.31\textwidth]{figuras/tad_profesor.pdf}\hfill
+\includegraphics[width=0.34\textwidth]{figuras/tad_materia.pdf}
+
+\vspace{10pt} % Espacio vertical entre las dos filas
+
+\includegraphics[width=0.31\textwidth]{figuras/tad_franja.pdf}\hfill
+\includegraphics[width=0.31\textwidth]{figuras/tad_sesion.pdf}\hfill
+\includegraphics[width=0.31\textwidth]{figuras/tad_seccion.pdf}
+\caption{TADs de la oferta: Edificio, Profesor, Materia, Franja horaria, Sesión y Sección.}\label{fig:tads-oferta}
+\end{figure}
+
+\paragraph{Edificio.} Un lugar del campus, con identificador único, nombre y ubicación aproximada. Su operación \emph{caminataHasta(otro)} devuelve los minutos para llegar a otro edificio; desde el mismo edificio es 0 y el tiempo es igual en ambos sentidos.
+
+\paragraph{Profesor.} Identificador único, nombre y departamento. Invariante: un profesor nunca tiene dos secciones a la misma hora.
+
+\paragraph{Materia.} Código único, nombre, créditos (de 1 a 6) y semestre sugerido (de 1 a 10).
+
+\paragraph{Franja horaria.} Un día con una hora de inicio y una de fin. Invariante: el inicio es anterior al fin y ambos son horas en punto entre las 07:00 y las 20:00. Operaciones: \emph{duración()}; \emph{seCruzaCon(otra)}, verdadera si son el mismo día y los intervalos se solapan; y \emph{contiene(otra)}, verdadera si la otra cabe completa dentro de esta.
+
+\paragraph{Sesión.} Un bloque semanal de clase: una franja horaria, un edificio y un salón. Invariante: su franja dura exactamente 2 horas.
+
+\paragraph{Sección.} Una oferta concreta de una materia: identificador, materia, profesor, cupo, número de inscritos y una o más sesiones. Invariantes: el cupo es mayor que cero, los inscritos nunca superan el cupo y las sesiones de la sección no se cruzan entre sí. Operaciones: \emph{tieneCupo()}, verdadera si inscritos $<$ cupo; y \emph{chocaCon(otra)}, verdadera si alguna sesión se cruza con alguna de la otra sección.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{figuras/tad_estudiante.pdf}\hfill
+\includegraphics[width=0.48\textwidth]{figuras/tad_solicitud.pdf}
+
+\vspace{10pt} % Espaciado vertical entre filas
+
+\includegraphics[width=0.48\textwidth]{figuras/tad_preferencias.pdf}\hfill
+\includegraphics[width=0.48\textwidth]{figuras/tad_horario.pdf}
+\caption{TADs del estudiante: Estudiante, Solicitud, Preferencias y Horario.}\label{fig:tads-estudiante}
+\end{figure}
+
+\paragraph{Estudiante.} Identificador único, nombre, semestre (de 1 a 10), sus solicitudes y sus preferencias. Invariantes: no pide dos veces la misma materia y no tiene preferencias sociales hacia sí mismo. Operación: \emph{créditosSolicitados()}.
+
+\paragraph{Solicitud.} Una materia pedida, su prioridad (de 1 a 5) y una lista ordenada de sustitutas, que puede estar vacía. Invariante: una sustituta no puede ser también una materia pedida por el mismo estudiante.
+
+\paragraph{Preferencias.} Las franjas obligatoriamente libres y las libres deseables; las franjas preferidas y las que quiere evitar; la afinidad con profesores (de $-2$ a $+2$) y los vetados; los amigos y las personas a evitar; y la importancia (alta, media, baja o ninguna) de cada criterio. Todas son opcionales; los criterios sin información se excluyen del promedio de preferencias, según la Sección~\ref{sec:metricas}. La afinidad negativa no equivale a veto.
+
+\paragraph{Horario.} El resultado para un estudiante: sus secciones inscritas y los avisos de las materias que no pudo inscribir. Invariante: siempre cumple las reglas obligatorias activas. Operaciones: \emph{créditos()}; \emph{puedeAgregar(sección)}, que dice si la sección cabe o, si no, la causa; \emph{agregar(sección)}, cuya precondición es que pueda agregarse y cuya postcondición es que la sección queda en el horario y sus inscritos aumentan en uno; y \emph{quitar(sección)}, que deshace lo anterior.
+
+\subsection{Relaciones entre los TADs}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figuras/relaciones.pdf}
+\caption{Relaciones entre los TADs.}\label{fig:relaciones}
+\end{figure}
+
+La Figura~\ref{fig:relaciones} resume cómo se conectan. Una \emph{sección} es de una materia, la dicta un profesor y se reúne en una o más \emph{sesiones}, cada una con su franja horaria y su edificio. Un \emph{estudiante} hace cero o más \emph{solicitudes}, cada una de una materia y con sus posibles sustitutas, y tiene unas \emph{preferencias} que apuntan a franjas, profesores y otros estudiantes. El \emph{horario} de cada estudiante es lo que produce el algoritmo: une al estudiante con las secciones que le fueron asignadas. Los diagramas resumen el diseño. También se admite un estudiante sin solicitudes y, al modificar un horario, se registra qué solicitud atiende cada sección.
+
+%%==================================================================%%
+\section{Definición del problema}\label{sec:formal}
+
+\input{formalizacion}
+
+%%==================================================================%%
+\section{Algoritmo por niveles}\label{sec:niveles}
+
+El algoritmo se construirá como una sola función que va creciendo: cada nivel le agrega una regla, una preferencia o una mejora. Los niveles son \textbf{acumulativos}: el nivel $k$ incluye todo lo de los niveles anteriores, de modo que llegar al nivel 10 significa que funcionan del 1 al 10, sin saltos. Estos niveles son una propuesta de implementación para la segunda entrega, no parte de la definición formal. Cada nivel tiene sus casos de prueba pequeños con resultado esperado, y para darlo por terminado deben pasar sus pruebas y las de todos los niveles anteriores. Además, se puede ejecutar cualquier nivel ya hecho para comparar los resultados de uno a otro.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figuras/niveles.pdf}
+\caption{Evolución del algoritmo. Los primeros niveles incorporan las reglas poco a poco; el horario final debe cumplir R1--R9.}\label{fig:niveles}
+\end{figure}
+
+\begin{table}[htbp]
+\caption{Qué agrega cada nivel y cómo se comprueba}\label{tab:niveles}
+\small
+\begin{tabularx}{\textwidth}{@{}lLL@{}}
+\toprule
+Nivel & Qué agrega & Ejemplo de prueba \\
+\midrule
+N1 & Atiende las solicitudes de todos los estudiantes de mayor a menor prioridad y toma la primera sección con cupo que no choque (R1--R4) & Con cupo 1 y dos estudiantes, gana la solicitud de mayor prioridad \\
+N2 & Tope de 20 créditos, franjas obligatorias y profesores vetados (R5--R7) & Quien trabaja el lunes de 14:00 a 20:00 no tiene clases en esa franja \\
+N3 & Tiempo de traslado entre edificios (R8) & Clases seguidas en edificios a 15 minutos no son compatibles; a 8 minutos sí \\
+N4 & Materias sustitutas (R9) y avisos con causa y sugerencia & Si la principal está llena y la sustituta cabe, queda la sustituta y se avisa \\
+N5 & Entre las secciones válidas elige la que más satisface al estudiante; primer criterio: afinidad con profesores & Entre profesores con afinidad $+2$ y $-1$, elige el de $+2$ \\
+N6 & Franjas preferidas, a evitar y libres deseables; pocos huecos & Quien prefiere mañanas queda en la sección de las 7:00 y no en la de las 18:00 \\
+N7 & Cercanía entre salones & Con dos secciones iguales, elige la del edificio más cercano a la clase anterior \\
+N8 & Importancia personal (alta, media o baja) de cada criterio & Invertir la importancia de profesores y horario cambia la sección elegida \\
+N9 & Amigos y personas a evitar & Si se atienden las mismas materias, se favorece compartir sección \\
+N10 & Desempate opcional por semestre y cambios de sección que mejoren el resultado según el orden definido & Un estudiante que en N9 quedó sin cupo lo obtiene cuando otro se mueve a una sección equivalente \\
+\botrule
+\end{tabularx}
+\end{table}
+
+Los niveles 1 a 9 ordenan las solicitudes y eligen para cada una la mejor sección disponible en ese momento. Una decisión temprana puede ocupar el último cupo que otro estudiante necesitaba. Por eso N10 revisa el conjunto de horarios e intenta mover estudiantes entre secciones.
+
+Un cambio solo se acepta si cumple las reglas y mejora el resultado según la Sección~\ref{sec:objetivo}. Se fija un límite de cambios examinados y no se vuelve a una asignación peor o igual. Este procedimiento busca una buena respuesta, pero no garantiza la mejor posible. Se espera que el problema completo sea difícil de resolver de forma exacta, pues problemas cercanos, como la selección de intervalos por trabajos \cite{spieksma1999}, son NP-difíciles; aquí no se demuestra, y por eso la comparación exacta se limita a instancias pequeñas. Para medir qué tan cerca queda, se comparará con respuestas exactas en casos pequeños.
+
+%%==================================================================%%
+\section{Datos}\label{sec:datos}
+
+\subsection{Formato y almacenamiento}
+
+\begin{sloppypar}
+Toda la información se guarda en archivos JSON dentro de la carpeta \texttt{data/} del proyecto, que funcionan como almacenamiento local: \texttt{materias.json}, \texttt{profesores.json}, \texttt{edificios.json}, \texttt{secciones.json}, \texttt{estudiantes.json} y, de forma opcional, \texttt{config.json}. Cada corrida guarda su salida en \texttt{resultados/}. Para cambiar los datos basta con editar los archivos, importarlos desde la aplicación o usar sus formularios, que escriben en los mismos archivos. Un ejemplo de sección y de estudiante:
+\end{sloppypar}
+
+\begin{minipage}{\textwidth}
+\begin{lstlisting}[style=json]
+{ "id": "CAL1-02", "materia": "CAL1", "profesor": "p12", "cupo": 30,
+  "sesiones": [ { "dia": "L", "inicio": "07:00", "fin": "09:00", "edificio": "A", "salon": "A-201" },
+                { "dia": "X", "inicio": "07:00", "fin": "09:00", "edificio": "A", "salon": "A-201" } ] }
+\end{lstlisting}
+\end{minipage}
+
+
+\begin{minipage}{\textwidth}
+\begin{lstlisting}[style=json]
+{ "id": "e001", "nombre": "Laura Gómez", "semestre": 5,
+  "materias": [ { "codigo": "CAL1", "prioridad": 5, "sustitutas": ["CAL2"] },
+                { "codigo": "FIS1", "prioridad": 3 } ],
+  "franjas_libres": [ { "dia": "L", "inicio": "14:00", "fin": "20:00", "tipo": "obligatoria" },
+                      { "dia": "*", "inicio": "13:00", "fin": "14:00", "tipo": "deseable" } ],
+  "franjas_preferidas": [ { "dia": "*", "inicio": "09:00", "fin": "13:00" } ],
+  "franjas_evitadas":   [ { "dia": "*", "inicio": "07:00", "fin": "08:00" } ],
+  "profesores": [ { "id": "p12", "afinidad": 2 }, { "id": "p40", "veto": true } ],
+  "social": [ { "estudiante": "e017", "afinidad": 2 }, { "estudiante": "e090", "afinidad": -2 } ],
+  "importancia": { "horario": "media", "profesores": "alta", "cercania": "media",
+                   "huecos": "baja", "social": "alta" } }
+\end{lstlisting}
+\end{minipage}
+
+
+La salida contiene, por estudiante, sus secciones, sus avisos y su satisfacción, y un resumen general:
+
+Este fragmento muestra cómo se registra la respuesta a cada solicitud. Es un ejemplo del formato; los porcentajes y puntajes se calculan sobre el resultado completo como se explica en la Sección~\ref{sec:metricas}.
+
+\begin{minipage}{\textwidth}
+\begin{lstlisting}[style=json]
+{ "id": "e001",
+  "solicitudes": [
+    { "materia": "CAL1", "estado": "principal", "seccion": "CAL1-02" },
+    { "materia": "FIS1", "estado": "no_inscrita", "seccion": null }
+  ],
+  "avisos": [ { "materia": "FIS1", "causa": "Cupo lleno",
+                "sugerencia": "Revisar alternativas y oferta de cupos" } ] }
+\end{lstlisting}
+\end{minipage}
+
+
+\input{estrategia-datos}
+
+%%==================================================================%%
+\section{Tecnología y arquitectura}\label{sec:tec}
+
+\begin{table}[htbp]
+\caption{Tecnología del proyecto}\label{tab:tec}
+\small
+\begin{tabularx}{\textwidth}{@{}lL@{}}
+\toprule
+Parte & Tecnología \\
+\midrule
+Algoritmo & Python, como un módulo independiente de la web \\
+Servidor & FastAPI, que lee y escribe los JSON y lanza las corridas \\
+Aplicación web & React con TypeScript \\
+Datos & Archivos JSON locales, validados al cargarlos \\
+Solver de comparación & OR-Tools CP-SAT, solo para instancias pequeñas \\
+Pruebas y versiones & pytest, Git y GitHub con integración continua \\
+Despliegue & Primero local; después Docker Compose \\
+Documentación & \LaTeX\ y diagramas en Mermaid \\
+\botrule
+\end{tabularx}
+\end{table}
+
+La aplicación web habla con el servidor, el servidor lee y guarda los archivos JSON y llama al algoritmo, y el verificador revisa cada resultado (Figura~\ref{fig:arq}). El despliegue se hará en dos fases: primero, el servidor y la web se ejecutan localmente en el computador de desarrollo; después, una vez estable, se empaquetan con Docker Compose en dos contenedores, manteniendo la carpeta \texttt{data/} fuera del contenedor para que los JSON se sigan editando directamente.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{figuras/arquitectura.pdf}
+\caption{Arquitectura general.}\label{fig:arq}
+\end{figure}
+
+%%==================================================================%%
+\section{Interfaz y flujo de uso}\label{sec:ui}
+
+\input{interfaz}
+
+\FloatBarrier
+\bibliography{sn-bibliography}
+
+\end{document}

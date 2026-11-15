@@ -1,0 +1,26 @@
+classDiagram
+    direction LR
+    class Estudiante
+    class Solicitud
+    class Preferencias
+    class Horario
+    class Materia
+    class Seccion["Sección"]
+    class Sesion["Sesión"]
+    class FranjaHoraria["Franja horaria"]
+    class Profesor
+    class Edificio
+    Estudiante "1" *-- "1..*" Solicitud : hace
+    Estudiante "1" *-- "1" Preferencias : tiene
+    Solicitud "*" --> "1" Materia : pide
+    Solicitud "*" --> "0..*" Materia : acepta como sustituta
+    Preferencias "*" --> "*" Profesor : afinidad o veto
+    Preferencias "*" --> "*" Estudiante : amigos o evitar
+    Preferencias "1" *-- "*" FranjaHoraria : franjas
+    Horario "1" --> "1" Estudiante : pertenece a
+    Horario "*" --> "*" Seccion : inscribe
+    Seccion "*" --> "1" Materia : es de
+    Seccion "*" --> "1" Profesor : dictada por
+    Seccion "1" *-- "1..*" Sesion : se reúne en
+    Sesion "1" *-- "1" FranjaHoraria : ocurre en
+    Sesion "*" --> "1" Edificio : ubicada en

@@ -1,0 +1,43 @@
+\subsection{Generación de datos y respuestas esperadas}
+
+Los JSON siguen RFC~8259 \cite{json}. Además de los archivos anteriores, \texttt{traslados.json} guarda origen, destino y minutos para cada par de edificios. Cada prueba conserva sus entradas, parámetros y versiones del generador y del algoritmo. Si no hay \texttt{config.json}, se usan 20 créditos, sustitución de 0,8, semestre desactivado, semilla 42 y hasta 10.000 cambios examinados en la mejora.
+
+Se crearán dos tipos de datos, siempre con nombres y códigos ficticios:
+\begin{enumerate}
+\item \textbf{Escenarios variados.} Se generan materias, profesores, edificios y traslados; después, secciones con horarios, salones y cupos válidos; finalmente, estudiantes, solicitudes y preferencias con códigos existentes. Si una sesión cruza un profesor o salón, se prueba otra opción hasta un límite de intentos. Para variar la dificultad se ajustan cupos, demanda, prioridades, proporción de estudiantes que trabajan, sustitutas, vetos y preferencias sobre compañeros.
+\item \textbf{Casos con respuesta conocida.} Se parte de horarios válidos para todos los estudiantes a la vez, respetando cupos y demás reglas. De ellos se obtienen las solicitudes principales y se agregan secciones alternativas. La asignación inicial se guarda como referencia: demuestra que todas las materias caben, aunque otra respuesta podría satisfacer mejor las preferencias.
+\end{enumerate}
+
+La semilla permite repetir las elecciones del generador si también se conservan sus parámetros y versión. En casos muy pequeños se revisan todas las combinaciones válidas o se usa CP-SAT de OR-Tools \cite{cpsat}, respetando el orden de prioridades de la Sección~\ref{sec:objetivo}. Solo se llama óptima a una respuesta si se comprueba que no existe otra mejor. Cada caso guarda la entrada y la respuesta esperada; si hay empates, se guardan los puntajes y las condiciones que deben cumplir las respuestas aceptables.
+
+\paragraph{Ejemplo completo de una prueba pequeña.}
+Se crean una materia M1 de tres créditos, un profesor P1 y un edificio B1. M1 tiene una sola sección, S1, con un cupo y una sesión el lunes de 07:00 a 09:00 en B1. Dos estudiantes, e01 de segundo semestre y e02 de octavo, solicitan M1 con prioridad 5. No tienen sustitutas ni preferencias. El traslado de B1 a B1 es cero y el límite de créditos es 20. Con desempate por semestre activado, se espera S1 para e02, tres créditos para él y un aviso de no inscripción para e01. Desactivado, se espera S1 para e01 por el desempate final de códigos. En ambos casos se atiende una solicitud de prioridad 5 y no se incumple ninguna regla.
+
+\begin{table}[htbp]
+\caption{Casos de prueba y resultados esperados.}\label{tab:aceptacion}
+\small
+\begin{tabularx}{\textwidth}{@{}lLL@{}}
+\toprule
+Caso & Datos de la prueba & Resultado esperado \\
+\midrule
+Prioridades & Una solicitud de prioridad 5 impide dos de prioridad 1 & Se conserva la de prioridad 5 \\
+Semestre & Dos solicitudes iguales, un cupo; semestres 2 y 8 & Activado: gana semestre 8; desactivado: decide el código si todo lo demás es igual \\
+Límite del semestre & Prioridad 5 en semestre 2 y prioridad 4 en semestre 8, un cupo & Gana la de prioridad 5 en ambas configuraciones \\
+Preferencias & Elegir el profesor preferido hace perder una solicitud de prioridad 5 & Se conserva la mayor atención de prioridad 5 \\
+Traslado & Clases seguidas, edificios a 10 u 11 minutos & A 10 es posible; a 11 no \\
+Créditos & Alternativas que llevan a 20 o 21 créditos & 20 permitido; 21 descartado \\
+Sustitución & Principal sin secciones, sustituta compatible & Se inscribe la sustituta, aporta 0,8 y se genera un aviso \\
+No duplicación & Una sustituta común a dos solicitudes & Una inscripción atiende como máximo una solicitud \\
+Solicitud vacía & Estudiante sin solicitudes & Horario vacío y sin avisos \\
+Datos incorrectos & Sección con profesor inexistente & Se informa el error y no se ejecuta \\
+\botrule
+\end{tabularx}
+\end{table}
+
+\subsection{Evaluación y comprobación}
+
+Se probarán 20, 200, 500 y 2.000 estudiantes, con cupos suficientes, ajustados y escasos y diez semillas por escenario (0 a 9). Los casos exactos serán menores: de 2 a 6 estudiantes, de 1 a 3 solicitudes por estudiante y de 1 a 2 secciones por materia.
+
+Se comparará con una asignación aleatoria válida y otra por orden de llegada, usando los mismos datos y reglas. Se medirán materias atendidas por prioridad, principales y sustituciones, satisfacción promedio y mínima, reglas incumplidas y tiempo del algoritmo. La lectura de datos y la verificación se miden aparte. Se registran equipo y versiones y se resumen mediana y rango entre semillas.
+
+Se mantienen casos pequeños por nivel, casos con respuesta conocida y casos límite de la Tabla~\ref{tab:aceptacion}. El verificador también recibirá respuestas con errores intencionales, como exceso de cupo o materias duplicadas. Reordenar los registros de entrada sin cambiar sus datos no debe cambiar el resultado. Los niveles con reglas distintas se comparan indicando esa diferencia. Las pruebas se ejecutarán durante la implementación; aquí se presenta su diseño.

@@ -1,0 +1,6 @@
+flowchart LR
+    U(["Estudiante o<br/>administrador"]) --> UI["Aplicación web<br/>React + TypeScript"]
+    UI <-->|"HTTP / JSON"| API["Servidor<br/>FastAPI"]
+    API --> ALG["Algoritmo de<br/>asignación (Python)"]
+    API <--> FS[("Carpeta data/<br/>archivos JSON")]
+    ALG --> VER["Verificador<br/>de reglas"]

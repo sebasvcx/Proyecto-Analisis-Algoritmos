@@ -1,0 +1,10 @@
+flowchart TB
+    subgraph A["Horario válido y cobertura"]
+        direction LR
+        N1["<b>N1</b><br/>Prioridad,<br/>choques y cupos"] --> N2["<b>N2</b><br/>Créditos, franjas<br/>obligatorias y vetos"] --> N3["<b>N3</b><br/>Traslado entre<br/>edificios"] --> N4["<b>N4</b><br/>Sustitutas y<br/>avisos con causa"] --> N5["<b>N5</b><br/>Afinidad con<br/>profesores"]
+    end
+    subgraph B["Preferencias y mejora global"]
+        direction LR
+        N6["<b>N6</b><br/>Horario ideal<br/>y huecos"] --> N7["<b>N7</b><br/>Cercanía de<br/>salones"] --> N8["<b>N8</b><br/>Importancia<br/>personalizada"] --> N9["<b>N9</b><br/>Amigos y personas<br/>a evitar"] --> N10["<b>N10</b><br/>Prioridad institucional<br/>y mejora global"]
+    end
+    N5 --> N6

@@ -1,0 +1,9 @@
+classDiagram
+    class FranjaHoraria["Franja horaria"] {
+        +día: L, M, X, J, V o S
+        +inicio: hora
+        +fin: hora
+        +duración() minutos
+        +seCruzaCon(otra) sí/no
+        +contiene(otra) sí/no
+    }

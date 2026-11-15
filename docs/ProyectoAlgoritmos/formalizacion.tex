@@ -1,0 +1,69 @@
+\subsection{Entradas}
+
+Una \emph{instancia} es el conjunto de datos de una ejecución. Recibe la oferta (materias, profesores y secciones), los edificios y tiempos de traslado, los estudiantes con sus solicitudes y preferencias, y la configuración. Sus atributos y rangos son los definidos en los TADs de la Sección~\ref{sec:tads}: créditos de 1 a 6, semestres de 1 a 10, prioridades de 1 a 5, afinidades de $-2$ a $+2$ y cupos enteros positivos.
+
+Las sesiones son de lunes a sábado, entre 07:00 y 20:00, duran dos horas y empiezan en hora en punto. Para cada par de edificios se indican minutos enteros de caminata, mayores o iguales a cero; ir y volver toma lo mismo y dentro del mismo edificio el tiempo es cero.
+
+Cada estudiante puede tener cero o más solicitudes. No repite principales y sus listas de sustitutas no contienen materias repetidas ni ninguna de sus principales. Una sustituta puede aparecer en varias listas, pero inscribirla solo atiende una solicitud. Las preferencias son opcionales; el día \texttt{*} se interpreta como lunes a sábado.
+
+La configuración fija 20 créditos como máximo, valor de sustitución de 0,8 y activación o desactivación del desempate por semestre. Para repetir una prueba se guardan además semilla, nivel y versión del programa. Cada ejecución empieza con cero inscritos y reparte los cupos entre los estudiantes incluidos.
+
+\subsection{Salidas}
+
+Sea $S$ el conjunto de secciones y $R_e$ el de solicitudes del estudiante $e$. El resultado asigna a cada solicitud una sección o ninguna:
+\[
+a_e:R_e\longrightarrow S\cup\{\varnothing\}.
+\]
+$a_e(r)=s$ significa que la sección $s$ atiende la solicitud $r$; $\varnothing$ indica que quedó pendiente. El horario reúne las secciones asignadas al estudiante.
+
+Cada solicitud tiene un estado: \emph{principal inscrita}, \emph{sustituida} o \emph{no inscrita}. Los dos últimos generan exactamente un aviso con causa y sugerencia. La salida conserva qué solicitud atendió cada sección e incluye créditos, inscritos por sección, atención por prioridad y satisfacción de preferencias. El resumen informa solicitudes atendidas y pendientes, reglas incumplidas y tiempo de ejecución. Se guardan las entradas y la configuración usadas.
+
+\subsection{Restricciones}
+
+Todo resultado debe cumplir R1--R9 de la Tabla~\ref{tab:reglas}, para cada estudiante y sección:
+\begin{enumerate}
+\item Asignar solo principales o sustitutas aceptadas, con una sección como máximo por solicitud y una inscripción como máximo por materia.
+\item No superar el cupo de ninguna sección ni los 20 créditos por estudiante. Una sustituta cuenta con sus propios créditos.
+\item Evitar cruces, franjas obligatoriamente libres y profesores vetados. Dos sesiones se cruzan si son el mismo día y cada una empieza antes de que termine la otra. Así, 07:00--09:00 y 09:00--11:00 no se cruzan. Una afinidad negativa no equivale a veto.
+\item Permitir el traslado entre sesiones consecutivas: el tiempo de caminata no puede superar los minutos libres entre ellas más diez minutos de salida anticipada. Con clases seguidas hay diez minutos; con una hora libre, setenta. Esto no autoriza cruces en los horarios oficiales.
+\end{enumerate}
+
+La primera condición impide asignar una principal y su sustituta simultáneamente o contar una inscripción para dos solicitudes. Estas reglas describen un resultado válido independientemente del algoritmo que lo construya.
+
+\subsection{Cómo comparar resultados}\label{sec:objetivo}
+
+Entre resultados válidos se aplica el siguiente orden:
+\begin{enumerate}
+\item \textbf{Materias de prioridad 5 a 1.} Para cada prioridad $k$, se suman los aportes de sus solicitudes: 1 por principal inscrita, 0,8 por sustituta y 0 por pendiente. La sustituta hereda la prioridad de su solicitud. El puntaje se llama $C_k$.
+
+Se comparan $(C_5,C_4,C_3,C_2,C_1)$ de izquierda a derecha: decide la primera posición diferente. Este es el \emph{orden lexicográfico}. Por ejemplo, se prefiere atender una solicitud de prioridad 5 a dos de prioridad 1 si no pueden combinarse. Dentro de una misma prioridad, cinco sustituciones equivalen a cuatro principales.
+\item \textbf{Semestre, si está activado.} Solo si empatan los cinco valores anteriores se calcula $J_k$: la suma de los aportes de las solicitudes de prioridad $k$, multiplicados por el semestre de sus estudiantes. Se comparan $J_5$ a $J_1$ en ese orden. Con un cupo y solicitudes iguales, favorece al estudiante de octavo frente al de segundo semestre; nunca permite desplazar una solicitud de prioridad 5 por una de prioridad 4.
+\item \textbf{Preferencias.} Si persiste el empate, se prefiere la mayor suma de satisfacción de preferencias de los estudiantes. Una comodidad no compensa perder materias en pasos anteriores.
+\end{enumerate}
+
+Llamamos $Q$ a estos puntajes en el orden indicado. Si todos empatan, se prefiere la menor suma de posiciones en las listas de sustitutas y, finalmente, la primera lista de registros (estudiante, solicitud, sección) ordenada alfabéticamente por códigos. Esto permite repetir la misma respuesta. El algoritmo intentará encontrar el mejor resultado según este orden, sin garantizar que siempre lo logre.
+
+\subsection{Satisfacción y medidas del resultado}\label{sec:metricas}
+
+Cada criterio recibe un valor entre 0 y 1; cuanto mayor, mejor:
+\begin{itemize}
+\item \textbf{Profesores:} promedio de $(\text{afinidad}+2)/4$ en las secciones inscritas. Una afinidad no declarada vale cero. Sin afinidades declaradas o sin secciones, se omite el criterio.
+\item \textbf{Horario:} promedio de las proporciones de minutos de clase dentro de franjas preferidas, fuera de evitadas y fuera de libres deseables. Solo se usan tipos declarados, sin contar minutos repetidos. Sin clases, se omite.
+\item \textbf{Cercanía:} uno menos el promedio de caminata entre clases consecutivas dividido entre el mayor traslado del campus. Si todos los traslados duran cero, vale 1; sin clases consecutivas, se omite.
+\item \textbf{Huecos:} uno menos los minutos libres entre clases del mismo día divididos entre 4.680 (seis días de trece horas). No se cuentan espacios antes de la primera ni después de la última clase. Sin clases, se omite.
+\item \textbf{Compañeros:} una afinidad positiva obtiene 1 si comparten alguna sección y 0 si no; una negativa obtiene 1 si no comparten y 0 si comparten. Se promedian con peso igual al valor absoluto de la afinidad, omitiendo los ceros. Las preferencias pueden ser distintas para cada persona.
+\end{itemize}
+
+Alta, media, baja y ninguna corresponden a pesos 3, 2, 1 y 0. La satisfacción personal es la suma de puntajes multiplicados por sus pesos, dividida entre la suma de pesos usados. Sin peso declarado se usa 2, excepto huecos, que usa 1. Los criterios no evaluables se muestran como neutrales (0,5) y se excluyen del promedio; si no queda ninguno de peso positivo, la satisfacción es 0,5.
+
+La cobertura cuenta solicitudes atendidas, por principal o sustituta, divididas entre el total solicitado, e informa ambos tipos por separado. El indicador académico suma los aportes multiplicados por sus prioridades y divide entre la suma de prioridades solicitadas; es informativo y no sustituye a $Q$. Con cero solicitudes, ambos se indican como no aplicables. El promedio y mínimo de preferencias consideran solo estudiantes con algún criterio evaluable de peso positivo; si no hay ninguno, se indican como no aplicables.
+
+\subsection{Precondiciones y postcondiciones}
+
+\textbf{Antes de ejecutar}, los identificadores deben ser únicos dentro de cada entidad, las referencias deben existir y todos los datos deben respetar los rangos y reglas de entrada. Ningún profesor ni salón tiene sesiones simultáneas y las sesiones de una sección no se cruzan. La tabla de traslados está completa. No se admiten preferencias sociales hacia uno mismo; las listas opcionales ausentes se toman como vacías.
+
+Se permiten estudiantes sin solicitudes y conjuntos sin estudiantes o sin secciones. Pedir más créditos o cupos de los disponibles puede dejar materias pendientes, pero no invalida la entrada. Una referencia inexistente, una hora inválida o un cupo no positivo sí detiene la ejecución e indica archivo, campo y error.
+
+\textbf{Al terminar}, cada estudiante tiene un resultado, cada solicitud un estado y cada sustitución o no inscripción su aviso. Créditos y ocupaciones coinciden con lo asignado y el horario final cumple R1--R9. Un verificador separado recalcula reglas y puntajes sin reutilizar las comprobaciones del algoritmo. Los mismos datos, configuración y versión deben producir la misma asignación, aunque el tiempo varíe.
+
+En el TAD Horario, \emph{puedeAgregar} exige estudiante, solicitud y sección existentes y comprueba si la inscripción cumple las reglas sin modificar datos. \emph{agregar} requiere esa comprobación positiva y aumenta los inscritos en uno; \emph{quitar} requiere que la inscripción exista y los reduce en uno. Se actualizan créditos y se revisan las reglas del horario resultante, incluidos los nuevos traslados. Los niveles que aún no cumplen todas las reglas se presentan únicamente como pruebas.

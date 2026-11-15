@@ -1,0 +1,11 @@
+classDiagram
+    class Seccion["Sección"] {
+        +identificador: texto
+        +materia: Materia
+        +profesor: Profesor
+        +cupo: entero
+        +inscritos: entero
+        +sesiones: lista de Sesión
+        +tieneCupo() sí/no
+        +chocaCon(otra) sí/no
+    }
