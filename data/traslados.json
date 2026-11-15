@@ -1,0 +1,142 @@
+[
+  {
+    "origen": "A",
+    "destino": "B",
+    "minutos": 4
+  },
+  {
+    "origen": "A",
+    "destino": "C",
+    "minutos": 9
+  },
+  {
+    "origen": "A",
+    "destino": "D",
+    "minutos": 7
+  },
+  {
+    "origen": "A",
+    "destino": "E",
+    "minutos": 10
+  },
+  {
+    "origen": "A",
+    "destino": "F",
+    "minutos": 14
+  },
+  {
+    "origen": "A",
+    "destino": "G",
+    "minutos": 16
+  },
+  {
+    "origen": "A",
+    "destino": "H",
+    "minutos": 23
+  },
+  {
+    "origen": "B",
+    "destino": "C",
+    "minutos": 5
+  },
+  {
+    "origen": "B",
+    "destino": "D",
+    "minutos": 5
+  },
+  {
+    "origen": "B",
+    "destino": "E",
+    "minutos": 6
+  },
+  {
+    "origen": "B",
+    "destino": "F",
+    "minutos": 10
+  },
+  {
+    "origen": "B",
+    "destino": "G",
+    "minutos": 12
+  },
+  {
+    "origen": "B",
+    "destino": "H",
+    "minutos": 19
+  },
+  {
+    "origen": "C",
+    "destino": "D",
+    "minutos": 4
+  },
+  {
+    "origen": "C",
+    "destino": "E",
+    "minutos": 5
+  },
+  {
+    "origen": "C",
+    "destino": "F",
+    "minutos": 5
+  },
+  {
+    "origen": "C",
+    "destino": "G",
+    "minutos": 7
+  },
+  {
+    "origen": "C",
+    "destino": "H",
+    "minutos": 14
+  },
+  {
+    "origen": "D",
+    "destino": "E",
+    "minutos": 9
+  },
+  {
+    "origen": "D",
+    "destino": "F",
+    "minutos": 7
+  },
+  {
+    "origen": "D",
+    "destino": "G",
+    "minutos": 9
+  },
+  {
+    "origen": "D",
+    "destino": "H",
+    "minutos": 16
+  },
+  {
+    "origen": "E",
+    "destino": "F",
+    "minutos": 8
+  },
+  {
+    "origen": "E",
+    "destino": "G",
+    "minutos": 6
+  },
+  {
+    "origen": "E",
+    "destino": "H",
+    "minutos": 13
+  },
+  {
+    "origen": "F",
+    "destino": "G",
+    "minutos": 6
+  },
+  {
+    "origen": "F",
+    "destino": "H",
+    "minutos": 9
+  },
+  {
+    "origen": "G",
+    "destino": "H",
+    "minutos": 7
+  }
+]

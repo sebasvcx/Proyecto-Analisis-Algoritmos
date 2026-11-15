@@ -1,0 +1,34 @@
+[
+  {
+    "id": "A",
+    "nombre": "Edificio Aulas Norte"
+  },
+  {
+    "id": "B",
+    "nombre": "Edificio de Ingeniería"
+  },
+  {
+    "id": "C",
+    "nombre": "Edificio de Ciencias"
+  },
+  {
+    "id": "D",
+    "nombre": "Biblioteca Central"
+  },
+  {
+    "id": "E",
+    "nombre": "Edificio de Artes"
+  },
+  {
+    "id": "F",
+    "nombre": "Edificio Administrativo"
+  },
+  {
+    "id": "G",
+    "nombre": "Laboratorios"
+  },
+  {
+    "id": "H",
+    "nombre": "Centro Deportivo"
+  }
+]
