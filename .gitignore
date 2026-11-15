@@ -1,0 +1,26 @@
+# Sistema
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# Node
+node_modules/
+frontend/dist/
+
+# Salidas generadas por la aplicación
+resultados/
+data/.respaldos/
+*.tmp
+
+# LaTeX (compilación del documento)
+docs/**/*.aux
+docs/**/*.log
+docs/**/*.out
+docs/**/*.bbl
+docs/**/*.blg
+docs/**/*.synctex.gz
