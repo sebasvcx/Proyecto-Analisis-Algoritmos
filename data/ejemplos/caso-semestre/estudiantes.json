@@ -1,0 +1,24 @@
+[
+  {
+    "id": "e01",
+    "nombre": "Estudiante de segundo",
+    "semestre": 2,
+    "materias": [
+      {
+        "codigo": "M1",
+        "prioridad": 5
+      }
+    ]
+  },
+  {
+    "id": "e02",
+    "nombre": "Estudiante de octavo",
+    "semestre": 8,
+    "materias": [
+      {
+        "codigo": "M1",
+        "prioridad": 5
+      }
+    ]
+  }
+]

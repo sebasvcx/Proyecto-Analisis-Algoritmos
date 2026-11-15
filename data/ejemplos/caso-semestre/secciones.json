@@ -1,0 +1,17 @@
+[
+  {
+    "id": "S1",
+    "materia": "M1",
+    "profesor": "P1",
+    "cupo": 1,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "B1",
+        "salon": "B1-101"
+      }
+    ]
+  }
+]
