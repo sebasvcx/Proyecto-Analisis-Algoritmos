@@ -1,0 +1,120 @@
+.grilla {
+  --alto-hora: 46px;
+  display: grid;
+  grid-template-columns: 52px repeat(6, minmax(0, 1fr));
+  border: 1px solid var(--gris-200);
+  border-radius: var(--radio-lg);
+  background: white;
+  overflow: hidden;
+}
+.grilla__dia-titulo {
+  text-align: center;
+  font-weight: 600;
+  padding: 8px 4px;
+  background: var(--gris-50);
+  border-bottom: 1px solid var(--gris-200);
+  border-left: 1px solid var(--gris-100);
+}
+.grilla__esquina {
+  background: var(--gris-50);
+  border-bottom: 1px solid var(--gris-200);
+}
+.grilla__horas {
+  position: relative;
+}
+.grilla__hora {
+  height: var(--alto-hora);
+  font-size: 0.75rem;
+  color: var(--gris-500);
+  text-align: right;
+  padding: 2px 8px 0 0;
+  font-variant-numeric: tabular-nums;
+}
+.grilla__columna {
+  position: relative;
+  border-left: 1px solid var(--gris-100);
+  background-image: linear-gradient(to bottom, var(--gris-100) 1px, transparent 1px);
+  background-size: 100% var(--alto-hora);
+}
+
+.bloque {
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  border-radius: var(--radio-sm);
+  border-left: 4px solid var(--azul-700);
+  background: var(--azul-100);
+  padding: 4px 7px;
+  font-size: 0.76rem;
+  line-height: 1.3;
+  overflow: hidden;
+  color: var(--azul-900);
+}
+.bloque strong {
+  display: block;
+  font-size: 0.8rem;
+}
+.bloque__detalle {
+  color: var(--gris-700);
+}
+.bloque--sustituta {
+  border-color: var(--naranja-600);
+  background: var(--naranja-100);
+  color: #6b3610;
+}
+.bloque--libre {
+  border: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  color: var(--gris-500);
+  background: repeating-linear-gradient(135deg, var(--gris-100) 0 6px, var(--gris-50) 6px 12px);
+  font-style: italic;
+}
+
+.leyenda {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--gris-700);
+}
+.leyenda span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.leyenda i {
+  width: 14px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--azul-100);
+  border-left: 3px solid var(--azul-700);
+}
+.leyenda i.sustituta {
+  background: var(--naranja-100);
+  border-color: var(--naranja-600);
+}
+.leyenda i.libre {
+  border: 0;
+  background: repeating-linear-gradient(135deg, var(--gris-200) 0 3px, var(--gris-50) 3px 6px);
+}
+
+.aviso {
+  background: white;
+  border: 1px solid var(--gris-200);
+  border-left: 4px solid var(--rojo-700);
+  border-radius: var(--radio);
+  padding: 10px 14px;
+  font-size: 0.9rem;
+}
+.aviso--sustituida {
+  border-left-color: var(--naranja-600);
+}
+.aviso + .aviso {
+  margin-top: 8px;
+}
+.aviso__causa {
+  color: var(--gris-700);
+}
