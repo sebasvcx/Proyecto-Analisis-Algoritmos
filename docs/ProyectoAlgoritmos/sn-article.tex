@@ -2,6 +2,7 @@
 %
 % Proyecto 2026-30 -- Analisis de Algoritmos -- Pontificia Universidad Javeriana
 % Entrega 1: Diseno y estrategia de datos
+% Entrega final: implementacion, resultados y complejidad (secciones implementacion, resultados y complejidad)
 %
 % Archivos que acompanan este .tex (subirlos a Overleaf junto a sn-jnl.cls):
 %   carpeta figuras/  (diagramas en PDF y mockups en PNG)
@@ -49,7 +50,7 @@
 
 \begin{document}
 
-\title[Asignación de horarios estudiantiles]{Asignación de horarios estudiantiles con preferencias: diseño y estrategia de datos}
+\title[Asignación de horarios estudiantiles]{Asignación de horarios estudiantiles con preferencias: diseño, implementación y evaluación}
 
 \author[1]{\fnm{Andrés José} \sur{Castrillo Torres}}
 \email{ancastrillo@javeriana.edu.co}
@@ -63,7 +64,7 @@
     \orgaddress{\city{Bogotá}, \country{Colombia}}%
 }
 
-\abstract{Este documento presenta el diseño de un sistema que asigna secciones de materias a un grupo de estudiantes. El sistema tiene en cuenta cupos, créditos, cruces de horario, disponibilidad y tiempos de traslado. Primero busca atender las materias de prioridad 5, luego las de prioridad 4 y así hasta 1. Si hay empate, puede dar prioridad por semestre; después considera las preferencias sobre horarios, profesores y compañeros. Se define qué datos recibe, qué resultados debe entregar y qué reglas deben cumplirse. También se propone cómo crear datos de prueba, obtener respuestas esperadas y comprobar la calidad de las asignaciones. Se propone un desarrollo por diez niveles y se describe la aplicación web para cargar datos y consultar horarios. Esta primera entrega corresponde al diseño y al plan de pruebas; la implementación se realizará en la siguiente etapa.}
+\abstract{Este documento presenta el diseño de un sistema que asigna secciones de materias a un grupo de estudiantes. El sistema tiene en cuenta cupos, créditos, cruces de horario, disponibilidad y tiempos de traslado. Primero busca atender las materias de prioridad 5, luego las de prioridad 4 y así hasta 1. Si hay empate, puede dar prioridad por semestre; después considera las preferencias sobre horarios, profesores y compañeros. Se define qué datos recibe, qué resultados debe entregar y qué reglas deben cumplirse. También se propone cómo crear datos de prueba, obtener respuestas esperadas y comprobar la calidad de las asignaciones. El algoritmo se implementó en diez niveles acumulativos: un voraz por prioridad que incorpora las reglas, una elección entre secciones según las preferencias y una mejora local final. Un verificador independiente comprueba cada resultado. En una instancia de 250 estudiantes, el nivel final atiende el 93,2~\% de las solicitudes sin violar ninguna regla; en 300 instancias pequeñas, iguala a la solución exacta en el 61~\% de los casos. Se analiza la complejidad, que es casi lineal en el número de estudiantes, y se describe la aplicación web para cargar datos y consultar horarios.}
 
 \keywords{asignación de horarios, restricciones, optimización lexicográfica, datos sintéticos, verificación de algoritmos}
 
@@ -74,11 +75,11 @@
 
 Organizar un horario requiere encontrar secciones que permitan cursar las materias necesarias sin cruces y con cupos disponibles. La decisión también afecta a otros estudiantes: una persona puede ocupar el único cupo que le sirve a otra, aunque tenga varias alternativas. A esto se suman preferencias sobre profesores, tiempos libres, cercanía de salones y compañeros.
 
-El proyecto de Análisis de Algoritmos 2026-30 pide diseñar un algoritmo para asignar horarios a un conjunto de estudiantes. Para la primera entrega solicita dos cosas: definir con precisión las entradas y salidas, sin depender del algoritmo elegido, y proponer cómo obtener los datos de prueba y sus respuestas esperadas \cite{enunciado}.
+El proyecto de Análisis de Algoritmos 2026-30 pide diseñar un algoritmo para asignar horarios a un conjunto de estudiantes. Para la primera entrega solicita dos cosas: definir con precisión las entradas y salidas, sin depender del algoritmo elegido, y proponer cómo obtener los datos de prueba y sus respuestas esperadas. Para la entrega final, implementar el algoritmo a partir de ese diseño \cite{enunciado}.
 
 La propuesta parte de una oferta de secciones con profesores, horarios y salones ya definidos. Cada estudiante indica qué materias necesita y les asigna una prioridad de 1 a 5. Se comparan primero las materias atendidas de prioridad 5; solo si hay empate se pasa a la prioridad 4, y así hasta 1. Después puede usarse el semestre como desempate y, finalmente, las preferencias personales.
 
-Las Secciones~\ref{sec:formal} y~\ref{sec:datos} desarrollan los dos puntos principales de esta entrega. Las demás describen el sistema, los datos, la propuesta de desarrollo y la interfaz. Los límites de horas y créditos son supuestos del equipo para este proyecto. La implementación y las pruebas del programa corresponden a la segunda entrega.
+Las Secciones~\ref{sec:formal} y~\ref{sec:datos} desarrollan la definición del problema y la estrategia de datos de la primera entrega. Las Secciones~\ref{sec:impl} a~\ref{sec:conclusiones} corresponden a la entrega final: la implementación, los resultados, el análisis de complejidad y las conclusiones. Las demás describen el sistema, los datos, el desarrollo por niveles y la interfaz. Los límites de horas y créditos son supuestos del equipo para este proyecto.
 
 %%==================================================================%%
 \section{Descripción del sistema}\label{sec:sistema}
@@ -89,7 +90,7 @@ El sistema recibe la \textbf{oferta} del semestre (materias, secciones, profesor
 
 En este documento, una \emph{materia} es lo que el estudiante quiere cursar (por ejemplo, Cálculo~I) y una \emph{sección} es una oferta concreta de esa materia, con profesor, horario y cupo (por ejemplo, Cálculo~I grupo~02); en el día a día a la sección también se le llama ``clase''.
 
-La asignación se hace \textbf{por lotes}, considerando a todos los estudiantes a la vez, y no por orden de llegada. Esto permite mover estudiantes entre secciones para dejar cupos a quienes tienen menos alternativas. La propuesta intentará mejorar el reparto, aunque no asegura encontrar siempre el mejor.
+La asignación se hace \textbf{por lotes}, considerando a todos los estudiantes a la vez, y no por orden de llegada. Esto permite mover estudiantes entre secciones para dejar cupos a quienes tienen menos alternativas. El algoritmo intenta mejorar el reparto, aunque no asegura encontrar siempre el mejor.
 
 \subsection{Usuarios}
 
@@ -182,7 +183,9 @@ Tope de créditos & Inscribirla superaría los 20 créditos & Quitar una materia
 Franja obligatoria & Todas las secciones caen en horas no disponibles & Revisar las franjas obligatorias \\
 Profesor vetado & Todas las secciones son de profesores vetados & Cambiar el veto por una afinidad negativa \\
 Traslado imposible & No hay tiempo para caminar entre edificios & Aceptar otra franja \\
+Materia ya inscrita & Una sustituta común a dos solicitudes ya atendió la otra & Revisar sustitutas repetidas entre solicitudes \\
 Cedida por prioridad & El cupo se dio a un estudiante con prioridad institucional mayor & --- \\
+Limitación del algoritmo & Una sección cabía en el horario final y no se tomó & Ejecutar de nuevo con más cambios examinados \\
 \botrule
 \end{tabularx}
 \end{table}
@@ -256,7 +259,7 @@ La Figura~\ref{fig:relaciones} resume cómo se conectan. Una \emph{sección} es 
 %%==================================================================%%
 \section{Algoritmo por niveles}\label{sec:niveles}
 
-El algoritmo se construirá como una sola función que va creciendo: cada nivel le agrega una regla, una preferencia o una mejora. Los niveles son \textbf{acumulativos}: el nivel $k$ incluye todo lo de los niveles anteriores, de modo que llegar al nivel 10 significa que funcionan del 1 al 10, sin saltos. Estos niveles son una propuesta de implementación para la segunda entrega, no parte de la definición formal. Cada nivel tiene sus casos de prueba pequeños con resultado esperado, y para darlo por terminado deben pasar sus pruebas y las de todos los niveles anteriores. Además, se puede ejecutar cualquier nivel ya hecho para comparar los resultados de uno a otro.
+El algoritmo se construirá como una sola función que va creciendo: cada nivel le agrega una regla, una preferencia o una mejora. Los niveles son \textbf{acumulativos}: el nivel $k$ incluye todo lo de los niveles anteriores, de modo que llegar al nivel 10 significa que funcionan del 1 al 10, sin saltos. Los niveles no son parte de la definición formal; la Sección~\ref{sec:impl} describe cómo se implementaron. Cada nivel tiene sus casos de prueba pequeños con resultado esperado, y para darlo por terminado deben pasar sus pruebas y las de todos los niveles anteriores. Además, se puede ejecutar cualquier nivel ya hecho para comparar los resultados de uno a otro.
 
 \begin{figure}[H]
 \centering
@@ -357,15 +360,16 @@ Algoritmo & Python, como un módulo independiente de la web \\
 Servidor & FastAPI, que lee y escribe los JSON y lanza las corridas \\
 Aplicación web & React con TypeScript \\
 Datos & Archivos JSON locales, validados al cargarlos \\
-Solver de comparación & OR-Tools CP-SAT, solo para instancias pequeñas \\
-Pruebas y versiones & pytest, Git y GitHub con integración continua \\
-Despliegue & Primero local; después Docker Compose \\
+Solución exacta de comparación & Búsqueda exhaustiva propia, solo para instancias pequeñas (Sección~\ref{sec:decisiones}) \\
+Pruebas y versiones & pytest (253 pruebas), Git y GitHub \\
+Despliegue & Local, con un script que levanta servidor y web (\texttt{dev.sh} o \texttt{dev.ps1}) \\
 Documentación & \LaTeX\ y diagramas en Mermaid \\
 \botrule
 \end{tabularx}
 \end{table}
 
-La aplicación web habla con el servidor, el servidor lee y guarda los archivos JSON y llama al algoritmo, y el verificador revisa cada resultado (Figura~\ref{fig:arq}). El despliegue se hará en dos fases: primero, el servidor y la web se ejecutan localmente en el computador de desarrollo; después, una vez estable, se empaquetan con Docker Compose en dos contenedores, manteniendo la carpeta \texttt{data/} fuera del contenedor para que los JSON se sigan editando directamente.
+La aplicación web habla con el servidor, el servidor lee y guarda los archivos JSON y llama al algoritmo, y el verificador revisa cada resultado (Figura~\ref{fig:arq}). El servidor y la web se ejecutan localmente en el computador de desarrollo. El empaquetado con Docker Compose previsto en el diseño quedó como trabajo futuro (Sección~\ref{sec:limitaciones}).
+% TODO: si se hace Docker Compose, describirlo aquí y actualizar la Tabla de tecnología.
 
 \begin{figure}[H]
 \centering
@@ -377,6 +381,29 @@ La aplicación web habla con el servidor, el servidor lee y guarda los archivos 
 \section{Interfaz y flujo de uso}\label{sec:ui}
 
 \input{interfaz}
+
+%%==================================================================%%
+\section{Implementación}\label{sec:impl}
+
+\input{implementacion}
+
+%%==================================================================%%
+\section{Resultados}\label{sec:resultados}
+
+\input{resultados}
+
+%%==================================================================%%
+\section{Análisis de complejidad}\label{sec:complejidad}
+
+\input{complejidad}
+
+%%==================================================================%%
+\section{Conclusiones}\label{sec:conclusiones}
+
+Se implementó el algoritmo diseñado en la primera entrega en diez niveles acumulativos, cada uno con sus pruebas, y un verificador independiente que comprueba R1--R9 sobre cada salida. El nivel final combina un voraz por prioridad, que nunca cambia una materia más prioritaria por una comodidad, con una mejora local que solo acepta cambios que mejoran el orden de la Sección~\ref{sec:objetivo}. En la instancia de 250 estudiantes atiende el 93,2~\% de las solicitudes sin violar reglas, 4 puntos más que el voraz con preferencias (N9). Frente a la solución exacta, es igual de bueno en el 61~\% de las instancias pequeñas, y sus pérdidas se explican por cadenas de cambios que la mejora local no examina. Su tiempo crece casi linealmente con el número de estudiantes.
+
+Como trabajo futuro quedan los intercambios entre estudiantes y las cadenas de cambios en la mejora local, que atacarían las dos limitaciones principales de la Sección~\ref{sec:limitaciones}, y el empaquetado con Docker Compose.
+% TODO (Andrés): agregar una frase con la conclusión de las asignaciones de referencia y los experimentos.
 
 \FloatBarrier
 \bibliography{sn-bibliography}

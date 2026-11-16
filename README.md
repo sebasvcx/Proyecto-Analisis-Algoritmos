@@ -64,6 +64,7 @@ python -m asignador generar --estudiantes 250 --secciones 96 --escasez ajustada 
 python -m asignador validar
 python -m asignador ejecutar --nivel 10
 python -m asignador exacto --casos 200 --nivel 10   # compara con la solución exacta en instancias pequeñas
+python scripts/medir_complejidad.py                  # mediciones de tiempo del análisis de complejidad
 ```
 
 ## Estado de los niveles

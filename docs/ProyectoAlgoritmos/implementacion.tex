@@ -1,0 +1,83 @@
+% Implementación (entrega final). Se incluye desde sn-article.tex con \input{implementacion}.
+
+El algoritmo se implementó en Python como el paquete \texttt{asignador}, independiente de la web, siguiendo los TADs de la Sección~\ref{sec:tads} y la formalización de la Sección~\ref{sec:formal}. Los diez niveles de la Tabla~\ref{tab:niveles} están implementados y son acumulativos: cada nivel se puede ejecutar por separado para comparar resultados.
+
+\subsection{Estructura del código}
+
+\begin{table}[htbp]
+\caption{Módulos principales del paquete \texttt{asignador}}\label{tab:modulos}
+\small
+\begin{tabularx}{\textwidth}{@{}lL@{}}
+\toprule
+Módulo & Responsabilidad \\
+\midrule
+\texttt{dominio/} & TADs de entrada inmutables: Franja, Sesión, Sección, Materia, Estudiante, Solicitud, Preferencias \\
+\texttt{datos/} & Lectura de los JSON y validación de precondiciones; informa archivo, registro, campo y error \\
+\texttt{algoritmo/horario.py} & TAD Horario: \emph{puedeAgregar}, \emph{agregar}, \emph{quitar}; los inscritos por sección son estado de la corrida \\
+\texttt{algoritmo/reglas.py} & R2--R8 como objetos intercambiables; cada nivel activa las suyas (R1 y R9 se cumplen por construcción) \\
+\texttt{algoritmo/voraz.py} & Orden de atención y asignación voraz (N1--N9); avisos con causa y sugerencia \\
+\texttt{algoritmo/eleccion.py} & Elección entre secciones válidas (N5--N9) \\
+\texttt{algoritmo/mejora.py} & Desempate por semestre y mejora local (N10) \\
+\texttt{satisfaccion.py} & Los cinco criterios de la Sección~\ref{sec:metricas} y su promedio ponderado \\
+\texttt{objetivo.py} & El orden completo de la Sección~\ref{sec:objetivo} para comparar resultados \\
+\texttt{verificador.py} & Recalcula R1--R9 sobre la salida guardada, sin reutilizar código del algoritmo \\
+\texttt{exacto.py} & Solución exacta por búsqueda exhaustiva para instancias pequeñas \\
+\texttt{generador/} & Instancias sintéticas reproducibles por semilla, grandes y pequeñas \\
+\botrule
+\end{tabularx}
+\end{table}
+
+Una corrida lee y valida los datos, ejecuta el nivel pedido, serializa la salida en el formato de la Sección~\ref{sec:datos}, la pasa por el verificador, calcula las métricas y guarda todo en \texttt{resultados/}, junto con una copia de las entradas usadas. El servidor FastAPI y la línea de comandos llaman a la misma función.
+
+\subsection{Cómo funciona cada nivel}
+
+\paragraph{N1--N4: voraz por prioridad.} Todas las solicitudes se ordenan de mayor a menor prioridad y, a igual prioridad, por código de estudiante y de materia, para que el resultado no dependa del orden de los registros en los JSON. Cada solicitud toma la primera sección, en orden de identificador, que cumple las reglas del nivel. Desde N4, si ninguna sección de la principal cabe, se prueban las sustitutas en el orden de su lista; la sustituta hereda la prioridad de la solicitud. El aviso registra todas las causas y destaca la más frecuente entre las secciones de la principal (Sección~\ref{sec:fallos}).
+
+\paragraph{N5--N9: elección por satisfacción.} Entre las secciones válidas se elige la mejor según este orden:
+\begin{enumerate}
+\item la menor pérdida en las solicitudes que al mismo estudiante le quedan por atender, comparada de prioridad 5 a 1: una solicitud que se queda sin ninguna sección posible pierde 1, y una que solo podría entrar por sustituta pierde 0,2;
+\item la mayor satisfacción con los criterios del nivel: profesores (N5), más horario y huecos (N6), más cercanía (N7); hasta N7 con los pesos por defecto y desde N8 con la importancia declarada; en N9 se agregan los compañeros y se suma también la satisfacción de quienes tienen afinidad hacia el estudiante;
+\item el menor identificador de sección.
+\end{enumerate}
+Cada candidata se mide inscribiéndola de forma provisional con \emph{agregar} y retirándola con \emph{quitar}.
+
+\paragraph{N10: desempate por semestre y mejora local.} El voraz de N9 se ejecuta primero; si el desempate por semestre está activo, a igual prioridad se atiende antes al estudiante de mayor semestre. Después se hacen pasadas de mejora con dos tipos de cambio: (1) para cada solicitud no atendida por su principal, inscribir la principal (o, si está pendiente, una sustituta), moviendo si hace falta a un ocupante de la sección llena a otra sección de la misma materia con cupo; y (2) pasar cualquier inscripción a otra sección de la misma materia. Un cambio se acepta solo si mejora estrictamente el resultado según la Sección~\ref{sec:objetivo}; se examinan como máximo \texttt{max\_cambios} cambios. Al final los avisos se recalculan con el horario definitivo.
+
+\subsection{Decisiones tomadas al implementar}\label{sec:decisiones}
+
+\begin{itemize}
+\item \textbf{Revisar las solicitudes pendientes antes que la satisfacción (N5--N9).} Elegir solo por satisfacción podía hacer que una sección cómoda chocara con otra materia del mismo estudiante, en contra de la Sección~\ref{sec:objetivo} (caso ``Preferencias'' de la Tabla~\ref{tab:aceptacion}). Esta revisión además subió la cobertura de 85,6~\% (N4) a 88,2~\% (N5) en la instancia de la Sección~\ref{sec:resultados}.
+\item \textbf{Suma de posiciones de sustitutas desde 1.} La primera sustituta de una lista cuenta 1 y no 0; así, entre dos resultados que empatan en $C_k$, gana el que usa menos sustitutas.
+\item \textbf{Dos causas nuevas en la Tabla~\ref{tab:causas}.} ``Materia ya inscrita'', cuando una sustituta común a dos solicitudes ya atendió la otra, y ``Limitación del algoritmo'', cuando una sección cabía en el horario final y no se tomó, como pide la Sección~\ref{sec:fallos}.
+\item \textbf{``Cedida por prioridad''} se informa solo en N10 con el desempate activo, cuando el cupo lo tiene alguien con la misma prioridad y mayor semestre.
+\item \textbf{Comparaciones sin errores de redondeo.} Las sumas de $Q$ se redondean a nueve decimales (cinco sustituciones de 0,8 deben empatar con cuatro principales) y la satisfacción se suma sin el redondeo a cuatro decimales de la salida.
+\item \textbf{La mejora de N10 solo acepta mejoras reales}: debe mejorar $C$, $J$, la satisfacción o las sustitutas; el último desempate por códigos no basta para aceptar un cambio.
+\item \textbf{Solución exacta propia en lugar de CP-SAT.} La Sección~\ref{sec:datos} admitía revisar todas las combinaciones válidas; se eligió esa opción para no depender de bibliotecas nativas. La búsqueda comprueba las reglas con su propio código.
+\item \textbf{El verificador revisa R1--R9 en todos los niveles.} Los niveles que aún no aplican una regla muestran sus violaciones como ``no aplica'', lo que permite ver qué agrega cada nivel.
+\end{itemize}
+
+\subsection{Pruebas}\label{sec:pruebas}
+
+La batería tiene 253 pruebas automáticas (pytest), que se ejecutan en pocos segundos. Cubren los ejemplos de la Tabla~\ref{tab:niveles} y los casos de la Tabla~\ref{tab:aceptacion}; para dar un nivel por terminado debían pasar sus pruebas y las de todos los anteriores.
+
+\begin{table}[htbp]
+\caption{Pruebas automáticas por tema}\label{tab:pruebas}
+\small
+\begin{tabularx}{\textwidth}{@{}Lr@{}}
+\toprule
+Tema & Pruebas \\
+\midrule
+Niveles N1--N4 (prioridad, reglas, traslados, sustitutas y avisos) & 46 \\
+Niveles N5--N9 (elección por satisfacción) & 18 \\
+Nivel N10 (semestre, mejora local; nunca peor que N9; independiente del orden de los registros) & 17 \\
+Satisfacción, criterio por criterio, y orden de comparación $Q$ & 32 \\
+Solución exacta: casos conocidos, poda correcta, el óptimo cumple las reglas, N10 nunca lo supera & 89 \\
+Verificador con respuestas con errores intencionales & 5 \\
+Lectura y validación de datos, tiempo, generador y API & 46 \\
+\midrule
+Total & 253 \\
+\botrule
+\end{tabularx}
+\end{table}
+
+Dos propiedades se comprueban en instancias generadas en lugar de casos fijos: que cada nivel nunca viole las reglas que cubre y que N10 nunca quede peor que N9 según la Sección~\ref{sec:objetivo}.

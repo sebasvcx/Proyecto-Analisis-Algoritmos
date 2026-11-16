@@ -86,6 +86,12 @@ Estado: `[x]` hecho · `[ ]` pendiente. Responsable entre paréntesis.
   mediciones). Mediciones reproducibles con `backend/scripts/medir_complejidad.py`. Falta incluirlo en
   `sn-article.tex` (paso 17) y que Andrés agregue la complejidad de sus líneas base.
 - [ ] 17. Actualizar el documento LaTeX (implementación, resultados, limitaciones) y el README. (ambos, cada uno su parte)
+  - [x] Parte de Sebastián: título, resumen e introducción; tabla de causas (+2) y de tecnología;
+    secciones nuevas `implementacion.tex`, `resultados.tex`, `complejidad.tex` y Conclusiones; README.
+  - [ ] Parte de Andrés: buscar las notas en **rojo** y los `% TODO (Andrés)` en `resultados.tex`
+    (asignaciones de referencia y experimentos), `interfaz.tex` (app implementada y capturas) y en
+    Conclusiones de `sn-article.tex`.
+  - [ ] Compilar en Overleaf y revisar que la tabla de resultados por nivel no se salga del margen.
 - [ ] 18. Preparar la sustentación individual: todos deben entender todos los niveles. (ambos)
 
 ## Prioridades
