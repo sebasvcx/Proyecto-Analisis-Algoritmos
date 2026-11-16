@@ -24,3 +24,6 @@ docs/**/*.out
 docs/**/*.bbl
 docs/**/*.blg
 docs/**/*.synctex.gz
+
+# Claude Code
+CLAUDE.md
