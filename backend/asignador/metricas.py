@@ -33,23 +33,37 @@ def registros_de_salida(instancia: Instancia, estudiantes_salida: list[dict]) ->
 
 
 def puntaje(instancia: Instancia, estudiantes_salida: list[dict]) -> objetivo.Puntaje:
-    """Q completo de una salida que ya tiene el campo `satisfaccion` de cada estudiante."""
-    total = sum(res.get("satisfaccion", {}).get("total", satisfaccion.NEUTRO) for res in estudiantes_salida)
+    """Q completo de una salida.
+
+    La satisfacción se recalcula sin redondear: el campo `satisfaccion` de la salida
+    está redondeado a 4 decimales y sumarlo daría errores que podrían decidir una comparación.
+    """
+    total = sum(s.total for s in satisfaccion_por_estudiante(instancia, estudiantes_salida).values())
     return objetivo.puntuar(instancia, registros_de_salida(instancia, estudiantes_salida), total)
 
 
-def agregar_satisfaccion(instancia: Instancia, estudiantes_salida: list[dict]) -> None:
-    """Agrega a cada estudiante de la salida su campo `satisfaccion` (Sección 5.5)."""
+def satisfaccion_por_estudiante(instancia: Instancia, estudiantes_salida: list[dict]) -> dict[str, satisfaccion.Satisfaccion]:
+    """Satisfacción (sin redondear) de cada estudiante de la salida, según sus secciones inscritas."""
     secciones_de = {
         res["id"]: [r["seccion"] for r in res["solicitudes"] if r.get("seccion") in instancia.secciones]
         for res in estudiantes_salida
     }
+    resultado = {}
     for res in estudiantes_salida:
         estudiante = instancia.estudiantes.get(res["id"])
         if estudiante is None:
             continue
         secciones = [instancia.secciones[sid] for sid in secciones_de[res["id"]]]
-        res["satisfaccion"] = satisfaccion.calcular(instancia, estudiante, secciones, secciones_de).como_dict()
+        resultado[res["id"]] = satisfaccion.calcular(instancia, estudiante, secciones, secciones_de)
+    return resultado
+
+
+def agregar_satisfaccion(instancia: Instancia, estudiantes_salida: list[dict]) -> None:
+    """Agrega a cada estudiante de la salida su campo `satisfaccion` (Sección 5.5)."""
+    por_estudiante = satisfaccion_por_estudiante(instancia, estudiantes_salida)
+    for res in estudiantes_salida:
+        if res["id"] in por_estudiante:
+            res["satisfaccion"] = por_estudiante[res["id"]].como_dict()
 
 
 def resumir_satisfaccion(estudiantes_salida: list[dict]) -> dict:

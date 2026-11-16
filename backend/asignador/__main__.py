@@ -4,6 +4,7 @@ Ejemplos (desde backend/):
     python -m asignador generar --estudiantes 250 --semilla 42 --datos ../data
     python -m asignador validar --datos ../data
     python -m asignador ejecutar --nivel 2 --datos ../data --resultados ../resultados
+    python -m asignador exacto --casos 200 --nivel 10
 """
 
 from __future__ import annotations
@@ -66,6 +67,20 @@ def _cmd_ejecutar(args) -> int:
     return 0
 
 
+def _cmd_exacto(args) -> int:
+    from .comparacion_exacta import resumen_de_casos
+
+    for semestre in (False, True):
+        r = resumen_de_casos(range(args.semilla, args.semilla + args.casos), nivel=args.nivel, desempate_semestre=semestre)
+        print(f"N{r['nivel']} vs óptimo · {r['casos']} instancias pequeñas · desempate por semestre {'activo' if semestre else 'inactivo'}")
+        print(f"  óptimo exacto: {r['optimo']} · empate (solo difiere en el desempate final): {r['empate']} · peor: {r['peor']}")
+        print(f"  igual de bueno que el óptimo: {r['porcentaje_igual_de_bueno']} %")
+        if r["peor_por_criterio"]:
+            print(f"  cuando es peor, el óptimo gana por: {r['peor_por_criterio']}")
+        print(f"  búsqueda exacta: hasta {r['max_nodos']} nodos y {r['max_tiempo_exacto_s']} s por instancia")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="asignador", description="Asignación de horarios estudiantiles")
     parser.add_argument("--datos", type=Path, default=RAIZ / "data", help="carpeta con los JSON de entrada")
@@ -86,6 +101,12 @@ def main(argv: list[str] | None = None) -> int:
     eje.add_argument("--nivel", type=int, default=2)
     eje.add_argument("--resultados", type=Path, default=RAIZ / "resultados")
     eje.set_defaults(func=_cmd_ejecutar)
+
+    exa = sub.add_parser("exacto", help="compara un nivel con la solución exacta en instancias pequeñas generadas")
+    exa.add_argument("--casos", type=int, default=200)
+    exa.add_argument("--semilla", type=int, default=0, help="primera semilla; se usan semilla..semilla+casos-1")
+    exa.add_argument("--nivel", type=int, default=10)
+    exa.set_defaults(func=_cmd_exacto)
 
     args = parser.parse_args(argv)
     return args.func(args)

@@ -62,7 +62,8 @@ npm run dev                              # http://localhost:5173 (redirige /api 
 cd backend
 python -m asignador generar --estudiantes 250 --secciones 96 --escasez ajustada --semilla 42
 python -m asignador validar
-python -m asignador ejecutar --nivel 2
+python -m asignador ejecutar --nivel 10
+python -m asignador exacto --casos 200 --nivel 10   # compara con la solución exacta en instancias pequeñas
 ```
 
 ## Estado de los niveles
@@ -71,4 +72,7 @@ python -m asignador ejecutar --nivel 2
 |---|---|---|
 | N1 | Prioridad, choques y cupos (R1–R4) | Implementado |
 | N2 | Créditos, franjas obligatorias y vetos (R5–R7) | Implementado |
-| N3–N10 | Traslados, sustitutas, preferencias, mejora global | Pendiente |
+| N3 | Traslado entre edificios (R8) | Implementado |
+| N4 | Sustitutas (R9) y avisos | Implementado |
+| N5–N9 | Elección por satisfacción: profesores, horario y huecos, cercanía, importancia, compañeros | Implementado |
+| N10 | Desempate por semestre y mejora local | Implementado |

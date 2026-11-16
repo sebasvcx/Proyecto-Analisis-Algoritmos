@@ -62,7 +62,14 @@ Estado: `[x]` hecho · `[ ]` pendiente. Responsable entre paréntesis.
 
 ## Fase 4 — Evaluación (Sección 7 del documento)
 - [ ] 9. Generador de casos con respuesta conocida (tipo 2). (Andrés)
-- [ ] 10. Solver exacto (fuerza bruta) para 2–6 estudiantes; comparar N10 con el óptimo. Requiere el paso 7. (Sebastián)
+- [x] 10. Solver exacto (fuerza bruta) para 2–6 estudiantes; comparar N10 con el óptimo. Requiere el paso 7. (Sebastián)
+  → `asignador/exacto.py` (búsqueda exhaustiva con poda segura por C), `generador/pequenos.py`,
+  `comparacion_exacta.py`, comando `python -m asignador exacto --casos 300`.
+  **Resultado (300 instancias):** N10 igual de bueno que el óptimo en 61 % (sin semestre) y 67,7 % (con
+  semestre); cuando pierde: 77 por satisfacción y 40 por materias (C). **Para el informe:** las pérdidas
+  en C vienen de cadenas de 3+ cambios (p. ej. semilla 145: e01 cambia de sección, eso libera un cupo para
+  e02, que reacomoda su propia materia para que otra deje de chocar); la mejora local solo hace 1–2 pasos.
+  Se corrigió `metricas.puntaje`: sumaba la satisfacción redondeada a 4 decimales.
 - [ ] 11. Líneas base: asignación aleatoria válida y por orden de llegada. (Andrés)
 - [ ] 12. Script de experimentos: 20/200/500/2000 estudiantes × holgada/ajustada/escasa × semillas 0–9
   → CSV con mediana y rango. Hoy puede correr con N4 y luego cambiar a N10. (Andrés)
