@@ -18,22 +18,25 @@ class Nivel:
     descripcion: str
     reglas: tuple[Regla, ...] = ()
     disponible: bool = False
+    sustitutas: bool = False  # desde N4: si la principal no cabe, se prueban sus sustitutas
 
     @property
     def reglas_cubiertas(self) -> tuple[str, ...]:
-        # R1 se cumple por construcción en todos los niveles
-        return ("R1", *(r.id for r in self.reglas))
+        # R1 se cumple por construcción en todos los niveles; R9 también, porque una
+        # sustituta solo se prueba cuando la principal ya no pudo inscribirse.
+        return ("R1", *(r.id for r in self.reglas), *(("R9",) if self.sustitutas else ()))
 
 
 _BASE = (R2, R3, R4)
+_TODAS = (*_BASE, R5, R6, R7, R8)
 
 NIVELES: dict[int, Nivel] = {
     n.numero: n
     for n in (
         Nivel(1, "Prioridad, choques y cupos", "Atiende de mayor a menor prioridad y toma la primera sección con cupo que no choque", _BASE, True),
         Nivel(2, "Créditos, franjas obligatorias y vetos", "Agrega tope de créditos, franjas no disponibles y profesores vetados", (*_BASE, R5, R6, R7), True),
-        Nivel(3, "Traslado entre edificios", "Tiempo de caminata entre clases seguidas", (*_BASE, R5, R6, R7, R8), True),
-        Nivel(4, "Sustitutas y avisos", "Materias sustitutas y avisos con causa y sugerencia"),
+        Nivel(3, "Traslado entre edificios", "Tiempo de caminata entre clases seguidas", _TODAS, True),
+        Nivel(4, "Sustitutas y avisos", "Materias sustitutas y avisos con causa y sugerencia", _TODAS, True, sustitutas=True),
         Nivel(5, "Afinidad con profesores", "Elige la sección válida que más satisface al estudiante"),
         Nivel(6, "Horario ideal y huecos", "Franjas preferidas, a evitar y libres deseables"),
         Nivel(7, "Cercanía de salones", "Poca caminata entre clases consecutivas"),

@@ -6,7 +6,9 @@ materia (desempate final por códigos de la Sección 5.4), de modo que el
 resultado no depende del orden en que vengan los registros en los JSON.
 
 Para cada solicitud se recorren sus secciones en orden de identificador y se
-toma la primera que cumpla las reglas activas del nivel.
+toma la primera que cumpla las reglas activas del nivel. Desde N4, si ninguna
+sección de la principal cabe, se prueban las sustitutas en el orden de la lista
+(Sección 3.2); la sustituta hereda la prioridad de la solicitud.
 """
 
 from __future__ import annotations
@@ -42,23 +44,55 @@ def asignar_voraz(instancia: Instancia, nivel: Nivel) -> Asignacion:
         horario = horarios[estudiante.id]
         candidatas = instancia.secciones_de(solicitud.materia)
         rechazos: list[list[Causa]] = []
-        for seccion in candidatas:
-            causas = horario.puede_agregar(seccion, nivel.reglas)
-            if not causas:
-                horario.agregar(Inscripcion(solicitud, seccion))
-                break
-            rechazos.append(causas)
-        else:
-            horario.avisar(diagnosticar(solicitud, candidatas, rechazos))
+        if _inscribir_primera(horario, solicitud, candidatas, None, nivel, rechazos):
+            continue
+
+        sustituta = None
+        rechazos_sustitutas: list[list[Causa]] = []
+        if nivel.sustitutas:
+            for posicion, codigo in enumerate(solicitud.sustitutas):
+                secciones = instancia.secciones_de(codigo)
+                if not secciones:
+                    rechazos_sustitutas.append([Causa.SIN_SECCIONES])
+                elif _inscribir_primera(horario, solicitud, secciones, posicion, nivel, rechazos_sustitutas):
+                    sustituta = codigo
+                    break
+
+        # Sustituida: el aviso explica por qué no entró la principal.
+        # No inscrita: además se registran las causas de las sustitutas que tampoco cupieron.
+        extra = () if sustituta else rechazos_sustitutas
+        horario.avisar(diagnosticar(solicitud, candidatas, rechazos, extra, sustituta))
 
     return Asignacion(nivel, ctx, horarios)
 
 
-def diagnosticar(solicitud: Solicitud, candidatas: list[Seccion], rechazos: list[list[Causa]]) -> Aviso:
-    """Registra todas las causas y destaca la más frecuente (empate: menor número de regla)."""
-    if not candidatas:
-        return Aviso(solicitud, Causa.SIN_SECCIONES, (Causa.SIN_SECCIONES,))
+def _inscribir_primera(
+    horario: Horario,
+    solicitud: Solicitud,
+    secciones: list[Seccion],
+    posicion_sustituta: int | None,
+    nivel: Nivel,
+    rechazos: list[list[Causa]],
+) -> bool:
+    """Inscribe la primera sección que cumpla las reglas del nivel; acumula las causas de las rechazadas."""
+    for seccion in secciones:
+        causas = horario.puede_agregar(seccion, nivel.reglas)
+        if not causas:
+            horario.agregar(Inscripcion(solicitud, seccion, posicion_sustituta))
+            return True
+        rechazos.append(causas)
+    return False
+
+
+def diagnosticar(
+    solicitud: Solicitud,
+    candidatas: list[Seccion],
+    rechazos: list[list[Causa]],
+    rechazos_sustitutas: list[list[Causa]] | tuple = (),
+    sustituta: str | None = None,
+) -> Aviso:
+    """Destaca la causa más frecuente de la principal (empate: menor número de regla) y registra todas."""
     conteo = Counter(c for causas in rechazos for c in causas)
-    principal = min(conteo, key=lambda c: (-conteo[c], c.regla))
-    todas = tuple(sorted(conteo, key=lambda c: c.regla))
-    return Aviso(solicitud, principal, todas)
+    principal = Causa.SIN_SECCIONES if not candidatas else min(conteo, key=lambda c: (-conteo[c], c.regla))
+    todas = {principal, *conteo, *(c for causas in rechazos_sustitutas for c in causas)}
+    return Aviso(solicitud, principal, tuple(sorted(todas, key=lambda c: c.regla)), sustituta)

@@ -13,7 +13,7 @@ from itertools import combinations
 
 from .dominio import Instancia
 
-REGLAS_VERIFICADAS = ("R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8")
+REGLAS_VERIFICADAS = ("R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9")
 MINUTOS_SALIDA_ANTICIPADA = 10  # Sección 5.3, condición 4 (se repite a propósito: no se importa del algoritmo)
 ESTADOS = ("principal", "sustituida", "no_inscrita")
 
@@ -112,10 +112,16 @@ def verificar(instancia: Instancia, estudiantes_salida: list[dict]) -> Verificac
             secciones.append(seccion)
             inscritos[sid] += 1
 
-        # R2: una sección por materia
+        # R2: una sección por materia (también impide que una sustituta común atienda dos solicitudes)
         for materia, veces in Counter(s.materia for s in secciones).items():
             if veces > 1:
                 agregar(Violacion("R2", eid, f"{materia} inscrita {veces} veces"))
+
+        # R9: una solicitud sustituida no puede tener su materia principal inscrita
+        inscritas = {s.materia for s in secciones}
+        for r in res["solicitudes"]:
+            if r.get("estado") == "sustituida" and r["materia"] in inscritas:
+                agregar(Violacion("R9", eid, f"{r['materia']} figura como sustituida pero la principal está inscrita", r.get("seccion")))
 
         # R3: sin choques (se compara con diccionarios planos, no con Franja.se_cruza_con)
         planas = [
