@@ -16,6 +16,8 @@ class Causa(Enum):
     PROFESOR_VETADO = (7, "Profesor vetado", "Cambiar el veto por una afinidad negativa")
     TRASLADO_IMPOSIBLE = (8, "Traslado imposible", "Aceptar otra franja")
     CEDIDA_POR_PRIORIDAD = (10, "Cedida por prioridad", "")
+    # Sección 3.3: si el algoritmo dejó pasar una alternativa válida, se indica como limitación
+    LIMITACION = (11, "Limitación del algoritmo", "Ejecutar de nuevo con más cambios examinados")
 
     @property
     def regla(self) -> int:

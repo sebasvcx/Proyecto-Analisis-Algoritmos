@@ -31,17 +31,23 @@ class Asignacion:
     nivel: Nivel
     contexto: Contexto
     horarios: dict[str, Horario]
+    mejora: dict | None = None  # estadísticas de la mejora local (N10)
 
 
-def orden_de_atencion(instancia: Instancia) -> list[tuple[Estudiante, Solicitud]]:
+def orden_de_atencion(instancia: Instancia, por_semestre: bool = False) -> list[tuple[Estudiante, Solicitud]]:
+    """Mayor prioridad primero; con `por_semestre` (N10), a igual prioridad, mayor semestre primero."""
     pares = [(e, s) for e in instancia.estudiantes.values() for s in e.solicitudes]
-    return sorted(pares, key=lambda par: (-par[1].prioridad, par[0].id, par[1].materia))
+    return sorted(pares, key=lambda par: (-par[1].prioridad, -par[0].semestre if por_semestre else 0, par[0].id, par[1].materia))
+
+
+def usa_semestre(instancia: Instancia, nivel: Nivel) -> bool:
+    return nivel.mejora and instancia.configuracion.desempate_semestre
 
 
 def asignar_voraz(instancia: Instancia, nivel: Nivel) -> Asignacion:
     ctx = Contexto(instancia)
     horarios = {eid: Horario(instancia.estudiantes[eid], ctx) for eid in sorted(instancia.estudiantes)}
-    orden = orden_de_atencion(instancia)
+    orden = orden_de_atencion(instancia, usa_semestre(instancia, nivel))
     elector = Elector(instancia, nivel, horarios) if nivel.criterios else None
 
     # Solicitudes que a cada estudiante le quedan por atender (en el mismo orden global)
@@ -115,8 +121,18 @@ def diagnosticar(
     rechazos_sustitutas: list[list[Causa]] | tuple = (),
     sustituta: str | None = None,
 ) -> Aviso:
-    """Destaca la causa más frecuente de la principal (empate: menor número de regla) y registra todas."""
+    """Destaca la causa más frecuente de la principal (empate: menor número de regla) y registra todas.
+
+    Una lista de causas vacía significa que esa sección cabía: si no se tomó, es una
+    limitación del algoritmo (solo puede pasar en N10 si se agotan los cambios examinados).
+    """
     conteo = Counter(c for causas in rechazos for c in causas)
-    principal = Causa.SIN_SECCIONES if not candidatas else min(conteo, key=lambda c: (-conteo[c], c.regla))
+    cabia = any(not causas for causas in (*rechazos, *rechazos_sustitutas))
+    if cabia:
+        principal = Causa.LIMITACION
+    elif not candidatas:
+        principal = Causa.SIN_SECCIONES
+    else:
+        principal = min(conteo, key=lambda c: (-conteo[c], c.regla))
     todas = {principal, *conteo, *(c for causas in rechazos_sustitutas for c in causas)}
     return Aviso(solicitud, principal, tuple(sorted(todas, key=lambda c: c.regla)), sustituta)

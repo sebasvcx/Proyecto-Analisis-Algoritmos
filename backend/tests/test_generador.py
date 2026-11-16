@@ -21,7 +21,7 @@ def test_instancias_generadas_son_validas_y_cada_nivel_cumple_sus_reglas(semilla
     inst, reporte = construir_instancia(crudos)
     assert reporte.es_valido, [str(p) for p in reporte.errores]
     assert len(crudos["secciones"]) == 60
-    for nivel in range(1, 10):
+    for nivel in range(1, 11):
         salida = ejecutar_corrida(inst, nivel)
         cubiertas = set(salida["corrida"]["reglas_del_nivel"])
         violadas = {r for r, n in salida["verificacion"]["por_regla"].items() if n and r in cubiertas | {"E"}}

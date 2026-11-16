@@ -47,11 +47,18 @@ Estado: `[x]` hecho · `[ ]` pendiente. Responsable entre paréntesis.
     con los datos reales.
 
 ## Fase 3 — N10, mejora global
-- [ ] 7. Comparación completa Q: J5..J1 (semestre, si está activo) → satisfacción → suma de posiciones
+- [x] 7. Comparación completa Q: J5..J1 (semestre, si está activo) → satisfacción → suma de posiciones
   de sustitutas → desempate por códigos. Pruebas: semestre 2 vs 8; prioridad 5 siempre gana a 4. (Sebastián)
-- [ ] 8. Mejora local: mover a un estudiante a una sección equivalente para liberar cupo; aceptar solo
+  → `asignador/objetivo.py` (`Registro`, `puntuar`, `comparar`, `criterio_decisivo`); `resumen.objetivo`
+  en la salida. La primera sustituta de la lista cuenta 1 en la suma de posiciones (documentarlo).
+- [x] 8. Mejora local: mover a un estudiante a una sección equivalente para liberar cupo; aceptar solo
   si Q mejora; límite `max_cambios`. Causa "Cedida por prioridad". Prueba: ejemplo N10 de la Tabla 4.
   Debe recuperar las principales que N4 pierde frente a N3 por sustitutas que ocupan cupos. (Sebastián)
+  → `algoritmo/mejora.py`. Datos reales: cobertura 89,2 % (N9) → 93,2 % (N10), 84 cambios aceptados.
+  **Para el informe (limitaciones):** con cupos escasos no mejora nada (mover a alguien exige una sección
+  alternativa con cupo; no hay intercambios entre dos estudiantes); con 2.000 estudiantes y cupos
+  holgados el límite de 10.000 cambios se agota en la primera pasada. Q se evalúa de forma incremental.
+  Los avisos de N10 se regeneran con el horario final; "Limitación del algoritmo" si algo cabía y no se tomó.
 
 ## Fase 4 — Evaluación (Sección 7 del documento)
 - [ ] 9. Generador de casos con respuesta conocida (tipo 2). (Andrés)

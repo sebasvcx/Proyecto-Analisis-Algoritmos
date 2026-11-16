@@ -21,6 +21,7 @@ class Nivel:
     sustitutas: bool = False  # desde N4: si la principal no cabe, se prueban sus sustitutas
     criterios: tuple[str, ...] = ()  # desde N5: criterios de satisfacción para elegir entre secciones válidas
     pesos_declarados: bool = False  # desde N8: usa la importancia declarada; antes, los pesos por defecto
+    mejora: bool = False  # N10: desempate por semestre (si está activo) y mejora local tras el voraz
 
     @property
     def reglas_cubiertas(self) -> tuple[str, ...]:
@@ -49,7 +50,17 @@ NIVELES: dict[int, Nivel] = {
         Nivel(7, "Cercanía de salones", "Poca caminata entre clases consecutivas", _TODAS, True, True, _N7),
         Nivel(8, "Importancia personalizada", "Pesos alta, media o baja por criterio", _TODAS, True, True, _N7, pesos_declarados=True),
         Nivel(9, "Amigos y personas a evitar", "Compartir o no sección con otros estudiantes", _TODAS, True, True, _N9, pesos_declarados=True),
-        Nivel(10, "Prioridad institucional y mejora global", "Desempate por semestre y cambios de sección que mejoren el resultado"),
+        Nivel(
+            10,
+            "Prioridad institucional y mejora global",
+            "Desempate por semestre y cambios de sección que mejoren el resultado",
+            _TODAS,
+            True,
+            True,
+            _N9,
+            pesos_declarados=True,
+            mejora=True,
+        ),
     )
 }
 

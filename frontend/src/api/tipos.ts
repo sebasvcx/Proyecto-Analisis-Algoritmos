@@ -171,6 +171,13 @@ export interface Salida {
     tiempo_verificacion_s: number;
     estudiantes: number;
     secciones: number;
+    /** Solo en N10: estadísticas de la mejora local; null en los demás niveles. */
+    mejora: {
+      cambios_examinados: number;
+      cambios_aceptados: number;
+      pasadas: number;
+      limite_alcanzado: boolean;
+    } | null;
   };
   resumen: {
     puntaje_lexicografico: number[];
@@ -179,6 +186,17 @@ export interface Salida {
     cobertura: number | null;
     indicador_academico: number | null;
     satisfaccion: ResumenSatisfaccion;
+    /** Q completo (Sección 5.4), en orden de importancia para comparar corridas. */
+    objetivo: {
+      /** C5..C1 */
+      c: number[];
+      /** J5..J1; null si el desempate por semestre está desactivado. */
+      j: number[] | null;
+      /** Suma de la satisfacción de todos los estudiantes. */
+      satisfaccion: number;
+      /** Suma de posiciones de las sustitutas inscritas (la primera de la lista cuenta 1); menor es mejor. */
+      posiciones_sustitutas: number;
+    };
   };
   verificacion: {
     reglas_verificadas: string[];

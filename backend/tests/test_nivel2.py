@@ -86,7 +86,7 @@ def test_causa_mas_frecuente_y_desempate_por_numero_de_regla(correr):
     assert a["causas"] == ["Franja obligatoria", "Profesor vetado"]
 
 
-def test_niveles_no_implementados():
+def test_nivel_inexistente():
     inst = cargar_instancia(instancia({}, [], []))
     with pytest.raises(NivelNoDisponible):
-        ejecutar_corrida(inst, 10)
+        ejecutar_corrida(inst, 11)

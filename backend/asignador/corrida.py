@@ -86,6 +86,7 @@ def ejecutar_corrida(instancia: Instancia, numero_nivel: int, identificador: str
             "tiempo_verificacion_s": round(tiempo_verificacion, 4),
             "estudiantes": len(instancia.estudiantes),
             "secciones": len(instancia.secciones),
+            "mejora": asignacion.mejora,  # solo N10: cambios examinados y aceptados
         },
         "resumen": calcular_metricas(instancia, estudiantes),
         "verificacion": verificacion.como_dict(),

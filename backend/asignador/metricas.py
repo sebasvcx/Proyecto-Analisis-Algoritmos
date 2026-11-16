@@ -6,10 +6,36 @@ identificadores de sección de la salida, no el estado interno del algoritmo.
 
 from __future__ import annotations
 
-from . import satisfaccion
+from . import objetivo, satisfaccion
 from .dominio import Instancia
 
 PRIORIDADES = (5, 4, 3, 2, 1)
+
+
+def registros_de_salida(instancia: Instancia, estudiantes_salida: list[dict]) -> list[objetivo.Registro]:
+    """Convierte la salida serializada en registros para calcular Q (Sección 5.4)."""
+    registros = []
+    for res in estudiantes_salida:
+        estudiante = instancia.estudiantes.get(res["id"])
+        if estudiante is None:
+            continue
+        sustitutas = {s.materia: s.sustitutas for s in estudiante.solicitudes}
+        for r in res["solicitudes"]:
+            if r["materia"] not in sustitutas:
+                continue
+            posicion = None
+            if r["estado"] == "sustituida":
+                inscrita = r.get("materia_inscrita") or instancia.secciones[r["seccion"]].materia
+                posicion = sustitutas[r["materia"]].index(inscrita) if inscrita in sustitutas[r["materia"]] else None
+            seccion = r["seccion"] if r["estado"] != "no_inscrita" else None
+            registros.append(objetivo.Registro(res["id"], r["materia"], seccion, posicion))
+    return registros
+
+
+def puntaje(instancia: Instancia, estudiantes_salida: list[dict]) -> objetivo.Puntaje:
+    """Q completo de una salida que ya tiene el campo `satisfaccion` de cada estudiante."""
+    total = sum(res.get("satisfaccion", {}).get("total", satisfaccion.NEUTRO) for res in estudiantes_salida)
+    return objetivo.puntuar(instancia, registros_de_salida(instancia, estudiantes_salida), total)
 
 
 def agregar_satisfaccion(instancia: Instancia, estudiantes_salida: list[dict]) -> None:
@@ -79,12 +105,6 @@ def calcular_metricas(instancia: Instancia, estudiantes_salida: list[dict]) -> d
         "cobertura": round((principales + sustituidas) / total, 4) if total else None,
         "indicador_academico": round(suma_ponderada / suma_prioridades, 4) if suma_prioridades else None,
         "satisfaccion": resumir_satisfaccion(estudiantes_salida),
+        # Q completo en el orden de la Sección 5.4 (para comparar corridas entre sí)
+        "objetivo": puntaje(instancia, estudiantes_salida).como_dict(),
     }
-
-
-def comparar(q_a: list[float], q_b: list[float]) -> int:
-    """Orden lexicográfico: 1 si A es mejor, -1 si B es mejor, 0 si empatan."""
-    for a, b in zip(q_a, q_b):
-        if abs(a - b) > 1e-9:
-            return 1 if a > b else -1
-    return 0
