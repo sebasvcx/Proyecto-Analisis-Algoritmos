@@ -1,23 +1,25 @@
-"""Asignación voraz por prioridad (niveles 1 y 2).
+"""Asignación voraz por prioridad (niveles 1 a 9).
 
 Se ordenan todas las solicitudes de todos los estudiantes de mayor a menor
 prioridad. Ante empate se usa el código del estudiante y luego el de la
 materia (desempate final por códigos de la Sección 5.4), de modo que el
 resultado no depende del orden en que vengan los registros en los JSON.
 
-Para cada solicitud se recorren sus secciones en orden de identificador y se
-toma la primera que cumpla las reglas activas del nivel. Desde N4, si ninguna
+Para cada solicitud se recorren sus secciones en orden de identificador.
+Hasta N4 se toma la primera que cumpla las reglas activas del nivel; desde N5,
+la mejor de las válidas según `eleccion.Elector`. Desde N4, si ninguna
 sección de la principal cabe, se prueban las sustitutas en el orden de la lista
 (Sección 3.2); la sustituta hereda la prioridad de la solicitud.
 """
 
 from __future__ import annotations
 
-from collections import Counter
+from collections import Counter, deque
 from dataclasses import dataclass
 
 from ..dominio import Estudiante, Instancia, Seccion, Solicitud
 from .causas import Causa
+from .eleccion import Elector
 from .horario import Aviso, Contexto, Horario, Inscripcion
 from .niveles import Nivel
 
@@ -39,12 +41,22 @@ def orden_de_atencion(instancia: Instancia) -> list[tuple[Estudiante, Solicitud]
 def asignar_voraz(instancia: Instancia, nivel: Nivel) -> Asignacion:
     ctx = Contexto(instancia)
     horarios = {eid: Horario(instancia.estudiantes[eid], ctx) for eid in sorted(instancia.estudiantes)}
+    orden = orden_de_atencion(instancia)
+    elector = Elector(instancia, nivel, horarios) if nivel.criterios else None
 
-    for estudiante, solicitud in orden_de_atencion(instancia):
+    # Solicitudes que a cada estudiante le quedan por atender (en el mismo orden global)
+    pendientes: dict[str, deque[Solicitud]] = {eid: deque() for eid in horarios}
+    for estudiante, solicitud in orden:
+        pendientes[estudiante.id].append(solicitud)
+
+    for estudiante, solicitud in orden:
         horario = horarios[estudiante.id]
+        pendientes[estudiante.id].popleft()
+        inscribir = _Inscriptor(horario, solicitud, nivel, elector, pendientes[estudiante.id])
+
         candidatas = instancia.secciones_de(solicitud.materia)
         rechazos: list[list[Causa]] = []
-        if _inscribir_primera(horario, solicitud, candidatas, None, nivel, rechazos):
+        if inscribir(candidatas, None, rechazos):
             continue
 
         sustituta = None
@@ -54,7 +66,7 @@ def asignar_voraz(instancia: Instancia, nivel: Nivel) -> Asignacion:
                 secciones = instancia.secciones_de(codigo)
                 if not secciones:
                     rechazos_sustitutas.append([Causa.SIN_SECCIONES])
-                elif _inscribir_primera(horario, solicitud, secciones, posicion, nivel, rechazos_sustitutas):
+                elif inscribir(secciones, posicion, rechazos_sustitutas):
                     sustituta = codigo
                     break
 
@@ -66,22 +78,34 @@ def asignar_voraz(instancia: Instancia, nivel: Nivel) -> Asignacion:
     return Asignacion(nivel, ctx, horarios)
 
 
-def _inscribir_primera(
-    horario: Horario,
-    solicitud: Solicitud,
-    secciones: list[Seccion],
-    posicion_sustituta: int | None,
-    nivel: Nivel,
-    rechazos: list[list[Causa]],
-) -> bool:
-    """Inscribe la primera sección que cumpla las reglas del nivel; acumula las causas de las rechazadas."""
-    for seccion in secciones:
-        causas = horario.puede_agregar(seccion, nivel.reglas)
-        if not causas:
-            horario.agregar(Inscripcion(solicitud, seccion, posicion_sustituta))
-            return True
-        rechazos.append(causas)
-    return False
+@dataclass
+class _Inscriptor:
+    """Inscribe una sección válida para la solicitud en turno."""
+
+    horario: Horario
+    solicitud: Solicitud
+    nivel: Nivel
+    elector: Elector | None
+    pendientes: deque[Solicitud]
+
+    def __call__(self, secciones: list[Seccion], posicion_sustituta: int | None, rechazos: list[list[Causa]]) -> bool:
+        """Hasta N4, la primera válida; desde N5, la mejor de las válidas. Acumula las causas de las rechazadas."""
+        validas: list[Seccion] = []
+        for seccion in secciones:
+            causas = self.horario.puede_agregar(seccion, self.nivel.reglas)
+            if causas:
+                rechazos.append(causas)
+                continue
+            validas.append(seccion)
+            if self.elector is None:
+                break
+        if not validas:
+            return False
+        elegida = validas[0]
+        if self.elector is not None and len(validas) > 1:
+            elegida = self.elector.mejor(self.horario, self.solicitud, posicion_sustituta, validas, self.pendientes)
+        self.horario.agregar(Inscripcion(self.solicitud, elegida, posicion_sustituta))
+        return True
 
 
 def diagnosticar(

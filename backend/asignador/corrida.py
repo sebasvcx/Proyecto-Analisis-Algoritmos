@@ -16,7 +16,7 @@ from . import __version__
 from .algoritmo import Asignacion, Horario, asignar
 from .datos.archivos import ARCHIVOS, escribir_json
 from .dominio import Instancia
-from .metricas import calcular_metricas
+from .metricas import agregar_satisfaccion, calcular_metricas
 from .verificador import verificar
 
 
@@ -65,6 +65,7 @@ def ejecutar_corrida(instancia: Instancia, numero_nivel: int, identificador: str
     tiempo_algoritmo = time.perf_counter() - inicio
 
     estudiantes, secciones = serializar(asignacion)
+    agregar_satisfaccion(instancia, estudiantes)
 
     inicio = time.perf_counter()
     verificacion = verificar(instancia, estudiantes)

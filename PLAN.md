@@ -30,15 +30,21 @@ Estado: `[x]` hecho · `[ ]` pendiente. Responsable entre paréntesis.
   Verificador R9 + aporte 0,8 en métricas. → *Primer punto seguro de entrega.* (Sebastián)
 
 ## Fase 2 — Satisfacción (N5–N9)
-- [ ] 5. **`satisfaccion.py`** con los 5 criterios de la Sec. 5.5, pesos 3/2/1/0 y valores por defecto,
+- [x] 5. **`satisfaccion.py`** con los 5 criterios de la Sec. 5.5, pesos 3/2/1/0 y valores por defecto,
   criterios no evaluables, neutro 0,5. Pruebas unitarias por criterio. Promedio y mínimo en métricas.
   Fijar el formato JSON de la satisfacción en la salida. (Sebastián)
-- [ ] 6. Elegir "la sección válida de mayor satisfacción" con los criterios activos del nivel: (Sebastián)
-  - [ ] N5 profesores
-  - [ ] N6 horario, franjas deseables y huecos
-  - [ ] N7 cercanía entre salones
-  - [ ] N8 importancia personal (antes: pesos por defecto)
-  - [ ] N9 compañeros
+  → Formato fijado en `frontend/src/api/tipos.ts` (`SatisfaccionEstudiante`, `ResumenSatisfaccion`):
+  cada estudiante trae `satisfaccion`, y `resumen.satisfaccion` trae promedio, mínimo y `por_criterio`.
+- [x] 6. Elegir "la sección válida de mayor satisfacción" con los criterios activos del nivel: (Sebastián)
+  - [x] N5 profesores
+  - [x] N6 horario, franjas deseables y huecos
+  - [x] N7 cercanía entre salones
+  - [x] N8 importancia personal (antes: pesos por defecto)
+  - [x] N9 compañeros (cuenta también la satisfacción de quienes tienen afinidad hacia el estudiante)
+  - **Decisión a documentar en el informe (paso 17):** antes que la satisfacción, se minimiza la pérdida
+    en las solicitudes pendientes del mismo estudiante (prioridad 5→1), para que una comodidad no cueste
+    una materia (Sec. 5.4, Tabla 5 "Preferencias"). Esto subió la cobertura de 85,6 % (N4) a 88,2 % (N5)
+    con los datos reales.
 
 ## Fase 3 — N10, mejora global
 - [ ] 7. Comparación completa Q: J5..J1 (semestre, si está activo) → satisfacción → suma de posiciones

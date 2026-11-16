@@ -1,14 +1,45 @@
 """Puntajes para comparar resultados (Sección 5.4) y medidas del resultado (5.5).
 
-Se calculan sobre la salida serializada, igual que el verificador.
-La satisfacción de preferencias se agregará con los niveles 5 a 9.
+Se calculan sobre la salida serializada, igual que el verificador: solo usan los
+identificadores de sección de la salida, no el estado interno del algoritmo.
 """
 
 from __future__ import annotations
 
+from . import satisfaccion
 from .dominio import Instancia
 
 PRIORIDADES = (5, 4, 3, 2, 1)
+
+
+def agregar_satisfaccion(instancia: Instancia, estudiantes_salida: list[dict]) -> None:
+    """Agrega a cada estudiante de la salida su campo `satisfaccion` (Sección 5.5)."""
+    secciones_de = {
+        res["id"]: [r["seccion"] for r in res["solicitudes"] if r.get("seccion") in instancia.secciones]
+        for res in estudiantes_salida
+    }
+    for res in estudiantes_salida:
+        estudiante = instancia.estudiantes.get(res["id"])
+        if estudiante is None:
+            continue
+        secciones = [instancia.secciones[sid] for sid in secciones_de[res["id"]]]
+        res["satisfaccion"] = satisfaccion.calcular(instancia, estudiante, secciones, secciones_de).como_dict()
+
+
+def resumir_satisfaccion(estudiantes_salida: list[dict]) -> dict:
+    """Promedio y mínimo entre estudiantes con algún criterio evaluable de peso positivo."""
+    evaluables = [res["satisfaccion"] for res in estudiantes_salida if res.get("satisfaccion", {}).get("evaluable")]
+    totales = [s["total"] for s in evaluables]
+    por_criterio = {}
+    for c in satisfaccion.CRITERIOS:
+        valores = [s["criterios"][c]["valor"] for s in evaluables if s["criterios"][c]["evaluable"]]
+        por_criterio[c] = round(sum(valores) / len(valores), 4) if valores else None
+    return {
+        "estudiantes_evaluables": len(evaluables),
+        "promedio": round(sum(totales) / len(totales), 4) if totales else None,
+        "minimo": round(min(totales), 4) if totales else None,
+        "por_criterio": por_criterio,
+    }
 
 
 def _aporte(estado: str, valor_sustituta: float) -> float:
@@ -47,6 +78,7 @@ def calcular_metricas(instancia: Instancia, estudiantes_salida: list[dict]) -> d
         "solicitudes": {"total": total, "principales": principales, "sustituidas": sustituidas, "pendientes": pendientes},
         "cobertura": round((principales + sustituidas) / total, 4) if total else None,
         "indicador_academico": round(suma_ponderada / suma_prioridades, 4) if suma_prioridades else None,
+        "satisfaccion": resumir_satisfaccion(estudiantes_salida),
     }
 
 

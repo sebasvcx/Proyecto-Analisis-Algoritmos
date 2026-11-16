@@ -89,4 +89,4 @@ def test_causa_mas_frecuente_y_desempate_por_numero_de_regla(correr):
 def test_niveles_no_implementados():
     inst = cargar_instancia(instancia({}, [], []))
     with pytest.raises(NivelNoDisponible):
-        ejecutar_corrida(inst, 5)
+        ejecutar_corrida(inst, 10)

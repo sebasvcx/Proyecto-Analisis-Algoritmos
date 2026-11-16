@@ -23,7 +23,7 @@ def test_flujo_generar_ejecutar_consultar(cliente):
     assert r.status_code == 200
     assert r.json()["validacion"]["errores"] == 0
 
-    corrida = cliente.post("/api/corridas", json={"nivel": 4})
+    corrida = cliente.post("/api/corridas", json={"nivel": 9})
     assert corrida.status_code == 201
     cuerpo = corrida.json()
     assert cuerpo["verificacion"]["total"] == 0
@@ -31,14 +31,14 @@ def test_flujo_generar_ejecutar_consultar(cliente):
 
     lista = cliente.get("/api/corridas").json()
     assert [c["id"] for c in lista] == [cuerpo["corrida"]["id"]]
-    assert cliente.get(f"/api/corridas/{cuerpo['corrida']['id']}").json()["corrida"]["nivel"] == 4
+    assert cliente.get(f"/api/corridas/{cuerpo['corrida']['id']}").json()["corrida"]["nivel"] == 9
     secciones = cliente.get(f"/api/corridas/{cuerpo['corrida']['id']}/entrada/secciones").json()
     assert len(secciones) == 50
 
 
 def test_nivel_no_implementado(cliente):
     cliente.post("/api/datos/generar", json={"estudiantes": 5, "secciones": 42})
-    r = cliente.post("/api/corridas", json={"nivel": 7})
+    r = cliente.post("/api/corridas", json={"nivel": 10})
     assert r.status_code == 422
 
 

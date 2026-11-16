@@ -19,6 +19,8 @@ class Nivel:
     reglas: tuple[Regla, ...] = ()
     disponible: bool = False
     sustitutas: bool = False  # desde N4: si la principal no cabe, se prueban sus sustitutas
+    criterios: tuple[str, ...] = ()  # desde N5: criterios de satisfacción para elegir entre secciones válidas
+    pesos_declarados: bool = False  # desde N8: usa la importancia declarada; antes, los pesos por defecto
 
     @property
     def reglas_cubiertas(self) -> tuple[str, ...]:
@@ -30,6 +32,11 @@ class Nivel:
 _BASE = (R2, R3, R4)
 _TODAS = (*_BASE, R5, R6, R7, R8)
 
+_N5 = ("profesores",)
+_N6 = (*_N5, "horario", "huecos")
+_N7 = (*_N6, "cercania")
+_N9 = (*_N7, "social")
+
 NIVELES: dict[int, Nivel] = {
     n.numero: n
     for n in (
@@ -37,11 +44,11 @@ NIVELES: dict[int, Nivel] = {
         Nivel(2, "Créditos, franjas obligatorias y vetos", "Agrega tope de créditos, franjas no disponibles y profesores vetados", (*_BASE, R5, R6, R7), True),
         Nivel(3, "Traslado entre edificios", "Tiempo de caminata entre clases seguidas", _TODAS, True),
         Nivel(4, "Sustitutas y avisos", "Materias sustitutas y avisos con causa y sugerencia", _TODAS, True, sustitutas=True),
-        Nivel(5, "Afinidad con profesores", "Elige la sección válida que más satisface al estudiante"),
-        Nivel(6, "Horario ideal y huecos", "Franjas preferidas, a evitar y libres deseables"),
-        Nivel(7, "Cercanía de salones", "Poca caminata entre clases consecutivas"),
-        Nivel(8, "Importancia personalizada", "Pesos alta, media o baja por criterio"),
-        Nivel(9, "Amigos y personas a evitar", "Compartir o no sección con otros estudiantes"),
+        Nivel(5, "Afinidad con profesores", "Elige la sección válida que más satisface al estudiante", _TODAS, True, True, _N5),
+        Nivel(6, "Horario ideal y huecos", "Franjas preferidas, a evitar y libres deseables", _TODAS, True, True, _N6),
+        Nivel(7, "Cercanía de salones", "Poca caminata entre clases consecutivas", _TODAS, True, True, _N7),
+        Nivel(8, "Importancia personalizada", "Pesos alta, media o baja por criterio", _TODAS, True, True, _N7, pesos_declarados=True),
+        Nivel(9, "Amigos y personas a evitar", "Compartir o no sección con otros estudiantes", _TODAS, True, True, _N9, pesos_declarados=True),
         Nivel(10, "Prioridad institucional y mejora global", "Desempate por semestre y cambios de sección que mejoren el resultado"),
     )
 }

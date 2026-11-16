@@ -116,11 +116,39 @@ export interface Aviso {
   sustituta: string | null;
 }
 
+/** Criterios de la Sección 5.5; las claves coinciden con "importancia" en estudiantes.json. */
+export type CriterioSatisfaccion = "profesores" | "horario" | "cercania" | "huecos" | "social";
+
+export interface ValorCriterio {
+  /** Entre 0 y 1; si no es evaluable vale 0.5 (neutro) y no entra al total. */
+  valor: number;
+  evaluable: boolean;
+  /** Importancia: alta 3, media 2, baja 1, ninguna 0. */
+  peso: number;
+}
+
+export interface SatisfaccionEstudiante {
+  /** Promedio ponderado de los criterios evaluables con peso > 0; 0.5 si no hay ninguno. */
+  total: number;
+  /** Tiene algún criterio evaluable con peso positivo (solo estos entran al promedio y mínimo). */
+  evaluable: boolean;
+  criterios: Record<CriterioSatisfaccion, ValorCriterio>;
+}
+
+export interface ResumenSatisfaccion {
+  estudiantes_evaluables: number;
+  promedio: number | null;
+  minimo: number | null;
+  /** Promedio de cada criterio entre los estudiantes donde es evaluable. */
+  por_criterio: Record<CriterioSatisfaccion, number | null>;
+}
+
 export interface ResultadoEstudiante {
   id: string;
   creditos: number;
   solicitudes: ResultadoSolicitud[];
   avisos: Aviso[];
+  satisfaccion: SatisfaccionEstudiante;
 }
 
 export interface Violacion {
@@ -150,6 +178,7 @@ export interface Salida {
     solicitudes: { total: number; principales: number; sustituidas: number; pendientes: number };
     cobertura: number | null;
     indicador_academico: number | null;
+    satisfaccion: ResumenSatisfaccion;
   };
   verificacion: {
     reglas_verificadas: string[];
