@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from .reglas import R2, R3, R4, R5, R6, R7, Regla
+from .reglas import R2, R3, R4, R5, R6, R7, R8, Regla
 
 
 @dataclass(frozen=True)
@@ -32,7 +32,7 @@ NIVELES: dict[int, Nivel] = {
     for n in (
         Nivel(1, "Prioridad, choques y cupos", "Atiende de mayor a menor prioridad y toma la primera sección con cupo que no choque", _BASE, True),
         Nivel(2, "Créditos, franjas obligatorias y vetos", "Agrega tope de créditos, franjas no disponibles y profesores vetados", (*_BASE, R5, R6, R7), True),
-        Nivel(3, "Traslado entre edificios", "Tiempo de caminata entre clases seguidas"),
+        Nivel(3, "Traslado entre edificios", "Tiempo de caminata entre clases seguidas", (*_BASE, R5, R6, R7, R8), True),
         Nivel(4, "Sustitutas y avisos", "Materias sustitutas y avisos con causa y sugerencia"),
         Nivel(5, "Afinidad con profesores", "Elige la sección válida que más satisface al estudiante"),
         Nivel(6, "Horario ideal y huecos", "Franjas preferidas, a evitar y libres deseables"),

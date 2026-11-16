@@ -12,7 +12,7 @@ Estado: `[x]` hecho · `[ ]` pendiente. Responsable entre paréntesis cuando se 
   Control inteligente de aplicaciones se bloquean las DLL de numpy que necesita CP-SAT).
 
 ## Fase 1 — Reglas obligatorias completas (R1–R9)
-- [ ] 3. **N3 — Traslados (R8).** Caminata ≤ minutos libres entre sesiones consecutivas + 10.
+- [x] 3. **N3 — Traslados (R8).** Caminata ≤ minutos libres entre sesiones consecutivas + 10.
   Regla en `reglas.py` + verificador. Pruebas: edificios a 10 vs 11 min; hueco de 1 h → 70 min.
 - [ ] 4. **N4 — Sustitutas (R9) y avisos.** Probar sustitutas en orden si la principal no cabe;
   `posicion_sustituta`, aviso "sustituida", una sustituta común no atiende dos solicitudes.

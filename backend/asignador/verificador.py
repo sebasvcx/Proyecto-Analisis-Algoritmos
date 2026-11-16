@@ -13,7 +13,8 @@ from itertools import combinations
 
 from .dominio import Instancia
 
-REGLAS_VERIFICADAS = ("R1", "R2", "R3", "R4", "R5", "R6", "R7")
+REGLAS_VERIFICADAS = ("R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8")
+MINUTOS_SALIDA_ANTICIPADA = 10  # Sección 5.3, condición 4 (se repite a propósito: no se importa del algoritmo)
 ESTADOS = ("principal", "sustituida", "no_inscrita")
 
 
@@ -48,6 +49,24 @@ class Verificacion:
 
 def _cruzan(a: dict, b: dict) -> bool:
     return a["dia"] == b["dia"] and a["inicio"] < b["fin"] and b["inicio"] < a["fin"]
+
+
+def _consecutivas(planas: list[tuple[str, dict]]) -> list[tuple[tuple[str, dict], tuple[str, dict]]]:
+    """Pares de sesiones que quedan una detrás de otra en el mismo día."""
+    por_dia: dict[str, list[tuple[str, dict]]] = {}
+    for item in planas:
+        por_dia.setdefault(item[1]["dia"], []).append(item)
+    pares = []
+    for dia in sorted(por_dia):
+        ordenadas = sorted(por_dia[dia], key=lambda item: (item[1]["inicio"], item[1]["fin"]))
+        pares.extend(zip(ordenadas, ordenadas[1:]))
+    return pares
+
+
+def _caminata(instancia: Instancia, origen: str, destino: str) -> int:
+    if origen == destino:
+        return 0
+    return instancia.traslados.get((origen, destino), 0)
 
 
 def verificar(instancia: Instancia, estudiantes_salida: list[dict]) -> Verificacion:
@@ -100,7 +119,7 @@ def verificar(instancia: Instancia, estudiantes_salida: list[dict]) -> Verificac
 
         # R3: sin choques (se compara con diccionarios planos, no con Franja.se_cruza_con)
         planas = [
-            (s.id, {"dia": ses.franja.dia, "inicio": ses.franja.inicio, "fin": ses.franja.fin})
+            (s.id, {"dia": ses.franja.dia, "inicio": ses.franja.inicio, "fin": ses.franja.fin, "edificio": ses.edificio})
             for s in secciones
             for ses in s.sesiones
         ]
@@ -125,6 +144,20 @@ def verificar(instancia: Instancia, estudiantes_salida: list[dict]) -> Verificac
         for s in secciones:
             if s.profesor in est.preferencias.vetados:
                 agregar(Violacion("R7", eid, f"{s.id} es del profesor vetado {s.profesor}", s.id))
+
+        # R8: traslado entre sesiones consecutivas del mismo día (los solapes ya son R3)
+        for (ida, a), (idb, b) in _consecutivas(planas):
+            libres = b["inicio"] - a["fin"]
+            caminata = _caminata(instancia, a["edificio"], b["edificio"])
+            if libres >= 0 and caminata > libres + MINUTOS_SALIDA_ANTICIPADA:
+                agregar(
+                    Violacion(
+                        "R8",
+                        eid,
+                        f"{ida} → {idb} el {a['dia']}: {caminata} min de caminata y solo {libres + MINUTOS_SALIDA_ANTICIPADA} disponibles",
+                        idb,
+                    )
+                )
 
     for eid in sorted(set(instancia.estudiantes) - vistos):
         agregar(Violacion("E", eid, "el estudiante no tiene resultado"))
