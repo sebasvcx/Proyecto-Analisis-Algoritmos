@@ -1,0 +1,121 @@
+% Análisis de complejidad de la implementación (entrega final).
+% Se incluye desde sn-article.tex con \input{complejidad} dentro de su propia \section.
+% Las mediciones se reproducen con: backend/scripts/medir_complejidad.py
+
+Esta sección analiza el tiempo y la memoria de la implementación entregada, nivel por nivel, y contrasta el análisis con mediciones. Los costos se expresan con los parámetros de la Tabla~\ref{tab:notacion}; los que dependen de un solo estudiante están acotados por los datos (por ejemplo, con 20 créditos y materias de al menos 1 crédito, nadie inscribe más de 20 materias), mientras que $E$, $R$ y $\sigma$ crecen con el tamaño de la universidad.
+
+\begin{table}[htbp]
+\caption{Notación del análisis}\label{tab:notacion}
+\small
+\begin{tabularx}{\textwidth}{@{}lL@{}}
+\toprule
+Símbolo & Significado \\
+\midrule
+$E$, $S$ & Número de estudiantes y de secciones \\
+$R$ & Total de solicitudes ($R \le r\,E$) \\
+$r$ & Máximo de solicitudes de un estudiante \\
+$\sigma$ & Máximo de secciones de una materia \\
+$\beta$ & Máximo de sustitutas de una solicitud \\
+$q$ & Máximo de sesiones de una sección \\
+$f$, $F$ & Franjas obligatorias y franjas de preferencia de un estudiante (con \texttt{*} expandido a seis días) \\
+$\alpha$, $I$ & Preferencias sociales de un estudiante y estudiantes con afinidad hacia uno dado \\
+$c$ & Máximo cupo de una sección \\
+$M$ & Límite de cambios examinados en N10 (\texttt{max\_cambios}, 10.000 por defecto) \\
+\botrule
+\end{tabularx}
+\end{table}
+
+\subsection{Operaciones básicas}
+
+\paragraph{Comprobar las reglas.} \emph{puedeAgregar} evalúa R2--R8 sobre el horario del estudiante. R2 y R5 recorren sus inscripciones, $O(r)$; R3 compara cada sesión nueva con cada sesión inscrita, $O(r q^2)$; R4 y R7 son consultas a un contador y a un conjunto, $O(1)$; R6 compara con las franjas obligatorias, $O(q f)$; R8 ordena las sesiones de cada día que toca la sección nueva, $O(q \cdot rq \log(rq))$. En total
+\[
+c_R = O\!\left(r q^2 \log(rq) + q f\right),
+\]
+que con $q$ acotado (en los datos, una o dos sesiones) es $O(r \log r + f)$.
+
+\paragraph{Calcular la satisfacción.} Profesores cuesta $O(r)$; horario une las franjas de cada tipo y mide los minutos de clase dentro, $O(F \log F + rqF)$; cercanía y huecos ordenan las sesiones por día, $O(rq \log(rq))$; compañeros consulta las secciones de cada persona mencionada, $O(\alpha r)$. Así,
+\[
+c_S = O\!\left(rq \log(rq) + rqF + F \log F + \alpha r\right).
+\]
+
+\subsection{Voraz por prioridad (N1--N4)}
+
+Ordenar las $R$ solicitudes cuesta $O(R \log R)$. Para cada solicitud se prueban hasta $\sigma$ secciones de la principal y, desde N4, hasta $\beta\sigma$ de sus sustitutas, cada una con costo $c_R$; se toma la primera válida. El aviso cuenta causas en $O(\sigma(1+\beta))$. Por tanto
+\[
+T_{\mathrm{N1\text{--}N4}} = O\!\left(R \log R + R\,\sigma(1+\beta)\,c_R\right).
+\]
+Con los parámetros por estudiante acotados, es $O(R \log R)$, es decir, $O(E \log E)$.
+
+\subsection{Elección por satisfacción (N5--N9)}
+
+Desde N5 se evalúan todas las secciones de cada materia probada, $O(\sigma c_R)$, y cada una de las $V \le \sigma$ válidas se mide inscribiéndola de forma provisional. Medir una candidata exige: agregarla y quitarla, $O(r)$; revisar si cada una de las $\le r$ solicitudes pendientes del estudiante todavía cabe, $O(r\,\sigma(1+\beta)\,c_R)$; y calcular la satisfacción del estudiante y, en N9, de las $I$ personas con afinidad hacia él, $O((1+I)\,c_S)$. Como se prueban hasta $1+\beta$ materias por solicitud,
+\[
+T_{\mathrm{N5\text{--}N9}} = O\!\left(R \log R + R\left[(1+\beta)^2\, r\, \sigma^2\, c_R + (1+\beta)\,\sigma\,(1+I)\,c_S\right]\right).
+\]
+Sigue siendo lineal en $R$ (más el ordenamiento), pero cuadrático en $\sigma$: el término $\sigma^2$ viene de revisar, para cada candidata, las secciones de las solicitudes pendientes. Es un peor caso, porque esa revisión se detiene en la primera sección que cabe.
+
+\subsection{Mejora local (N10)}
+
+N10 ejecuta el voraz de N9 y después hace pasadas de mejora. Construir el índice de ocupantes por sección cuesta $O(R)$. En cada pasada:
+\begin{itemize}
+\item Para cada solicitud no atendida por su principal ($\le R$) se prueban hasta $(1+\beta)\sigma$ secciones. Si una solo está bloqueada por el cupo, se revisan sus $\le c$ ocupantes y las $\le \sigma$ secciones alternativas con cupo: $O(R\,(1+\beta)\,\sigma^2\, c\,(r + c_R))$ en el peor caso.
+\item Para cada inscripción ($\le R$) se prueban las otras secciones de su materia: $O(R\,\sigma\,(r + c_R))$.
+\end{itemize}
+Cada cambio examinado se aplica, se mide y, si no mejora, se deshace. Medir solo recalcula la parte de $Q$ que el cambio puede tocar (los aportes de los $\le 2$ estudiantes que cambian y la satisfacción de ellos y de quienes tienen afinidad hacia ellos), con costo $c_P = O(r^2 + (1+I)\,c_S)$, en lugar de $O(E\,c_S)$ si se recalculara todo.
+
+Como un cambio solo se acepta si mejora estrictamente $Q$, ninguna asignación se repite y el proceso termina; sin embargo, el número de mejoras posibles no tiene una cota polinomial evidente, y por eso se fija $M$. Toda pasada salvo la última acepta al menos un cambio, así que hay a lo sumo $M+1$ pasadas. Al final se rehacen los avisos, $O(R(1+\beta)\sigma(c_R + c\,r))$. En total,
+\[
+T_{\mathrm{N10}} = O\!\left(T_{\mathrm{N9}} + \Pi\, R\,(1+\beta)\,\sigma^2\, c\,(r + c_R) + M\, c_P\right), \qquad \Pi \le M + 1,
+\]
+donde $\Pi$ es el número de pasadas. En las mediciones, $\Pi \le 5$.
+
+\subsection{Verificador, métricas y solución exacta}
+
+El verificador revisa R3 con todos los pares de sesiones de cada estudiante y R8 ordenándolas por día: $O\!\left(E\,((rq)^2 + rqf) + S\right)$. Las métricas calculan la satisfacción de todos y ordenan los registros para $Q$: $O(E\,c_S + R \log R)$.
+
+La solución exacta (usada solo en instancias pequeñas) ofrece a cada solicitud $b = \sigma(1+\beta) + 1$ opciones: cada sección de la principal o de sus sustitutas, o quedar pendiente. El árbol tiene $O(b^R)$ nodos; cada nodo comprueba reglas en $O(c_R)$ y cada hoja calcula $Q$ en $O(E\,c_S + R \log R)$. El peor caso es exponencial,
+\[
+T_{\mathrm{exacto}} = O\!\left(b^R \left(c_R + E\,c_S + R\log R\right)\right),
+\]
+lo que es esperable dado que problemas cercanos son NP-difíciles~\cite{spieksma1999}. La poda descarta las ramas cuyo $(C_5,\dots,C_1)$ optimista ya es estrictamente peor que el de la mejor solución, sin cambiar el óptimo; en las instancias de prueba ($R \le 18$, $b \le 5$) el máximo observado fue de 517 nodos.
+
+\subsection{Memoria}
+
+Los datos de entrada ocupan $O(Sq + E(r(1+\beta) + F + f + \alpha))$. Una corrida agrega los inscritos por sección, los horarios, las solicitudes pendientes y el índice de ocupantes, todos $O(S + R)$. La solución exacta solo guarda el camino actual y la mejor solución, $O(R)$, con profundidad de recursión $R$.
+
+\subsection{Mediciones}
+
+La Tabla~\ref{tab:mediciones} muestra el tiempo del algoritmo (sin lectura de datos ni verificación) en instancias generadas con cupos ajustados, como mediana de tres ejecuciones (Python 3.12, procesador AMD64). En la serie A se varía $E$ con $\sigma$ fijo; en la serie B se varía $\sigma$ con $E = 500$. El exponente $p$ es la pendiente de $\log T$ contra $\log E$ (o $\log \sigma$).
+
+\begin{table}[htbp]
+\caption{Tiempo del algoritmo (segundos) y exponente de crecimiento estimado}\label{tab:mediciones}
+\small
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}rrrrrrr@{}}
+\toprule
+$E$ & $\sigma$ & $R$ & N4 & N9 & N10 & Cambios examinados \\
+\midrule
+\multicolumn{7}{@{}l}{\emph{Serie A: variar estudiantes}} \\
+250 & 2,29 & 1.130 & 0,015 & 0,099 & 0,265 & 765 \\
+500 & 2,29 & 2.254 & 0,030 & 0,216 & 0,505 & 1.090 \\
+1.000 & 2,29 & 4.533 & 0,063 & 0,450 & 2,255 & 8.280 \\
+2.000 & 2,29 & 9.040 & 0,133 & 0,901 & 2,998 & 10.000 \\
+\multicolumn{3}{@{}l}{$p$ respecto a $E$} & 1,05 & 1,06 & 1,27 & \\
+\midrule
+\multicolumn{7}{@{}l}{\emph{Serie B: variar secciones por materia}} \\
+500 & 1,43 & 2.239 & 0,024 & 0,112 & 0,288 & 433 \\
+500 & 2,86 & 2.268 & 0,036 & 0,301 & 0,830 & 2.433 \\
+500 & 5,71 & 2.265 & 0,057 & 0,624 & 0,933 & 1.324 \\
+500 & 11,43 & 2.263 & 0,095 & 1,327 & 2,955 & 10.000 \\
+\multicolumn{3}{@{}l}{$p$ respecto a $\sigma$} & 0,66 & 1,17 & 1,03 & \\
+\botrule
+\end{tabular*}
+\end{table}
+
+Las mediciones concuerdan con el análisis:
+\begin{itemize}
+\item \textbf{N4 y N9 crecen linealmente con el número de estudiantes} ($p \approx 1{,}05$). El término $R\log R$ del ordenamiento es despreciable frente al trabajo por solicitud.
+\item \textbf{N9 crece con $\sigma$ más despacio que la cota $\sigma^2$} ($p = 1{,}17$), porque la revisión de pendientes se detiene en la primera sección que cabe y muchas candidatas fallan alguna regla antes de ser medidas. N4 crece aún menos ($p = 0{,}66$) porque toma la primera sección válida.
+\item \textbf{El tiempo de N10 depende sobre todo de los cambios examinados.} Su exponente aparente ($1{,}27$) mezcla el crecimiento de la instancia con el de los cambios examinados, que pasan de 765 a 10.000 y alcanzan el límite $M$. Una vez alcanzado el límite, el costo adicional sobre N9 queda acotado por $M\,c_P$ más las pasadas de búsqueda.
+\end{itemize}
+
+En resumen, el algoritmo entregado (N10) es casi lineal en el número de estudiantes para una oferta con secciones por materia acotadas, cuadrático en el peor caso respecto a $\sigma$, y con un costo de mejora controlado por $M$. La solución exacta, en cambio, es exponencial y solo se usa para comparar en instancias pequeñas.

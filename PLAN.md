@@ -81,7 +81,10 @@ Estado: `[x]` hecho · `[ ]` pendiente. Responsable entre paréntesis.
   comparación entre niveles. Horario: sustituciones. Descargar la salida. (Andrés)
 
 ## Fase 6 — Cierre
-- [ ] 16. Análisis de complejidad del voraz y de la mejora local. (Sebastián; Andrés: líneas base y solver)
+- [x] 16. Análisis de complejidad del voraz y de la mejora local. (Sebastián; Andrés: líneas base)
+  → `docs/ProyectoAlgoritmos/complejidad.tex` (N1–N4, N5–N9, N10, verificador, solver exacto, memoria y
+  mediciones). Mediciones reproducibles con `backend/scripts/medir_complejidad.py`. Falta incluirlo en
+  `sn-article.tex` (paso 17) y que Andrés agregue la complejidad de sus líneas base.
 - [ ] 17. Actualizar el documento LaTeX (implementación, resultados, limitaciones) y el README. (ambos, cada uno su parte)
 - [ ] 18. Preparar la sustentación individual: todos deben entender todos los niveles. (ambos)
 
