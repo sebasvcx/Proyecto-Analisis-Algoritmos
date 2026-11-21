@@ -12,8 +12,9 @@ __pycache__/
 node_modules/
 frontend/dist/
 
-# Salidas generadas por la aplicación
-resultados/
+# Salidas generadas por la aplicación (anclado a la raíz: no debe ignorar
+# carpetas de código que se llamen igual, como frontend/src/componentes/resultados/)
+/resultados/
 data/.respaldos/
 *.tmp
 
