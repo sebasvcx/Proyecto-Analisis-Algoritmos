@@ -77,6 +77,10 @@ def verificar(instancia: Instancia, estudiantes_salida: list[dict]) -> Verificac
 
     for res in estudiantes_salida:
         eid = res["id"]
+        if eid in vistos:
+            # Una fila repetida podría duplicar inscripciones sin que ninguna otra regla lo note
+            agregar(Violacion("E", eid, "el estudiante aparece más de una vez en la salida"))
+            continue
         vistos.add(eid)
         est = instancia.estudiantes.get(eid)
         if est is None:
