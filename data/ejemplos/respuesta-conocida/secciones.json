@@ -1,0 +1,224 @@
+[
+  {
+    "id": "K01-1",
+    "materia": "K01",
+    "profesor": "P01",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "D",
+        "salon": "D-K01-1"
+      },
+      {
+        "dia": "M",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "D",
+        "salon": "D-K01-1"
+      }
+    ]
+  },
+  {
+    "id": "K01-2",
+    "materia": "K01",
+    "profesor": "P02",
+    "cupo": 3,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "A",
+        "salon": "A-K01-2"
+      },
+      {
+        "dia": "J",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "A",
+        "salon": "A-K01-2"
+      }
+    ]
+  },
+  {
+    "id": "K02-1",
+    "materia": "K02",
+    "profesor": "P03",
+    "cupo": 1,
+    "sesiones": [
+      {
+        "dia": "V",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "B",
+        "salon": "B-K02-1"
+      },
+      {
+        "dia": "S",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "B",
+        "salon": "B-K02-1"
+      }
+    ]
+  },
+  {
+    "id": "K02-2",
+    "materia": "K02",
+    "profesor": "P04",
+    "cupo": 3,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "A",
+        "salon": "A-K02-2"
+      },
+      {
+        "dia": "V",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "A",
+        "salon": "A-K02-2"
+      }
+    ]
+  },
+  {
+    "id": "K03-1",
+    "materia": "K03",
+    "profesor": "P05",
+    "cupo": 1,
+    "sesiones": [
+      {
+        "dia": "V",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "B",
+        "salon": "B-K03-1"
+      }
+    ]
+  },
+  {
+    "id": "K03-2",
+    "materia": "K03",
+    "profesor": "P06",
+    "cupo": 6,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "B",
+        "salon": "B-K03-2"
+      }
+    ]
+  },
+  {
+    "id": "K04-1",
+    "materia": "K04",
+    "profesor": "P07",
+    "cupo": 3,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "A",
+        "salon": "A-K04-1"
+      }
+    ]
+  },
+  {
+    "id": "K04-2",
+    "materia": "K04",
+    "profesor": "P08",
+    "cupo": 4,
+    "sesiones": [
+      {
+        "dia": "V",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "B",
+        "salon": "B-K04-2"
+      }
+    ]
+  },
+  {
+    "id": "K05-1",
+    "materia": "K05",
+    "profesor": "P09",
+    "cupo": 2,
+    "sesiones": [
+      {
+        "dia": "V",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "C",
+        "salon": "C-K05-1"
+      }
+    ]
+  },
+  {
+    "id": "K05-2",
+    "materia": "K05",
+    "profesor": "P10",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "A",
+        "salon": "A-K05-2"
+      }
+    ]
+  },
+  {
+    "id": "K06-1",
+    "materia": "K06",
+    "profesor": "P11",
+    "cupo": 4,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "D",
+        "salon": "D-K06-1"
+      },
+      {
+        "dia": "V",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "D",
+        "salon": "D-K06-1"
+      }
+    ]
+  },
+  {
+    "id": "K06-2",
+    "materia": "K06",
+    "profesor": "P12",
+    "cupo": 2,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "C",
+        "salon": "C-K06-2"
+      },
+      {
+        "dia": "V",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "C",
+        "salon": "C-K06-2"
+      }
+    ]
+  }
+]

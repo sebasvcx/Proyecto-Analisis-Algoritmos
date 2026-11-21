@@ -5,6 +5,8 @@ Ejemplos (desde backend/):
     python -m asignador validar --datos ../data
     python -m asignador ejecutar --nivel 2 --datos ../data --resultados ../resultados
     python -m asignador exacto --casos 200 --nivel 10
+    python -m asignador referencia --tipo aleatoria --semilla 0
+    python -m asignador conocidos --casos 40 --estudiantes 30
 """
 
 from __future__ import annotations
@@ -67,6 +69,44 @@ def _cmd_ejecutar(args) -> int:
     return 0
 
 
+def _cmd_referencia(args) -> int:
+    from .referencias import ejecutar_referencia
+
+    crudos, instancia, _ = _cargar(args.datos)
+    if instancia is None:
+        print("No se ejecuta: corrija los errores anteriores.", file=sys.stderr)
+        return 1
+    salida = ejecutar_referencia(instancia, args.tipo, args.semilla)
+    destino = guardar_corrida(args.resultados, salida, crudos)
+    r, c, v = salida["resumen"], salida["corrida"], salida["verificacion"]
+    print(f"{c['nombre_nivel']} · {c['estudiantes']} estudiantes · {c['tiempo_algoritmo_s']} s")
+    print(f"Cobertura {r['cobertura']} · Q = {r['puntaje_lexicografico']} · violaciones {v['total']}")
+    print(f"Guardado en {destino}")
+    return 0
+
+
+def _cmd_conocidos(args) -> int:
+    from .comparacion_conocida import resumen_conocidos
+    from .generador.conocidos import generar_conocido
+
+    if args.guardar:
+        caso = generar_conocido(args.semilla, args.estudiantes, args.materias)
+        escribir_carpeta(args.guardar, caso.crudos)
+        from .datos.archivos import escribir_json
+
+        escribir_json(args.guardar / "respuesta_conocida.json", caso.respuesta)
+        print(f"Caso con semilla {args.semilla} guardado en {args.guardar} (respuesta en respuesta_conocida.json)")
+        return 0
+
+    r = resumen_conocidos(range(args.semilla, args.semilla + args.casos), nivel=args.nivel, estudiantes=args.estudiantes, materias=args.materias)
+    print(f"N{r['nivel']} vs respuesta conocida · {r['casos']} casos de {r['estudiantes']} estudiantes")
+    print(f"  respuestas plantadas válidas según el verificador: {r['referencias_validas']} de {r['casos']}")
+    print(f"  atiende todas las solicitudes: {r['atiende_todo']} ({r['porcentaje_atiende_todo']} %)")
+    print(f"  cobertura promedio {r['cobertura_promedio']} · mínima {r['cobertura_minima']}")
+    print(f"  solicitudes que le faltan en promedio, prioridad 5..1: {r['faltantes_promedio_por_prioridad']}")
+    return 0
+
+
 def _cmd_exacto(args) -> int:
     from .comparacion_exacta import resumen_de_casos
 
@@ -101,6 +141,21 @@ def main(argv: list[str] | None = None) -> int:
     eje.add_argument("--nivel", type=int, default=2)
     eje.add_argument("--resultados", type=Path, default=RAIZ / "resultados")
     eje.set_defaults(func=_cmd_ejecutar)
+
+    ref = sub.add_parser("referencia", help="ejecuta una asignación de comparación (aleatoria válida o por orden de llegada)")
+    ref.add_argument("--tipo", choices=("aleatoria", "llegada"), default="aleatoria")
+    ref.add_argument("--semilla", type=int, default=0, help="solo para la aleatoria")
+    ref.add_argument("--resultados", type=Path, default=RAIZ / "resultados")
+    ref.set_defaults(func=_cmd_referencia)
+
+    con = sub.add_parser("conocidos", help="compara un nivel con casos de respuesta conocida (todas las solicitudes caben)")
+    con.add_argument("--casos", type=int, default=40)
+    con.add_argument("--semilla", type=int, default=0, help="primera semilla; se usan semilla..semilla+casos-1")
+    con.add_argument("--estudiantes", type=int, default=30)
+    con.add_argument("--materias", type=int, default=10)
+    con.add_argument("--nivel", type=int, default=10)
+    con.add_argument("--guardar", type=Path, default=None, help="en vez de comparar, guarda el caso de --semilla en esta carpeta")
+    con.set_defaults(func=_cmd_conocidos)
 
     exa = sub.add_parser("exacto", help="compara un nivel con la solución exacta en instancias pequeñas generadas")
     exa.add_argument("--casos", type=int, default=200)

@@ -1,0 +1,38 @@
+[
+  {
+    "codigo": "K01",
+    "nombre": "Materia 1",
+    "creditos": 3,
+    "semestre": 3
+  },
+  {
+    "codigo": "K02",
+    "nombre": "Materia 2",
+    "creditos": 4,
+    "semestre": 1
+  },
+  {
+    "codigo": "K03",
+    "nombre": "Materia 3",
+    "creditos": 2,
+    "semestre": 9
+  },
+  {
+    "codigo": "K04",
+    "nombre": "Materia 4",
+    "creditos": 2,
+    "semestre": 6
+  },
+  {
+    "codigo": "K05",
+    "nombre": "Materia 5",
+    "creditos": 2,
+    "semestre": 9
+  },
+  {
+    "codigo": "K06",
+    "nombre": "Materia 6",
+    "creditos": 3,
+    "semestre": 1
+  }
+]

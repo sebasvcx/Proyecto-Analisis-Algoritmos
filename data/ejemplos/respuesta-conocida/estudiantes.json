@@ -1,0 +1,320 @@
+[
+  {
+    "id": "e004",
+    "nombre": "Estudiante e004",
+    "semestre": 9,
+    "materias": [
+      {
+        "codigo": "K04",
+        "prioridad": 3
+      },
+      {
+        "codigo": "K05",
+        "prioridad": 2
+      },
+      {
+        "codigo": "K06",
+        "prioridad": 4
+      }
+    ],
+    "profesores": [
+      {
+        "id": "P07",
+        "veto": true
+      }
+    ]
+  },
+  {
+    "id": "e012",
+    "nombre": "Estudiante e012",
+    "semestre": 2,
+    "materias": [
+      {
+        "codigo": "K01",
+        "prioridad": 2
+      },
+      {
+        "codigo": "K03",
+        "prioridad": 2
+      },
+      {
+        "codigo": "K04",
+        "prioridad": 2
+      },
+      {
+        "codigo": "K06",
+        "prioridad": 1
+      }
+    ],
+    "franjas_libres": [
+      {
+        "dia": "X",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "tipo": "obligatoria"
+      }
+    ]
+  },
+  {
+    "id": "e001",
+    "nombre": "Estudiante e001",
+    "semestre": 5,
+    "materias": [
+      {
+        "codigo": "K01",
+        "prioridad": 5
+      },
+      {
+        "codigo": "K02",
+        "prioridad": 1
+      },
+      {
+        "codigo": "K03",
+        "prioridad": 1
+      },
+      {
+        "codigo": "K05",
+        "prioridad": 5
+      }
+    ]
+  },
+  {
+    "id": "e007",
+    "nombre": "Estudiante e007",
+    "semestre": 4,
+    "materias": [
+      {
+        "codigo": "K01",
+        "prioridad": 5
+      },
+      {
+        "codigo": "K05",
+        "prioridad": 4
+      }
+    ],
+    "franjas_libres": [
+      {
+        "dia": "M",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "tipo": "obligatoria"
+      }
+    ]
+  },
+  {
+    "id": "e009",
+    "nombre": "Estudiante e009",
+    "semestre": 6,
+    "materias": [
+      {
+        "codigo": "K01",
+        "prioridad": 2
+      },
+      {
+        "codigo": "K05",
+        "prioridad": 5
+      },
+      {
+        "codigo": "K06",
+        "prioridad": 5
+      }
+    ]
+  },
+  {
+    "id": "e005",
+    "nombre": "Estudiante e005",
+    "semestre": 8,
+    "materias": [
+      {
+        "codigo": "K01",
+        "prioridad": 5
+      },
+      {
+        "codigo": "K03",
+        "prioridad": 2
+      },
+      {
+        "codigo": "K04",
+        "prioridad": 3
+      },
+      {
+        "codigo": "K06",
+        "prioridad": 3
+      }
+    ],
+    "franjas_libres": [
+      {
+        "dia": "X",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "tipo": "obligatoria"
+      }
+    ]
+  },
+  {
+    "id": "e002",
+    "nombre": "Estudiante e002",
+    "semestre": 10,
+    "materias": [
+      {
+        "codigo": "K01",
+        "prioridad": 4
+      },
+      {
+        "codigo": "K04",
+        "prioridad": 1
+      },
+      {
+        "codigo": "K06",
+        "prioridad": 1
+      }
+    ]
+  },
+  {
+    "id": "e006",
+    "nombre": "Estudiante e006",
+    "semestre": 7,
+    "materias": [
+      {
+        "codigo": "K01",
+        "prioridad": 1
+      },
+      {
+        "codigo": "K02",
+        "prioridad": 2
+      },
+      {
+        "codigo": "K03",
+        "prioridad": 1
+      },
+      {
+        "codigo": "K05",
+        "prioridad": 2
+      }
+    ],
+    "profesores": [
+      {
+        "id": "P03",
+        "veto": true
+      }
+    ]
+  },
+  {
+    "id": "e008",
+    "nombre": "Estudiante e008",
+    "semestre": 2,
+    "materias": [
+      {
+        "codigo": "K01",
+        "prioridad": 3
+      },
+      {
+        "codigo": "K02",
+        "prioridad": 3
+      },
+      {
+        "codigo": "K03",
+        "prioridad": 4
+      },
+      {
+        "codigo": "K04",
+        "prioridad": 2
+      }
+    ],
+    "profesores": [
+      {
+        "id": "P04",
+        "veto": true
+      }
+    ]
+  },
+  {
+    "id": "e011",
+    "nombre": "Estudiante e011",
+    "semestre": 8,
+    "materias": [
+      {
+        "codigo": "K01",
+        "prioridad": 5
+      },
+      {
+        "codigo": "K03",
+        "prioridad": 5
+      },
+      {
+        "codigo": "K04",
+        "prioridad": 1
+      },
+      {
+        "codigo": "K05",
+        "prioridad": 4
+      },
+      {
+        "codigo": "K06",
+        "prioridad": 3
+      }
+    ],
+    "profesores": [
+      {
+        "id": "P12",
+        "veto": true
+      }
+    ]
+  },
+  {
+    "id": "e010",
+    "nombre": "Estudiante e010",
+    "semestre": 1,
+    "materias": [
+      {
+        "codigo": "K02",
+        "prioridad": 3
+      },
+      {
+        "codigo": "K04",
+        "prioridad": 4
+      },
+      {
+        "codigo": "K05",
+        "prioridad": 3
+      }
+    ],
+    "franjas_libres": [
+      {
+        "dia": "J",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "tipo": "obligatoria"
+      }
+    ]
+  },
+  {
+    "id": "e003",
+    "nombre": "Estudiante e003",
+    "semestre": 6,
+    "materias": [
+      {
+        "codigo": "K01",
+        "prioridad": 2
+      },
+      {
+        "codigo": "K03",
+        "prioridad": 5
+      }
+    ],
+    "franjas_libres": [
+      {
+        "dia": "L",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "tipo": "obligatoria"
+      }
+    ],
+    "profesores": [
+      {
+        "id": "P05",
+        "veto": true
+      }
+    ]
+  }
+]
