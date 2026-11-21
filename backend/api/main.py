@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from asignador import __version__
 
 from .ajustes import obtener_ajustes
-from .rutas import corridas, datos
+from .rutas import corridas, datos, estudiantes
 
 
 def crear_app() -> FastAPI:
@@ -24,6 +24,7 @@ def crear_app() -> FastAPI:
     )
     app.include_router(datos.router)
     app.include_router(corridas.router)
+    app.include_router(estudiantes.router)
 
     @app.get("/api/salud", tags=["sistema"])
     def salud() -> dict:

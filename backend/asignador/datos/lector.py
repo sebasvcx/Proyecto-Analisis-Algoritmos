@@ -44,21 +44,22 @@ class _Lugar:
     def error(self, campo: str, mensaje: str) -> None:
         self.reporte.error(self.archivo, self.registro, campo, mensaje)
 
-    def texto(self, datos: dict, campo: str) -> str | None:
+    def texto(self, datos: dict, campo: str, prefijo: str = "") -> str | None:
+        """`prefijo` ubica el campo dentro de una lista, p. ej. 'materias[0].'."""
         valor = datos.get(campo)
         if not isinstance(valor, str) or not valor.strip():
-            self.error(campo, "se espera un texto no vacío")
+            self.error(prefijo + campo, "se espera un texto no vacío")
             return None
         return valor.strip()
 
-    def entero(self, datos: dict, campo: str, minimo: int, maximo: int | None = None) -> int | None:
+    def entero(self, datos: dict, campo: str, minimo: int, maximo: int | None = None, prefijo: str = "") -> int | None:
         valor = datos.get(campo)
         if isinstance(valor, bool) or not isinstance(valor, int):
-            self.error(campo, "se espera un número entero")
+            self.error(prefijo + campo, "se espera un número entero")
             return None
         if valor < minimo or (maximo is not None and valor > maximo):
             rango = f"entre {minimo} y {maximo}" if maximo is not None else f"mayor o igual a {minimo}"
-            self.error(campo, f"el valor {valor} debe estar {rango}")
+            self.error(prefijo + campo, f"el valor {valor} debe estar {rango}")
             return None
         return valor
 
@@ -207,13 +208,13 @@ def _preferencias(d: dict, lugar: _Lugar) -> Preferencias:
     vetados: set[str] = set()
     for i, p in enumerate(d.get("profesores") or []):
         campo = f"profesores[{i}]"
-        pid = lugar.texto(p, "id") if isinstance(p, dict) else None
+        pid = lugar.texto(p, "id", f"profesores[{i}].") if isinstance(p, dict) else None
         if pid is None:
             continue
         if p.get("veto") is True:
             vetados.add(pid)
         if "afinidad" in p:
-            valor = lugar.entero(p, "afinidad", -2, 2)
+            valor = lugar.entero(p, "afinidad", -2, 2, f"profesores[{i}].")
             if valor is not None:
                 afinidad[pid] = valor
         elif p.get("veto") is not True:
@@ -221,8 +222,8 @@ def _preferencias(d: dict, lugar: _Lugar) -> Preferencias:
 
     social: dict[str, int] = {}
     for i, s in enumerate(d.get("social") or []):
-        otro = lugar.texto(s, "estudiante") if isinstance(s, dict) else None
-        valor = lugar.entero(s, "afinidad", -2, 2) if isinstance(s, dict) else None
+        otro = lugar.texto(s, "estudiante", f"social[{i}].") if isinstance(s, dict) else None
+        valor = lugar.entero(s, "afinidad", -2, 2, f"social[{i}].") if isinstance(s, dict) else None
         if otro is not None and valor is not None:
             social[otro] = valor
 
@@ -256,8 +257,8 @@ def _estudiante(d: dict, lugar: _Lugar) -> Estudiante | None:
         if not isinstance(s, dict):
             lugar.error(campo, "cada solicitud debe ser un objeto")
             continue
-        codigo = lugar.texto(s, "codigo")
-        prioridad = lugar.entero(s, "prioridad", 1, 5)
+        codigo = lugar.texto(s, "codigo", f"{campo}.")
+        prioridad = lugar.entero(s, "prioridad", 1, 5, f"{campo}.")
         sustitutas = s.get("sustitutas") or []
         if not isinstance(sustitutas, list) or not all(isinstance(x, str) for x in sustitutas):
             lugar.error(f"{campo}.sustitutas", "se espera una lista de códigos")
