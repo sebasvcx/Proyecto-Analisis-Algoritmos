@@ -61,7 +61,11 @@ Estado: `[x]` hecho · `[ ]` pendiente. Responsable entre paréntesis.
   Los avisos de N10 se regeneran con el horario final; "Limitación del algoritmo" si algo cabía y no se tomó.
 
 ## Fase 4 — Evaluación (Sección 7 del documento)
-- [ ] 9. Generador de casos con respuesta conocida (tipo 2). (Andrés)
+- [x] 9. Generador de casos con respuesta conocida (tipo 2). (Andrés)
+  → `generador/conocidos.py` (horarios válidos plantados → solicitudes; cupos justos + señuelos),
+  `comparacion_conocida.py`, comando `python -m asignador conocidos --casos 40`. Ejemplo en
+  `data/ejemplos/respuesta-conocida/`. **Resultado (40 casos, 30 est.):** respuesta plantada válida en 40/40;
+  N10 atiende 98,7 % (mín. 95,5 %), nunca pierde prioridad 5 ni 4; N3/N4 91,3 %.
 - [x] 10. Solver exacto (fuerza bruta) para 2–6 estudiantes; comparar N10 con el óptimo. Requiere el paso 7. (Sebastián)
   → `asignador/exacto.py` (búsqueda exhaustiva con poda segura por C), `generador/pequenos.py`,
   `comparacion_exacta.py`, comando `python -m asignador exacto --casos 300`.
@@ -70,25 +74,36 @@ Estado: `[x]` hecho · `[ ]` pendiente. Responsable entre paréntesis.
   en C vienen de cadenas de 3+ cambios (p. ej. semilla 145: e01 cambia de sección, eso libera un cupo para
   e02, que reacomoda su propia materia para que otra deje de chocar); la mejora local solo hace 1–2 pasos.
   Se corrigió `metricas.puntaje`: sumaba la satisfacción redondeada a 4 decimales.
-- [ ] 11. Líneas base: asignación aleatoria válida y por orden de llegada. (Andrés)
-- [ ] 12. Script de experimentos: 20/200/500/2000 estudiantes × holgada/ajustada/escasa × semillas 0–9
+- [x] 11. Líneas base: asignación aleatoria válida y por orden de llegada. (Andrés)
+  → `asignador/referencias.py` (mismas reglas que N10, con sustitutas; sin preferencias ni mejora; solo
+  importa de `algoritmo/`). `corrida.armar_salida` se separó de `ejecutar_corrida` para reutilizarla.
+  CLI `python -m asignador referencia --tipo aleatoria|llegada`; API `POST /api/corridas {"referencia": ...}`.
+- [x] 12. Script de experimentos: 20/200/500/2000 estudiantes × holgada/ajustada/escasa × semillas 0–9
   → CSV con mediana y rango. Hoy puede correr con N4 y luego cambiar a N10. (Andrés)
-- [ ] 13. Pruebas del verificador con salidas con errores intencionales (cupo, duplicados, R8, R9). (Andrés)
+  → `asignador/experimentos.py` + `backend/scripts/experimentos.py` (crudo.csv, resumen.csv, meta.json).
+  Resumen copiado en `docs/ProyectoAlgoritmos/datos/`. 480 corridas en ~3,5 min, 0 violaciones.
+- [x] 13. Pruebas del verificador con salidas con errores intencionales (cupo, duplicados, R8, R9). (Andrés)
+  → `tests/test_verificador.py`. **Se encontró y corrigió un hueco:** un estudiante repetido en la salida no
+  se detectaba (ahora es error de estructura "E").
 
 ## Fase 5 — Web
-- [ ] 14. Página **Preferencias** (materias, prioridades, sustitutas, franjas, profesores, compañeros). (Andrés)
-- [ ] 15. Ejecutar: casilla de desempate por semestre en N10. Resultados: satisfacción por criterio y
+- [x] 14. Página **Preferencias** (materias, prioridades, sustitutas, franjas, profesores, compañeros). (Andrés)
+  → `/estudiantes/:id/preferencias` (también crea estudiantes nuevos). Guarda con `PUT /api/estudiantes/{id}`,
+  que valida antes de escribir y devuelve errores por campo (el lector ahora indica `materias[0].prioridad`).
+- [x] 15. Ejecutar: casilla de desempate por semestre en N10. Resultados: satisfacción por criterio y
   comparación entre niveles. Horario: sustituciones. Descargar la salida. (Andrés)
+  → Casilla solo para esa corrida (no cambia config.json); referencias ejecutables desde la web;
+  `POST /api/comparacion` (aleatoria, llegada, N1–N10 sin guardar); "Mi satisfacción" en el horario.
 
 ## Fase 6 — Cierre
-- [x] 16. Análisis de complejidad del voraz y de la mejora local. (Sebastián; Andrés: líneas base)
+- [x] 16. Análisis de complejidad del voraz y de la mejora local. (Sebastián; Andrés: líneas base ✓)
   → `docs/ProyectoAlgoritmos/complejidad.tex` (N1–N4, N5–N9, N10, verificador, solver exacto, memoria y
   mediciones). Mediciones reproducibles con `backend/scripts/medir_complejidad.py`. Falta incluirlo en
   `sn-article.tex` (paso 17) y que Andrés agregue la complejidad de sus líneas base.
 - [ ] 17. Actualizar el documento LaTeX (implementación, resultados, limitaciones) y el README. (ambos, cada uno su parte)
   - [x] Parte de Sebastián: título, resumen e introducción; tabla de causas (+2) y de tecnología;
     secciones nuevas `implementacion.tex`, `resultados.tex`, `complejidad.tex` y Conclusiones; README.
-  - [ ] Parte de Andrés: buscar las notas en **rojo** y los `% TODO (Andrés)` en `resultados.tex`
+  - [x] Parte de Andrés: buscar las notas en **rojo** y los `% TODO (Andrés)` en `resultados.tex`
     (asignaciones de referencia y experimentos), `interfaz.tex` (app implementada y capturas) y en
     Conclusiones de `sn-article.tex`.
   - [ ] Compilar en Overleaf y revisar que la tabla de resultados por nivel no se salga del margen.

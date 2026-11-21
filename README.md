@@ -65,6 +65,9 @@ python -m asignador validar
 python -m asignador ejecutar --nivel 10
 python -m asignador exacto --casos 200 --nivel 10   # compara con la solución exacta en instancias pequeñas
 python scripts/medir_complejidad.py                  # mediciones de tiempo del análisis de complejidad
+python -m asignador referencia --tipo aleatoria      # asignación de comparación (o --tipo llegada)
+python -m asignador conocidos --casos 40             # compara N10 con casos de respuesta conocida
+python scripts/experimentos.py                       # 20–2.000 estudiantes × escasez × semillas 0–9 → CSV
 ```
 
 ## Estado de los niveles
