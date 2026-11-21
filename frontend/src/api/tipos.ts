@@ -171,6 +171,8 @@ export interface Salida {
     tiempo_verificacion_s: number;
     estudiantes: number;
     secciones: number;
+    /** Solo en las asignaciones de comparación. */
+    referencia?: TipoReferencia;
     /** Solo en N10: estadísticas de la mejora local; null en los demás niveles. */
     mejora: {
       cambios_examinados: number;
@@ -208,6 +210,8 @@ export interface Salida {
   secciones: { id: string; materia: string; cupo: number; inscritos: number }[];
 }
 
+export type TipoReferencia = "aleatoria" | "llegada";
+
 export interface CorridaResumida {
   id: string;
   fecha: string;
@@ -216,4 +220,41 @@ export interface CorridaResumida {
   estudiantes: number;
   cobertura: number | null;
   violaciones: number;
+  /** Solo en las asignaciones de comparación (Sección 7.3). */
+  referencia: TipoReferencia | null;
+  desempate_semestre: boolean;
+}
+
+/** Qué ejecutar: un nivel del algoritmo o una asignación de referencia. */
+export interface PeticionCorrida {
+  nivel?: number;
+  desempate_semestre?: boolean;
+  referencia?: TipoReferencia;
+  semilla_referencia?: number;
+}
+
+/** Una fila de la comparación entre niveles (POST /api/comparacion). */
+export interface FilaComparacion {
+  metodo: string;
+  etiqueta: string;
+  cobertura: number | null;
+  indicador_academico: number | null;
+  c5: number;
+  c4: number;
+  c3: number;
+  c2: number;
+  c1: number;
+  principales: number;
+  sustituidas: number;
+  pendientes: number;
+  satisfaccion_promedio: number | null;
+  satisfaccion_minima: number | null;
+  violaciones: number;
+  tiempo_algoritmo_s: number;
+}
+
+export interface RespuestaGuardarEstudiante {
+  estudiante: Estudiante;
+  creado: boolean;
+  advertencias: Problema[];
 }

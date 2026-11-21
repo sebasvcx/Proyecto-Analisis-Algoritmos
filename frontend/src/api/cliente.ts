@@ -2,10 +2,13 @@ import type {
   CorridaResumida,
   Entidad,
   Estudiante,
+  FilaComparacion,
   Materia,
   Nivel,
   ParametrosGeneracion,
+  PeticionCorrida,
   Profesor,
+  RespuestaGuardarEstudiante,
   ResumenDatos,
   Salida,
   Seccion,
@@ -65,5 +68,11 @@ export const api = {
   corrida: (id: string) => pedir<Salida>(`/api/corridas/${encodeURIComponent(id)}`),
   entradaCorrida: <T>(id: string, entidad: Entidad) =>
     pedir<T>(`/api/corridas/${encodeURIComponent(id)}/entrada/${entidad}`),
-  ejecutar: (nivel: number) => pedir<Salida>("/api/corridas", { method: "POST", ...json({ nivel }) }),
+  ejecutar: (peticion: PeticionCorrida) => pedir<Salida>("/api/corridas", { method: "POST", ...json(peticion) }),
+  comparacion: () => pedir<FilaComparacion[]>("/api/comparacion", { method: "POST" }),
+  guardarEstudiante: (estudiante: Estudiante) =>
+    pedir<RespuestaGuardarEstudiante>(`/api/estudiantes/${encodeURIComponent(estudiante.id)}`, {
+      method: "PUT",
+      ...json(estudiante),
+    }),
 };

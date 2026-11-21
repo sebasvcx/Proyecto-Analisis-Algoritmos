@@ -1,4 +1,4 @@
-import type { Dia, Estudiante } from "../api/tipos";
+import type { CorridaResumida, Dia, Estudiante } from "../api/tipos";
 
 export const DIAS: Dia[] = ["L", "M", "X", "J", "V", "S"];
 export const NOMBRE_DIA: Record<Dia, string> = { L: "Lun", M: "Mar", X: "Mié", J: "Jue", V: "Vie", S: "Sáb" };
@@ -13,7 +13,7 @@ export function aMinutos(hora: string): number {
 
 export function porcentaje(valor: number | null | undefined, decimales = 0): string {
   if (valor === null || valor === undefined) return "—";
-  return `${(valor * 100).toFixed(decimales)} %`;
+  return `${(valor * 100).toFixed(decimales).replace(".", ",")} %`;
 }
 
 export function numero(valor: number): string {
@@ -26,4 +26,11 @@ export function fechaCorta(iso: string): string {
 
 export function trabaja(estudiante: Estudiante): boolean {
   return (estudiante.franjas_libres ?? []).some((f) => (f.tipo ?? "obligatoria") === "obligatoria");
+}
+
+/** Nombre corto de una corrida: nivel (con o sin desempate por semestre) o asignación de referencia. */
+export function nombreCorrida(c: Pick<CorridaResumida, "nivel" | "referencia" | "desempate_semestre">): string {
+  if (c.referencia === "aleatoria") return "Ref. aleatoria";
+  if (c.referencia === "llegada") return "Ref. llegada";
+  return `Nivel ${c.nivel}${c.nivel === 10 && c.desempate_semestre ? " + semestre" : ""}`;
 }

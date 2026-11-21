@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api/cliente";
-import type { Configuracion, Nivel } from "../api/tipos";
+import type { Configuracion, Nivel, PeticionCorrida, TipoReferencia } from "../api/tipos";
 import { Segmentado, Tarjeta } from "../componentes/Tarjeta";
 import { useApp } from "../estado/ContextoApp";
 import { useRecurso } from "../estado/useRecurso";
-import { fechaCorta, porcentaje } from "../utilidades/formato";
+import { fechaCorta, nombreCorrida, porcentaje } from "../utilidades/formato";
 
 export function PaginaEjecutar() {
   const navegar = useNavigate();
@@ -14,26 +14,35 @@ export function PaginaEjecutar() {
   const corridas = useRecurso(api.corridas);
   const resumen = useRecurso(api.resumenDatos);
 
-  const [nivel, setNivel] = useState<number | null>(null);
+  // Un nivel ("N10") o una asignación de referencia ("aleatoria" / "llegada")
+  const [eleccion, setEleccion] = useState<string | null>(null);
+  const [semestre, setSemestre] = useState<boolean | null>(null);
   const [ejecutando, setEjecutando] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Por defecto se propone el nivel más alto ya implementado
   useEffect(() => {
-    if (nivel === null && niveles.datos) {
-      const disponibles = niveles.datos.filter((n) => n.disponible);
-      setNivel(disponibles.at(-1)?.numero ?? null);
+    if (eleccion === null && niveles.datos) {
+      const ultimo = niveles.datos.filter((n) => n.disponible).at(-1);
+      setEleccion(ultimo ? `N${ultimo.numero}` : null);
     }
-  }, [niveles.datos, nivel]);
+  }, [niveles.datos, eleccion]);
+
+  // La casilla arranca con el valor de config.json; cambiarla solo afecta esta corrida
+  const semestreConfig = resumen.datos?.configuracion.desempate_semestre ?? false;
+  const usarSemestre = semestre ?? semestreConfig;
 
   const errores = resumen.datos?.validacion.errores ?? 0;
 
   const ejecutar = async () => {
-    if (nivel === null) return;
+    if (eleccion === null) return;
     setEjecutando(true);
     setError(null);
+    const peticion: PeticionCorrida = eleccion.startsWith("N")
+      ? { nivel: Number(eleccion.slice(1)), ...(eleccion === "N10" ? { desempate_semestre: usarSemestre } : {}) }
+      : { referencia: eleccion as TipoReferencia, semilla_referencia: resumen.datos?.configuracion.semilla ?? 0 };
     try {
-      const salida = await api.ejecutar(nivel);
+      const salida = await api.ejecutar(peticion);
       seleccionarCorrida(salida.corrida.id);
       navegar("/resultados");
     } catch (e) {
@@ -60,7 +69,7 @@ export function PaginaEjecutar() {
                 {corridas.datos.slice(0, 6).map((c) => (
                   <li key={c.id}>
                     <span>
-                      Nivel {c.nivel} · {fechaCorta(c.fecha)} · cobertura {porcentaje(c.cobertura)}
+                      {nombreCorrida(c)} · {fechaCorta(c.fecha)} · cobertura {porcentaje(c.cobertura)}
                       {c.violaciones > 0 && <span className="estado estado--aviso"> {c.violaciones} violaciones</span>}
                     </span>
                     <button
@@ -83,13 +92,41 @@ export function PaginaEjecutar() {
 
         <div className="pila">
           <Tarjeta titulo="Nivel del algoritmo" paso={2} descripcion="Cada nivel incluye todos los anteriores.">
-            {niveles.datos && <ListaNiveles niveles={niveles.datos} elegido={nivel} alElegir={setNivel} />}
+            {niveles.datos && <ListaNiveles niveles={niveles.datos} elegido={eleccion} alElegir={setEleccion} />}
+            {eleccion === "N10" && (
+              <label className="casilla casilla--destacada">
+                <input type="checkbox" checked={usarSemestre} onChange={(e) => setSemestre(e.target.checked)} />
+                <span>
+                  <strong>Desempate por semestre</strong>
+                  <span className="nivel__marca">
+                    {" "}
+                    · a igual prioridad, favorece a semestres más avanzados; nunca cambia una prioridad 5 por una 4
+                    {semestre !== null && semestre !== semestreConfig && " (solo en esta corrida)"}
+                  </span>
+                </span>
+              </label>
+            )}
+          </Tarjeta>
+
+          <Tarjeta titulo="Asignaciones de comparación" descripcion="Mismos datos y reglas que N10, sin preferencias ni mejora (Sección 7.3).">
+            <ul className="niveles" role="radiogroup" aria-label="Asignación de comparación">
+              {REFERENCIAS.map((r) => (
+                <li key={r.valor}>
+                  <label className={`nivel${eleccion === r.valor ? " nivel--elegido" : ""}`} title={r.descripcion}>
+                    <input type="radio" name="nivel" checked={eleccion === r.valor} onChange={() => setEleccion(r.valor)} />
+                    <span className="nivel__numero">Ref</span>
+                    <span>{r.nombre}</span>
+                    <span className="nivel__marca">{r.descripcion}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
           </Tarjeta>
 
           <Tarjeta>
             <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
               <span className="paso">3</span>
-              <button className="boton boton--primario" onClick={ejecutar} disabled={ejecutando || nivel === null || errores > 0}>
+              <button className="boton boton--primario" onClick={ejecutar} disabled={ejecutando || eleccion === null || errores > 0}>
                 {ejecutando ? "Ejecutando…" : "Ejecutar corrida"}
               </button>
               {errores > 0 && <span className="estado estado--error">Corrija los {errores} errores de los datos</span>}
@@ -114,20 +151,26 @@ export function PaginaEjecutar() {
   );
 }
 
-function ListaNiveles({ niveles, elegido, alElegir }: { niveles: Nivel[]; elegido: number | null; alElegir: (n: number) => void }) {
+const REFERENCIAS: { valor: TipoReferencia; nombre: string; descripcion: string }[] = [
+  { valor: "aleatoria", nombre: "Aleatoria válida", descripcion: "orden y secciones al azar (semilla de config.json)" },
+  { valor: "llegada", nombre: "Orden de llegada", descripcion: "por turnos, en el orden de estudiantes.json" },
+];
+
+function ListaNiveles({ niveles, elegido, alElegir }: { niveles: Nivel[]; elegido: string | null; alElegir: (n: string) => void }) {
   return (
     <ul className="niveles" role="radiogroup" aria-label="Nivel del algoritmo">
       {niveles.map((n) => {
-        const clases = ["nivel", n.numero === elegido && "nivel--elegido", !n.disponible && "nivel--bloqueado"].filter(Boolean).join(" ");
+        const clave = `N${n.numero}`;
+        const clases = ["nivel", clave === elegido && "nivel--elegido", !n.disponible && "nivel--bloqueado"].filter(Boolean).join(" ");
         return (
           <li key={n.numero}>
             <label className={clases} title={n.descripcion}>
               <input
                 type="radio"
                 name="nivel"
-                checked={n.numero === elegido}
+                checked={clave === elegido}
                 disabled={!n.disponible}
-                onChange={() => alElegir(n.numero)}
+                onChange={() => alElegir(clave)}
               />
               <span className="nivel__numero">N{n.numero}</span>
               <span>{n.nombre}</span>
