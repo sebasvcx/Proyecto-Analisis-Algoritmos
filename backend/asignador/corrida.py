@@ -63,7 +63,13 @@ def ejecutar_corrida(instancia: Instancia, numero_nivel: int, identificador: str
     inicio = time.perf_counter()
     asignacion = asignar(instancia, numero_nivel)
     tiempo_algoritmo = time.perf_counter() - inicio
+    return armar_salida(instancia, asignacion, tiempo_algoritmo, identificador)
 
+
+def armar_salida(
+    instancia: Instancia, asignacion: Asignacion, tiempo_algoritmo: float, identificador: str | None = None, sufijo: str | None = None
+) -> dict[str, Any]:
+    """Serializa, verifica y mide una asignación (del algoritmo o de una referencia)."""
     estudiantes, secciones = serializar(asignacion)
     agregar_satisfaccion(instancia, estudiantes)
 
@@ -75,7 +81,7 @@ def ejecutar_corrida(instancia: Instancia, numero_nivel: int, identificador: str
     ahora = datetime.now()
     return {
         "corrida": {
-            "id": identificador or ahora.strftime("%Y%m%d-%H%M%S") + f"-n{nivel.numero}",
+            "id": identificador or ahora.strftime("%Y%m%d-%H%M%S") + f"-{sufijo or f'n{nivel.numero}'}",
             "fecha": ahora.isoformat(timespec="seconds"),
             "nivel": nivel.numero,
             "nombre_nivel": nivel.nombre,
@@ -130,6 +136,8 @@ def listar_corridas(carpeta_resultados: Path) -> list[dict]:
         corridas.append(
             {
                 **{k: salida["corrida"][k] for k in ("id", "fecha", "nivel", "nombre_nivel", "estudiantes")},
+                "referencia": salida["corrida"].get("referencia"),
+                "desempate_semestre": salida["corrida"]["configuracion"].get("desempate_semestre", False),
                 "cobertura": salida["resumen"]["cobertura"],
                 "violaciones": salida["verificacion"]["total"],
             }
