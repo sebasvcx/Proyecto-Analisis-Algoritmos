@@ -58,7 +58,7 @@ Cada candidata se mide inscribiéndola de forma provisional con \emph{agregar} y
 
 \subsection{Pruebas}\label{sec:pruebas}
 
-La batería tiene 253 pruebas automáticas (pytest), que se ejecutan en pocos segundos. Cubren los ejemplos de la Tabla~\ref{tab:niveles} y los casos de la Tabla~\ref{tab:aceptacion}; para dar un nivel por terminado debían pasar sus pruebas y las de todos los anteriores.
+La batería tiene 323 pruebas automáticas (pytest), que se ejecutan en pocos segundos. Cubren los ejemplos de la Tabla~\ref{tab:niveles} y los casos de la Tabla~\ref{tab:aceptacion}; para dar un nivel por terminado debían pasar sus pruebas y las de todos los anteriores.
 
 \begin{table}[htbp]
 \caption{Pruebas automáticas por tema}\label{tab:pruebas}
@@ -72,10 +72,11 @@ Niveles N5--N9 (elección por satisfacción) & 18 \\
 Nivel N10 (semestre, mejora local; nunca peor que N9; independiente del orden de los registros) & 17 \\
 Satisfacción, criterio por criterio, y orden de comparación $Q$ & 32 \\
 Solución exacta: casos conocidos, poda correcta, el óptimo cumple las reglas, N10 nunca lo supera & 89 \\
-Verificador con respuestas con errores intencionales & 5 \\
-Lectura y validación de datos, tiempo, generador y API & 46 \\
+Verificador con respuestas con errores intencionales (cupos, choques, R8 con 70 y 71 minutos, R9, duplicados, estructura) & 15 \\
+Asignaciones de referencia, casos con respuesta conocida y experimentos & 56 \\
+Lectura y validación de datos, tiempo, generador y API & 50 \\
 \midrule
-Total & 253 \\
+Total & 323 \\
 \botrule
 \end{tabularx}
 \end{table}

@@ -361,7 +361,7 @@ Servidor & FastAPI, que lee y escribe los JSON y lanza las corridas \\
 Aplicación web & React con TypeScript \\
 Datos & Archivos JSON locales, validados al cargarlos \\
 Solución exacta de comparación & Búsqueda exhaustiva propia, solo para instancias pequeñas (Sección~\ref{sec:decisiones}) \\
-Pruebas y versiones & pytest (253 pruebas), Git y GitHub \\
+Pruebas y versiones & pytest (323 pruebas), Git y GitHub \\
 Despliegue & Local, con un script que levanta servidor y web (\texttt{dev.sh} o \texttt{dev.ps1}) \\
 Documentación & \LaTeX\ y diagramas en Mermaid \\
 \botrule
@@ -403,7 +403,7 @@ La aplicación web habla con el servidor, el servidor lee y guarda los archivos 
 Se implementó el algoritmo diseñado en la primera entrega en diez niveles acumulativos, cada uno con sus pruebas, y un verificador independiente que comprueba R1--R9 sobre cada salida. El nivel final combina un voraz por prioridad, que nunca cambia una materia más prioritaria por una comodidad, con una mejora local que solo acepta cambios que mejoran el orden de la Sección~\ref{sec:objetivo}. En la instancia de 250 estudiantes atiende el 93,2~\% de las solicitudes sin violar reglas, 4 puntos más que el voraz con preferencias (N9). Frente a la solución exacta, es igual de bueno en el 61~\% de las instancias pequeñas, y sus pérdidas se explican por cadenas de cambios que la mejora local no examina. Su tiempo crece casi linealmente con el número de estudiantes.
 
 Como trabajo futuro quedan los intercambios entre estudiantes y las cadenas de cambios en la mejora local, que atacarían las dos limitaciones principales de la Sección~\ref{sec:limitaciones}, y el empaquetado con Docker Compose.
-% TODO (Andrés): agregar una frase con la conclusión de las asignaciones de referencia y los experimentos.
+Frente a las asignaciones de referencia (aleatoria válida y por orden de llegada), N10 atiende entre 6 y 8 puntos más en la instancia de 250 estudiantes. En los 480 experimentos con 20 a 2.000 estudiantes, nunca atendió menos solicitudes de prioridad 5 y con cupos escasos atendió hasta un 42~\% más, aunque todos los métodos llenan los mismos cupos. En los casos con respuesta conocida alcanzó en promedio el 98,7~\% de lo que se sabe que cabe, sin perder solicitudes de prioridad 5 ni 4. Ninguna de esas corridas violó una regla.
 
 \FloatBarrier
 \bibliography{sn-bibliography}

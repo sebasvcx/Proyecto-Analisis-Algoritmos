@@ -69,6 +69,21 @@ T_{\mathrm{N10}} = O\!\left(T_{\mathrm{N9}} + \Pi\, R\,(1+\beta)\,\sigma^2\, c\,
 \]
 donde $\Pi$ es el número de pasadas. En las mediciones, $\Pi \le 5$.
 
+\subsection{Asignaciones de referencia}
+
+Las dos referencias de la Sección~\ref{sec:resultados} usan las mismas comprobaciones de reglas que el voraz, con costo $c_R$ cada una, y como él prueban la principal y luego las sustitutas.
+\begin{itemize}
+\item \textbf{Aleatoria válida.} Barajar las $R$ solicitudes cuesta $O(R)$ (Fisher--Yates), y barajar las secciones de cada materia probada, $O(\sigma)$. Cada solicitud prueba hasta $\sigma(1+\beta)$ secciones, así que
+\[
+T_{\mathrm{aleatoria}} = O\!\left(R\,\sigma(1+\beta)\,c_R\right).
+\]
+\item \textbf{Orden de llegada.} Recorre los estudiantes en el orden del archivo, sin ordenarlos, y ordena las $r$ solicitudes de cada uno por prioridad, $O(r \log r)$, es decir, $O(R \log r)$ en total. Luego,
+\[
+T_{\mathrm{llegada}} = O\!\left(R \log r + R\,\sigma(1+\beta)\,c_R\right).
+\]
+\end{itemize}
+Con los parámetros por estudiante acotados ambas son $O(R)$, es decir, $O(E)$: lineales, frente a $O(E \log E)$ del voraz por el ordenamiento global por prioridad. Ninguna calcula satisfacción ni hace mejora local, y por eso son de 15 a 70 veces más rápidas que N10 en los experimentos (Tabla~\ref{tab:experimentos}). Su memoria es la misma que la de una corrida: $O(S + R)$.
+
 \subsection{Verificador, métricas y solución exacta}
 
 El verificador revisa R3 con todos los pares de sesiones de cada estudiante y R8 ordenándolas por día: $O\!\left(E\,((rq)^2 + rqf) + S\right)$. Las métricas calculan la satisfacción de todos y ordenan los registros para $Q$: $O(E\,c_S + R \log R)$.

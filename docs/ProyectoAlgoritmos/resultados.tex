@@ -1,7 +1,10 @@
 % Resultados (entrega final). Se incluye desde sn-article.tex con \input{resultados}.
-% Los números de las tablas 1 y 2 se reproducen con:
-%   cd backend && python -m asignador ejecutar --nivel N        (instancia de data/)
-%   cd backend && python -m asignador exacto --casos 300 --nivel 10
+% Los números de las tablas se reproducen con (desde backend/):
+%   python -m asignador ejecutar --nivel N                    (instancia de data/)
+%   python -m asignador exacto --casos 300 --nivel 10
+%   python -m asignador referencia --tipo aleatoria --semilla 42   y   --tipo llegada
+%   python -m asignador conocidos --casos 40 --nivel N
+%   python scripts/experimentos.py                            (luego copiar su resumen.csv a datos/experimentos_resumen.csv)
 
 \subsection{Resultados por nivel}
 
@@ -55,11 +58,82 @@ N10 nunca superó al óptimo, lo que confirma la búsqueda exhaustiva, y su sali
 
 \subsection{Comparación con asignaciones de referencia y experimentos}
 
-% TODO (Andrés, pasos 11 y 12): asignación aleatoria válida y por orden de llegada (Sección 7.3),
-% y experimentos con 20, 200, 500 y 2.000 estudiantes, cupos holgados/ajustados/escasos y semillas 0 a 9.
-% Reportar mediana y rango de: materias atendidas por prioridad, principales y sustituciones,
-% satisfacción promedio y mínima, reglas incumplidas y tiempo. Borrar la nota en rojo al completar.
-\textcolor{red}{[Pendiente: comparación con la asignación aleatoria y por orden de llegada, y experimentos de la Sección~\ref{sec:datos} con 20, 200, 500 y 2.000 estudiantes.]}
+Se implementaron las dos asignaciones de comparación de la Sección~\ref{sec:datos}. Ambas usan los mismos datos y las mismas reglas que N10 (R1--R9, con sustitutas), pero ninguna considera preferencias, desempate por semestre ni mejora local:
+\begin{itemize}
+\item \textbf{Aleatoria válida:} recorre todas las solicitudes en un orden al azar y, para cada una, toma una sección elegida al azar entre las que cumplen las reglas; si ninguna cabe, prueba las sustitutas.
+\item \textbf{Por orden de llegada:} atiende a los estudiantes uno tras otro en el orden de \texttt{estudiantes.json}, como una inscripción por turnos; cada uno inscribe sus materias de mayor a menor prioridad y toma la primera sección válida.
+\end{itemize}
+A diferencia del algoritmo, el resultado de la de llegada sí cambia si se reordena el archivo, y la aleatoria depende de su semilla. En ninguna corrida de las descritas a continuación el verificador encontró violaciones.
+
+\paragraph{Instancia de 250 estudiantes.} La Tabla~\ref{tab:referencias} compara las referencias con N10 sobre los datos de la Tabla~\ref{tab:resultados-niveles} (la aleatoria con la semilla 42 de \texttt{config.json}). Los tiempos se midieron en el equipo de los experimentos (Apple M, Python 3.14), por lo que no coinciden con los de la Tabla~\ref{tab:resultados-niveles}.
+
+\begin{table}[htbp]
+\caption{Asignaciones de referencia frente a N10 en la instancia de 250 estudiantes}\label{tab:referencias}
+\footnotesize
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lrrrrlrrr@{}}
+\toprule
+Método & Cobertura & Princ. & Sust. & Pend. & $(C_5;C_4;C_3;C_2;C_1)$ & Satisf. & Mín. & Tiempo (s) \\
+\midrule
+Aleatoria & 86,9~\% & 965 & 26 & 149 & (256,8; 231,8; 236,0; 169,4; 91,8) & 0,650 & 0,388 & 0,007 \\
+Llegada & 85,6~\% & 951 & 25 & 164 & (271,8; 243,0; 223,2; 154,4; 78,6) & 0,648 & 0,314 & 0,007 \\
+N10 & 93,2~\% & 1.052 & 10 & 78 & (284,8; 264,6; 266,8; 162,2; 81,6) & 0,676 & 0,333 & 0,105 \\
+\botrule
+\end{tabular*}
+\end{table}
+
+N10 atiende 6,3 puntos más que la aleatoria y 7,6 más que la de llegada, y es mejor en $C_5$, $C_4$ y $C_3$. La aleatoria lo supera en $C_2$ y $C_1$: al no respetar prioridades, a veces gasta cupos en materias poco importantes. Según el orden de la Sección~\ref{sec:objetivo} eso no compensa, porque decide la primera posición diferente ($C_5$). La de llegada protege mejor la prioridad 5 que la aleatoria, pues cada estudiante inscribe primero lo que más necesita, pero quien llega tarde pierde sus materias aunque sean de prioridad 5: atiende 13 solicitudes de prioridad 5 menos que N10, y la aleatoria, 28 menos.
+
+\paragraph{Casos con respuesta conocida.} Con el generador de tipo 2 de la Sección~\ref{sec:datos} se construyeron 40 casos de 30 estudiantes y 10 materias. En cada uno se arman primero horarios válidos para todos (sin choques, con traslados posibles y sin pasar el tope de créditos); de ellos salen las solicitudes, y el cupo de cada sección usada es exactamente el que necesita, más secciones señuelo de un solo cupo. La asignación plantada atiende el 100~\% con principales, así que su vector $C$ es el máximo posible. El verificador la aceptó en los 40 casos. La Tabla~\ref{tab:conocidos} muestra cuánto le falta a cada nivel para alcanzarla.
+
+\begin{table}[htbp]
+\caption{Niveles frente a la respuesta conocida (40 casos de 30 estudiantes)}\label{tab:conocidos}
+\small
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lrrl@{}}
+\toprule
+Nivel & Atiende todo & Cobertura media (mín.) & Faltan en promedio, prioridad 5 a 1 \\
+\midrule
+N3 y N4 & 0 (0~\%) & 91,3~\% (85,1~\%) & (0,08; 0,53; 1,30; 3,00; 4,33) \\
+N9 & 1 (2,5~\%) & 94,2~\% (88,1~\%) & (0; 0,13; 0,68; 2,10; 3,33) \\
+N10 & 8 (20~\%) & 98,7~\% (95,5~\%) & (0; 0; 0,23; 0,35; 0,83) \\
+\botrule
+\end{tabular*}
+\end{table}
+
+N3 y N4 coinciden porque estos casos no tienen sustitutas. N10 nunca dejó sin atender una solicitud de prioridad 5 ni 4, y lo que pierde son sobre todo materias de prioridad 1 y 2. Con cupos tan justos, un solo estudiante en una sección equivocada deja a otro sin lugar, y deshacerlo puede exigir las cadenas de cambios descritas en la Sección~\ref{sec:limitaciones}. Estos casos complementan la comparación exacta: sirven para instancias medianas, donde la búsqueda exhaustiva ya no es viable, pero solo dan una cota de $C$, no de la satisfacción.
+
+\paragraph{Experimentos.} Se generaron instancias de 20, 200, 500 y 2.000 estudiantes, con cupos holgados, ajustados y escasos y las semillas 0 a 9 (120 instancias). Las secciones crecen con los estudiantes (96 por cada 250, al menos una por materia). En cada instancia se ejecutaron la aleatoria (con la misma semilla), la de llegada, N4 y N10. La Tabla~\ref{tab:experimentos} resume la mediana entre semillas; el rango completo de cada medida está en \texttt{datos/experimentos\_resumen.csv}. Ninguna de las 480 corridas violó una regla.
+
+\begin{table}[htbp]
+\caption{Experimentos: mediana entre 10 semillas (aleatoria / llegada / N10)}\label{tab:experimentos}
+\footnotesize
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}rlccccr@{}}
+\toprule
+Est. & Cupos & Cobertura (\%) & $C_5$ & Satisf. & Satisf. mín. & Tiempo N10 (s) \\
+\midrule
+20 & los tres$^{*}$ & 83,2 / 83,1 / 83,1 & 19,7 / 20,8 / 20,8 & 0,63 / 0,64 / 0,64 & 0,39 / 0,38 / 0,38 & 0,001 \\
+200 & holgados & 89,8 / 88,4 / 93,1 & 195,6 / 212,9 / 215,8 & 0,64 / 0,64 / 0,68 & 0,30 / 0,32 / 0,36 & 0,12 \\
+200 & ajustados & 87,2 / 86,0 / 91,9 & 189,4 / 209,7 / 215,8 & 0,64 / 0,64 / 0,66 & 0,30 / 0,32 / 0,32 & 0,06 \\
+200 & escasos & 70,6 / 71,3 / 71,6 & 156,8 / 173,7 / 215,8 & 0,64 / 0,62 / 0,66 & 0,08 / 0,00 / 0,18 & 0,03 \\
+500 & holgados & 97,9 / 96,6 / 99,1 & 561,9 / 569,0 / 572,9 & 0,63 / 0,63 / 0,74 & 0,27 / 0,29 / 0,42 & 0,93 \\
+500 & ajustados & 94,8 / 93,9 / 98,8 & 542,0 / 562,9 / 572,9 & 0,63 / 0,63 / 0,69 & 0,28 / 0,28 / 0,32 & 0,37 \\
+500 & escasos & 70,9 / 70,9 / 70,9 & 398,9 / 419,1 / 572,9 & 0,64 / 0,59 / 0,69 & 0,00 / 0,00 / 0,00 & 0,21 \\
+2.000 & holgados & 99,6 / 99,5 / 99,6 & 2.239,5 / 2.249,5 / 2.249,5 & 0,63 / 0,63 / 0,76 & 0,25 / 0,22 / 0,38 & 5,12 \\
+2.000 & ajustados & 98,6 / 98,3 / 99,6 & 2.214,2 / 2.237,8 / 2.249,5 & 0,63 / 0,63 / 0,73 & 0,25 / 0,24 / 0,33 & 5,14 \\
+2.000 & escasos & 70,2 / 70,2 / 70,2 & 1.573,9 / 1.593,6 / 2.249,5 & 0,63 / 0,55 / 0,73 & 0,00 / 0,00 / 0,00 & 4,18 \\
+\botrule
+\end{tabular*}
+\footnotesize{$^{*}$Con 20 estudiantes cada materia tiene una sola sección con al menos 5 cupos, así que la escasez casi no cambia los datos; se muestran los cupos ajustados.}
+\end{table}
+
+Se observan tres comportamientos:
+\begin{itemize}
+\item \textbf{Cupos escasos:} los tres métodos atienden la misma cantidad de solicitudes, porque los cupos se llenan igual. La diferencia está en \emph{a quién} se le dan: con 2.000 estudiantes, N10 atiende 2.249,5 de prioridad 5 y las referencias unas 1.580, es decir, un 42~\% más. Es exactamente lo que pide el orden de la Sección~\ref{sec:objetivo}.
+\item \textbf{Cupos holgados y ajustados:} N10 atiende más que las referencias desde 200 estudiantes (hasta 5 puntos más) y tiene la mayor satisfacción promedio y mínima. Con 2.000 estudiantes y cupos holgados casi todo cabe y la cobertura se iguala, pero la satisfacción de N10 sigue siendo 0,13 mayor.
+\item \textbf{Variación entre semillas:} es pequeña. La cobertura de N10 varía a lo sumo 6 puntos entre semillas con 200 estudiantes y alrededor de 1 punto con 500 o más. Con 20 estudiantes varía hasta 16 puntos, porque cada solicitud pesa mucho.
+\end{itemize}
+El costo es el tiempo: las referencias tardan menos de 0,3~s con 2.000 estudiantes y N10 unos 5~s, casi todo en la mejora local (Sección~\ref{sec:complejidad}). En la satisfacción mínima, un 0 indica que algún estudiante que declaró preferencias no obtuvo ninguna materia.
+
+Los datos se reproducen con \texttt{python scripts/experimentos.py} y \texttt{python -m asignador conocidos --casos 40 --nivel 10}, desde \texttt{backend/}.
 
 \subsection{Limitaciones}\label{sec:limitaciones}
 
