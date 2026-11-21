@@ -6,6 +6,7 @@ import { PaginaDatos } from "./paginas/Datos";
 import { PaginaEjecutar } from "./paginas/Ejecutar";
 import { PaginaEstudiantes } from "./paginas/Estudiantes";
 import { PaginaHorario } from "./paginas/Horario";
+import { PaginaPreferencias } from "./paginas/Preferencias";
 import { PaginaResultados } from "./paginas/Resultados";
 
 export function App() {
@@ -19,6 +20,7 @@ export function App() {
           <Route path="/" element={<Navigate to="/datos" replace />} />
           <Route path="/datos" element={<PaginaDatos />} />
           <Route path="/estudiantes" element={<PaginaEstudiantes />} />
+          <Route path="/estudiantes/:estudianteId/preferencias" element={<PaginaPreferencias />} />
           <Route path="/ejecutar" element={<PaginaEjecutar />} />
           <Route path="/resultados" element={<PaginaResultados />} />
           <Route path="/resultados/:estudianteId" element={<PaginaHorario />} />

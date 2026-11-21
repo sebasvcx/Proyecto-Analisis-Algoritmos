@@ -53,6 +53,7 @@ export function PaginaEstudiantes() {
             {estudiantes.length} estudiantes en <code>estudiantes.json</code>
           </p>
         </div>
+        <div className="grupo-botones">
         <input
           className="entrada"
           style={{ maxWidth: 280 }}
@@ -64,6 +65,10 @@ export function PaginaEstudiantes() {
             setPagina(0);
           }}
         />
+        <Link className="boton boton--primario" to="/estudiantes/nuevo/preferencias">
+          + Nuevo estudiante
+        </Link>
+        </div>
       </div>
 
       <div className="tabla-contenedor">
@@ -104,9 +109,9 @@ export function PaginaEstudiantes() {
                   <td>{trabaja(e) ? "Sí" : "No"}</td>
                   <td>
                     <div className="grupo-botones" style={{ justifyContent: "flex-end" }}>
-                      <button className="boton boton--chico" onClick={() => seleccionarEstudiante(e.id)} disabled={e.id === estudianteActivo?.id}>
-                        {e.id === estudianteActivo?.id ? "Seleccionado" : "Seleccionar"}
-                      </button>
+                      <Link className="boton boton--chico boton--primario" to={`/estudiantes/${e.id}/preferencias`}>
+                        Editar preferencias
+                      </Link>
                       {corridaActiva && (
                         <Link className="boton boton--chico" to={`/resultados/${e.id}`} onClick={() => seleccionarEstudiante(e.id)}>
                           Ver horario

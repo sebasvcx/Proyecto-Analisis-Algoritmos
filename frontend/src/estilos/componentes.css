@@ -492,7 +492,7 @@
 
 .indicadores {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
   margin-bottom: 20px;
 }
@@ -527,7 +527,7 @@
 }
 .barra-dato {
   display: grid;
-  grid-template-columns: 110px 1fr 76px;
+  grid-template-columns: 136px 1fr 100px;
   gap: 12px;
   align-items: center;
   font-size: 0.9rem;
@@ -590,4 +590,249 @@
   border-radius: var(--radio);
   padding: 10px 14px;
   font-size: 0.9rem;
+}
+
+/* ---------------------------------------------------------------- formularios de preferencias */
+
+.entrada--compacta {
+  width: auto;
+  padding: 3px 8px;
+  font-size: 0.85rem;
+}
+.chip--quitable {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+}
+.chip--quitable:hover {
+  background: var(--rojo-100);
+  color: var(--rojo-700);
+}
+.fila-acciones {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.subtitulo-seccion {
+  margin-bottom: 8px;
+  color: var(--gris-700);
+}
+.lista-opiniones {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lista-opiniones li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  background: white;
+  border: 1px solid var(--gris-200);
+  border-radius: var(--radio);
+  padding: 6px 10px;
+}
+.lista-opiniones__nombre {
+  flex: 1;
+  min-width: 140px;
+}
+.casilla {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.lista-importancia {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lista-importancia__fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ---------------------------------------------------------------- semana editable */
+
+.semana-editable {
+  display: grid;
+  grid-template-columns: 44px repeat(6, minmax(0, 1fr));
+  gap: 2px;
+  user-select: none;
+  touch-action: none;
+}
+.semana-editable__fila {
+  display: contents;
+}
+.semana-editable__dia {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding-bottom: 4px;
+}
+.semana-editable__hora {
+  font-size: 0.72rem;
+  color: var(--gris-500);
+  text-align: right;
+  padding-right: 6px;
+  line-height: 22px;
+  font-variant-numeric: tabular-nums;
+}
+.celda {
+  height: 22px;
+  border: 1px solid var(--gris-200);
+  border-radius: 4px;
+  background: white;
+  cursor: crosshair;
+  padding: 0;
+}
+.celda:hover {
+  border-color: var(--azul-500);
+}
+.celda--obligatoria {
+  background: repeating-linear-gradient(135deg, var(--gris-300) 0 4px, var(--gris-100) 4px 8px);
+  border-color: var(--gris-300);
+}
+.celda--deseable {
+  background: var(--ambar-100);
+  border-color: #e9c98b;
+}
+.celda--preferida {
+  background: var(--verde-100);
+  border-color: #a9d8bb;
+}
+.celda--evitada {
+  background: var(--rojo-100);
+  border-color: #eab4ad;
+}
+/* La leyenda reutiliza los colores de las celdas; se repiten con más especificidad que `.leyenda i` */
+.leyenda i.celda--obligatoria,
+.leyenda i.celda--deseable,
+.leyenda i.celda--preferida,
+.leyenda i.celda--evitada {
+  border: 1px solid var(--gris-300);
+}
+.leyenda i.celda--obligatoria {
+  background: repeating-linear-gradient(135deg, var(--gris-300) 0 3px, var(--gris-100) 3px 6px);
+}
+.leyenda i.celda--deseable {
+  background: var(--ambar-100);
+  border-color: #e9c98b;
+}
+.leyenda i.celda--preferida {
+  background: var(--verde-100);
+  border-color: #a9d8bb;
+}
+.leyenda i.celda--evitada {
+  background: var(--rojo-100);
+  border-color: #eab4ad;
+}
+
+/* ---------------------------------------------------------------- comparación entre niveles */
+
+.columnas {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  align-items: end;
+  gap: 6px;
+  height: 200px;
+  padding-top: 18px;
+  border-bottom: 1px solid var(--gris-300);
+}
+.columna {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 4px;
+}
+.columna__barra {
+  width: 100%;
+  max-width: 34px;
+  background: var(--azul-700);
+  border-radius: 4px 4px 0 0;
+  min-height: 2px;
+}
+.columna__barra--referencia {
+  background: var(--gris-300);
+}
+.columna__barra--elegida {
+  background: var(--naranja-600);
+}
+.columna__valor {
+  font-size: 0.7rem;
+  color: var(--gris-700);
+  font-variant-numeric: tabular-nums;
+}
+.columnas__etiquetas {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 0.72rem;
+  text-align: center;
+  color: var(--gris-700);
+}
+
+.casilla--destacada {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: white;
+  border: 1px solid var(--gris-200);
+  border-radius: var(--radio);
+  align-items: flex-start;
+  width: 100%;
+}
+.casilla--destacada input {
+  margin-top: 3px;
+}
+
+.boton--icono {
+  padding: 2px 9px;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+.solicitudes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.solicitud {
+  background: white;
+  border: 1px solid var(--gris-200);
+  border-radius: var(--radio);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.solicitud__fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.solicitud__fila > select.entrada {
+  flex: 1;
+}
+.solicitud__sustitutas {
+  align-items: center;
+  margin-left: auto;
 }
