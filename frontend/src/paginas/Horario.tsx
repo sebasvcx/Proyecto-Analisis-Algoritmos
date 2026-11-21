@@ -3,11 +3,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { api } from "../api/cliente";
 import type { Dia, Estudiante, Materia, Profesor, ResultadoEstudiante, Seccion } from "../api/tipos";
 import { GrillaSemanal, type BloqueHorario } from "../componentes/GrillaSemanal";
+import { SatisfaccionPorCriterio } from "../componentes/resultados/SatisfaccionPorCriterio";
 import { EstadoVacio, Tarjeta } from "../componentes/Tarjeta";
 import { useApp } from "../estado/ContextoApp";
 import { useCorridaActual } from "../estado/useCorrida";
 import { useRecurso } from "../estado/useRecurso";
-import { DIAS, fechaCorta } from "../utilidades/formato";
+import { DIAS, fechaCorta, nombreCorrida, porcentaje } from "../utilidades/formato";
 
 interface EntradaCorrida {
   secciones: Map<string, Seccion>;
@@ -91,7 +92,12 @@ export function PaginaHorario() {
         <div>
           <h1>Horario de {estudiante?.nombre ?? resultado.id}</h1>
           <p className="pagina__subtitulo">
-            Nivel {salida.corrida.nivel} · corrida del {fechaCorta(salida.corrida.fecha)} · {resultado.creditos} /{" "}
+            {nombreCorrida({
+              nivel: salida.corrida.nivel,
+              referencia: salida.corrida.referencia ?? null,
+              desempate_semestre: salida.corrida.configuracion.desempate_semestre ?? false,
+            })}{" "}
+            · corrida del {fechaCorta(salida.corrida.fecha)} · {resultado.creditos} /{" "}
             {salida.corrida.configuracion.max_creditos ?? 20} créditos
           </p>
         </div>
@@ -102,6 +108,9 @@ export function PaginaHorario() {
           <button className="boton" disabled={posicion >= salida.estudiantes.length - 1} onClick={() => ir(1)}>
             Siguiente ›
           </button>
+          <Link className="boton" to={`/estudiantes/${resultado.id}/preferencias`}>
+            Editar preferencias
+          </Link>
           <Link className="boton" to="/resultados">
             ← Volver a Resultados
           </Link>
@@ -112,6 +121,7 @@ export function PaginaHorario() {
         <Semana resultado={resultado} estudiante={estudiante} entrada={entrada.datos} />
         <div className="pila">
           <Avisos resultado={resultado} materias={entrada.datos.materias} />
+          <MiSatisfaccion resultado={resultado} />
           <Solicitudes resultado={resultado} materias={entrada.datos.materias} />
         </div>
       </div>
@@ -154,6 +164,17 @@ function Semana({ resultado, estudiante, entrada }: { resultado: ResultadoEstudi
   return <GrillaSemanal bloques={bloques} />;
 }
 
+function MiSatisfaccion({ resultado }: { resultado: ResultadoEstudiante }) {
+  const s = resultado.satisfaccion;
+  if (!s) return null;
+  return (
+    <Tarjeta titulo={`Mi satisfacción: ${s.evaluable ? porcentaje(s.total) : "sin datos"}`} paso={2}>
+      <SatisfaccionPorCriterio criterios={s.criterios} />
+      {!s.evaluable && <p className="nivel__marca" style={{ marginTop: 8 }}>No declaró preferencias evaluables con importancia mayor que cero.</p>}
+    </Tarjeta>
+  );
+}
+
 function Avisos({ resultado, materias }: { resultado: ResultadoEstudiante; materias: Map<string, Materia> }) {
   return (
     <Tarjeta titulo="Avisos" paso={1}>
@@ -184,7 +205,7 @@ const CLASE_ESTADO = { principal: "estado--ok", sustituida: "estado--aviso", no_
 
 function Solicitudes({ resultado, materias }: { resultado: ResultadoEstudiante; materias: Map<string, Materia> }) {
   return (
-    <Tarjeta titulo="Materias solicitadas" paso={2}>
+    <Tarjeta titulo="Materias solicitadas" paso={3}>
       {resultado.solicitudes.length === 0 ? (
         <p className="pagina__subtitulo">El estudiante no pidió materias.</p>
       ) : (
@@ -208,6 +229,12 @@ function Solicitudes({ resultado, materias }: { resultado: ResultadoEstudiante; 
                 <td className="numero">{s.prioridad}</td>
                 <td>
                   <span className={`estado ${CLASE_ESTADO[s.estado]}`}>{TEXTO_ESTADO[s.estado]}</span>
+                  {s.seccion && (
+                    <div className="nivel__marca">
+                      {s.estado === "sustituida" ? `por ${s.materia_inscrita} · ` : ""}
+                      {s.seccion}
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}

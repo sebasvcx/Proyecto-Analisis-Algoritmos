@@ -1,10 +1,12 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import type { ResultadoEstudiante, Salida } from "../api/tipos";
+import { ComparacionNiveles } from "../componentes/resultados/ComparacionNiveles";
+import { SatisfaccionPorCriterio } from "../componentes/resultados/SatisfaccionPorCriterio";
 import { EstadoVacio, Tarjeta } from "../componentes/Tarjeta";
 import { useApp } from "../estado/ContextoApp";
 import { useCorridaActual } from "../estado/useCorrida";
-import { fechaCorta, numero, porcentaje } from "../utilidades/formato";
+import { fechaCorta, nombreCorrida, numero, porcentaje } from "../utilidades/formato";
 
 export function PaginaResultados() {
   const corrida = useCorridaActual();
@@ -28,20 +30,23 @@ export function PaginaResultados() {
   }
 
   const { corrida: c, resumen } = salida;
+  const semestre = c.configuracion.desempate_semestre ?? false;
+  const etiqueta = nombreCorrida({ nivel: c.nivel, referencia: c.referencia ?? null, desempate_semestre: semestre });
+  const metodoActual = c.referencia ?? `N${c.nivel}`;
   return (
     <main className="pagina">
       <div className="pagina__encabezado">
         <div>
           <h1>Resultados de la corrida</h1>
           <p className="pagina__subtitulo">
-            Nivel {c.nivel} ({c.nombre_nivel}) · {c.estudiantes} estudiantes · {c.secciones} secciones · {fechaCorta(c.fecha)}
+            {etiqueta} ({c.nombre_nivel}) · {c.estudiantes} estudiantes · {c.secciones} secciones · {fechaCorta(c.fecha)}
           </p>
         </div>
         <div className="grupo-botones">
           <select className="entrada" style={{ width: "auto" }} value={c.id} onChange={(e) => seleccionarCorrida(e.target.value)}>
             {corrida.corridas.map((x) => (
               <option key={x.id} value={x.id}>
-                N{x.nivel} · {fechaCorta(x.fecha)}
+                {nombreCorrida(x)} · {fechaCorta(x.fecha)}
               </option>
             ))}
           </select>
@@ -60,13 +65,24 @@ export function PaginaResultados() {
           etiqueta="Reglas violadas (verificador)"
           tono={salida.verificacion.total ? "mal" : "bien"}
         />
+        <Indicador valor={porcentaje(resumen.satisfaccion.promedio)} etiqueta="Satisfacción promedio" />
+        <Indicador valor={porcentaje(resumen.satisfaccion.minimo)} etiqueta="Satisfacción del peor atendido" />
         <Indicador valor={`${numero(c.tiempo_algoritmo_s * 1000)} ms`} etiqueta="Tiempo del algoritmo" />
       </div>
+
+      {c.mejora && (
+        <p className="mensaje mensaje--info" style={{ marginBottom: 20 }}>
+          Mejora global (N10): {c.mejora.cambios_aceptados} cambios aceptados de {c.mejora.cambios_examinados} examinados en {c.mejora.pasadas}{" "}
+          {c.mejora.pasadas === 1 ? "pasada" : "pasadas"}
+          {c.mejora.limite_alcanzado && " · se alcanzó el límite de cambios examinados (max_cambios en config.json)"}.
+          {semestre && " Desempate por semestre activo."}
+        </p>
+      )}
 
       <div className="rejilla rejilla--principal">
         <PeorAtendidos salida={salida} />
         <div className="pila">
-          <Tarjeta titulo="Atención por prioridad" paso={1} descripcion="Se compara primero la prioridad 5; solo si empata se pasa a la 4, y así hasta 1.">
+          <Tarjeta titulo="Atención por prioridad" paso={2} descripcion="Se compara primero la prioridad 5; solo si empata se pasa a la 4, y así hasta 1.">
             <div className="barras">
               {resumen.por_prioridad.map((p) => (
                 <div key={p.prioridad} className="barra-dato">
@@ -81,8 +97,22 @@ export function PaginaResultados() {
               ))}
             </div>
           </Tarjeta>
+          <Tarjeta
+            titulo="Satisfacción por criterio"
+            paso={3}
+            descripcion={`Promedio entre los ${resumen.satisfaccion.estudiantes_evaluables} estudiantes con algún criterio evaluable. Se compara después de las materias atendidas.`}
+          >
+            <SatisfaccionPorCriterio
+              criterios={Object.fromEntries(
+                Object.entries(resumen.satisfaccion.por_criterio).map(([k, v]) => [k, { valor: v, evaluable: v !== null }]),
+              ) as Parameters<typeof SatisfaccionPorCriterio>[0]["criterios"]}
+            />
+          </Tarjeta>
           <Verificacion salida={salida} />
         </div>
+      </div>
+      <div style={{ marginTop: 20 }}>
+        <ComparacionNiveles actual={metodoActual} />
       </div>
     </main>
   );
@@ -100,7 +130,7 @@ function Indicador({ valor, etiqueta, tono }: { valor: string; etiqueta: string;
 function Verificacion({ salida }: { salida: Salida }) {
   const cubiertas = new Set(salida.corrida.reglas_del_nivel);
   return (
-    <Tarjeta titulo="Verificación de reglas" paso={2} descripcion="Un verificador separado recalcula las reglas sobre la salida guardada.">
+    <Tarjeta titulo="Verificación de reglas" paso={4} descripcion="Un verificador separado recalcula las reglas sobre la salida guardada.">
       <div className="barras">
         {Object.entries(salida.verificacion.por_regla).map(([regla, total]) => (
           <div key={regla} className="barra-dato" style={{ gridTemplateColumns: "48px 1fr auto" }}>
@@ -138,7 +168,7 @@ function PeorAtendidos({ salida }: { salida: Salida }) {
   );
 
   return (
-    <Tarjeta titulo="Estudiantes peor atendidos" paso={3} descripcion="Ordenados por la suma de prioridades de sus materias pendientes." blanca>
+    <Tarjeta titulo="Estudiantes peor atendidos" paso={1} descripcion="Ordenados por la suma de prioridades de sus materias pendientes." blanca>
       <div className="tabla-contenedor">
         <table className="tabla">
           <thead>
@@ -146,6 +176,7 @@ function PeorAtendidos({ salida }: { salida: Salida }) {
               <th>Estudiante</th>
               <th className="numero">Inscritas</th>
               <th className="numero">Créditos</th>
+              <th className="numero">Satisf.</th>
               <th className="numero">Avisos</th>
               <th />
             </tr>
@@ -162,6 +193,7 @@ function PeorAtendidos({ salida }: { salida: Salida }) {
                     {inscritas} / {e.solicitudes.length}
                   </td>
                   <td className="numero">{e.creditos}</td>
+                  <td className="numero">{e.satisfaccion?.evaluable ? porcentaje(e.satisfaccion.total) : "—"}</td>
                   <td className="numero" style={{ color: e.avisos.length ? "var(--rojo-700)" : undefined }}>
                     {e.avisos.length}
                   </td>
