@@ -50,39 +50,4 @@ La Figura~\ref{fig:ui-flujo} resume el recorrido completo y las Figuras~\ref{fig
 \caption{Ejemplo de consulta del horario, sustituciones y avisos. Los valores mostrados son ilustrativos.}\label{fig:ui-horario}
 \end{figure}
 
-\subsection{Aplicación implementada}
-
-La aplicación sigue el recorrido y el aspecto de los diseños anteriores. Es una aplicación React con TypeScript que habla con el servidor FastAPI; toda la información sigue en los JSON de \texttt{data/}. Respecto al diseño, se hicieron los ajustes anunciados y algunos más:
-\begin{itemize}
-\item \textbf{Datos.} La carga incluye \texttt{traslados.json}. Antes de importar o generar datos se guarda una copia en \texttt{data/.respaldos/}. Si el servidor no responde, la aplicación lo indica y se reconecta sola.
-\item \textbf{Preferencias} (Figura~\ref{fig:app-preferencias}). Cada estudiante tiene su página, desde la que también se crean estudiantes nuevos. Las materias se eligen de la oferta; la interfaz no ofrece como sustituta una materia ya pedida ni repetida. Las franjas se marcan pintando una semana por horas con cuatro tipos: no disponible (R6), libre deseable, preferida y a evitar; al guardar se agrupan en franjas y, si se repiten los seis días, se escriben con el día \texttt{*}. La afinidad con profesores va de $-2$ a $+2$ y el veto (R7) es una casilla aparte. \emph{Guardar} envía el estudiante al servidor, que lo valida con las mismas reglas de carga de la Sección~\ref{sec:formal}: si hay errores no escribe nada y los devuelve con su campo (por ejemplo, \texttt{materias[0].prioridad}) para mostrarlos junto a la parte del formulario que corresponde. \emph{Cancelar} descarta los cambios.
-\item \textbf{Ejecutar} (Figura~\ref{fig:app-ejecutar}). Al elegir N10 aparece la casilla de desempate por semestre; su valor inicial viene de \texttt{config.json} y cambiarla solo afecta esa corrida. También se pueden ejecutar las dos asignaciones de referencia de la Sección~\ref{sec:resultados}.
-\item \textbf{Resultados} (Figura~\ref{fig:app-resultados}). Se separaron las materias atendidas (cobertura, indicador académico y atención por prioridad) de la satisfacción de preferencias (promedio, mínimo y valor por criterio), como se había previsto. Se muestran el resultado del verificador por regla y, en N10, los cambios aceptados por la mejora local. La comparación entre niveles ejecuta las referencias y N1--N10 sobre los mismos datos, sin guardar, y los presenta en una gráfica y una tabla con $C_5$--$C_1$. La salida se descarga en JSON.
-\item \textbf{Horario} (Figura~\ref{fig:app-horario}). Las sustitutas se distinguen por color y la tabla de solicitudes indica qué materia y sección reemplazó a la principal. Los avisos muestran la causa principal, la sugerencia y las demás causas. Se agregó la satisfacción del estudiante por criterio, con su importancia.
-\end{itemize}
-
-Las capturas corresponden a la instancia de 250 estudiantes con N10. El recorrido completo (ejecutar, comparar, consultar el horario, editar y guardar preferencias, y rechazar un estudiante inválido) se probó en un navegador automatizado sin errores de la aplicación.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.85\textwidth]{figuras/app_preferencias.png}
-\caption{Aplicación: preferencias de un estudiante (materias y sustitutas, semana por horas, profesores y compañeros, importancia).}\label{fig:app-preferencias}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.85\textwidth]{figuras/app_ejecutar.png}
-\caption{Aplicación: elección del nivel, casilla de desempate por semestre en N10 y asignaciones de comparación.}\label{fig:app-ejecutar}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.7\textwidth]{figuras/app_resultados.png}
-\caption{Aplicación: resultados de N10, satisfacción por criterio, verificación de reglas y comparación entre niveles.}\label{fig:app-resultados}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{figuras/app_horario.png}
-\caption{Aplicación: horario de un estudiante con una sustitución, su aviso y su satisfacción por criterio.}\label{fig:app-horario}
-\end{figure}
+Al implementar se ajustarán las etiquetas para separar materias atendidas y satisfacción de preferencias, y se añadirá el archivo de traslados a la carga de datos.
