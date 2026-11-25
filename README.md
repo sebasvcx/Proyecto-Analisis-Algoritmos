@@ -1,7 +1,11 @@
 # Asignación de horarios estudiantiles
 
 Proyecto de Análisis de Algoritmos 2026-30 (Pontificia Universidad Javeriana).
-El diseño, la formalización y la estrategia de datos están en `docs/ProyectoAlgoritmos/sn-article.tex`;
+El informe está en `docs/ProyectoAlgoritmos/sn-article.tex` (PDF: `docs/ProyectoAlgoritmos_Final.pdf`):
+secciones 1–9 de la primera entrega y la sección nueva "Algoritmo implementado" (`algoritmo-implementado.tex`).
+
+**Resumen del algoritmo, guía de la sustentación y solución de errores: [`docs/GUIA.md`](docs/GUIA.md).**
+Caso de demostración: [`data/ejemplos/demo/`](data/ejemplos/demo/LEEME.md).
 
 ## Estructura
 
