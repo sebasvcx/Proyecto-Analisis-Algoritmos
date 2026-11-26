@@ -1,0 +1,150 @@
+[
+  {
+    "id": "e01",
+    "nombre": "Ana Cupo",
+    "semestre": 2,
+    "materias": [
+      {
+        "codigo": "CUP",
+        "prioridad": 5
+      }
+    ]
+  },
+  {
+    "id": "e02",
+    "nombre": "Beto Cupo",
+    "semestre": 9,
+    "materias": [
+      {
+        "codigo": "CUP",
+        "prioridad": 5
+      }
+    ]
+  },
+  {
+    "id": "e03",
+    "nombre": "Carlos Choque",
+    "semestre": 4,
+    "materias": [
+      {
+        "codigo": "CH1",
+        "prioridad": 5
+      },
+      {
+        "codigo": "CH2",
+        "prioridad": 4
+      }
+    ]
+  },
+  {
+    "id": "e04",
+    "nombre": "Diana Créditos",
+    "semestre": 4,
+    "materias": [
+      {
+        "codigo": "CR1",
+        "prioridad": 5
+      },
+      {
+        "codigo": "CR2",
+        "prioridad": 4
+      },
+      {
+        "codigo": "CR3",
+        "prioridad": 3
+      }
+    ]
+  },
+  {
+    "id": "e05",
+    "nombre": "Ernesto Trabaja",
+    "semestre": 4,
+    "materias": [
+      {
+        "codigo": "TRB",
+        "prioridad": 5
+      }
+    ],
+    "franjas_libres": [
+      {
+        "dia": "X",
+        "inicio": "07:00",
+        "fin": "12:00",
+        "tipo": "obligatoria"
+      }
+    ]
+  },
+  {
+    "id": "e06",
+    "nombre": "Flor Veto",
+    "semestre": 4,
+    "materias": [
+      {
+        "codigo": "VET",
+        "prioridad": 5,
+        "sustitutas": [
+          "ALT"
+        ]
+      }
+    ],
+    "profesores": [
+      {
+        "id": "P9",
+        "veto": true
+      }
+    ]
+  },
+  {
+    "id": "e07",
+    "nombre": "Gustavo Traslado",
+    "semestre": 4,
+    "materias": [
+      {
+        "codigo": "TR1",
+        "prioridad": 5
+      },
+      {
+        "codigo": "TR2",
+        "prioridad": 4
+      }
+    ]
+  },
+  {
+    "id": "e08",
+    "nombre": "Helena Sin",
+    "semestre": 4,
+    "materias": [
+      {
+        "codigo": "SIN",
+        "prioridad": 5
+      }
+    ]
+  },
+  {
+    "id": "e09",
+    "nombre": "Iván Repetida",
+    "semestre": 4,
+    "materias": [
+      {
+        "codigo": "RE1",
+        "prioridad": 5,
+        "sustitutas": [
+          "COM"
+        ]
+      },
+      {
+        "codigo": "RE2",
+        "prioridad": 4,
+        "sustitutas": [
+          "COM"
+        ]
+      }
+    ],
+    "profesores": [
+      {
+        "id": "P9",
+        "veto": true
+      }
+    ]
+  }
+]

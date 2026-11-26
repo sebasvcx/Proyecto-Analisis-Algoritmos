@@ -1,0 +1,56 @@
+[
+  {
+    "codigo": "HIS",
+    "nombre": "Historia",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "LIT",
+    "nombre": "Literatura",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "ALG",
+    "nombre": "Álgebra",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "FIS",
+    "nombre": "Física",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "MAT",
+    "nombre": "Matemáticas",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "QUI",
+    "nombre": "Química",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "ECO",
+    "nombre": "Economía",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "BIO",
+    "nombre": "Biología",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "ART",
+    "nombre": "Arte",
+    "creditos": 3,
+    "semestre": 1
+  }
+]

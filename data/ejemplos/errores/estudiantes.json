@@ -1,0 +1,133 @@
+[
+  {
+    "id": "e01",
+    "nombre": "Ana Torres",
+    "semestre": 2,
+    "materias": [
+      {
+        "codigo": "CAL",
+        "prioridad": 5
+      },
+      {
+        "codigo": "PRG",
+        "prioridad": 7,
+        "sustitutas": [
+          "ETI"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "e02",
+    "nombre": "Bruno Gil",
+    "semestre": 8,
+    "materias": [
+      {
+        "codigo": "CAL",
+        "prioridad": 5
+      }
+    ],
+    "franjas_libres": [
+      {
+        "dia": "M",
+        "inicio": "07:00",
+        "fin": "11:00",
+        "tipo": "obligatoria"
+      },
+      {
+        "dia": "J",
+        "inicio": "07:00",
+        "fin": "11:00",
+        "tipo": "obligatoria"
+      }
+    ]
+  },
+  {
+    "id": "e03",
+    "nombre": "Carla Pérez",
+    "semestre": 4,
+    "materias": [
+      {
+        "codigo": "PRG",
+        "prioridad": 5
+      }
+    ]
+  },
+  {
+    "id": "e04",
+    "nombre": "Diego Ríos",
+    "semestre": 12,
+    "materias": [
+      {
+        "codigo": "ALG",
+        "prioridad": 5
+      },
+      {
+        "codigo": "FIS",
+        "prioridad": 4
+      }
+    ]
+  },
+  {
+    "id": "e05",
+    "nombre": "Elena Cruz",
+    "semestre": 3,
+    "materias": [
+      {
+        "codigo": "FIS",
+        "prioridad": 3
+      }
+    ],
+    "profesores": [
+      {
+        "id": "P6",
+        "afinidad": 2
+      }
+    ],
+    "social": [
+      {
+        "estudiante": "e04",
+        "afinidad": 2
+      }
+    ]
+  },
+  {
+    "id": "e06",
+    "nombre": "Felipe Mena",
+    "semestre": 6,
+    "materias": [
+      {
+        "codigo": "FIS",
+        "prioridad": 4
+      }
+    ],
+    "profesores": [
+      {
+        "id": "P3",
+        "veto": true
+      }
+    ]
+  },
+  {
+    "id": "e07",
+    "nombre": "Gina Salas",
+    "semestre": 1,
+    "materias": [
+      {
+        "codigo": "BD",
+        "prioridad": 5
+      }
+    ]
+  },
+  {
+    "id": "e07",
+    "nombre": "Hugo Paz",
+    "semestre": 9,
+    "materias": [
+      {
+        "codigo": "BD",
+        "prioridad": 5
+      }
+    ]
+  }
+]

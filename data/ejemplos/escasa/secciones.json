@@ -1,0 +1,2009 @@
+[
+  {
+    "id": "CAL1-01",
+    "materia": "CAL1",
+    "profesor": "p13",
+    "cupo": 14,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "D",
+        "salon": "D-112"
+      },
+      {
+        "dia": "V",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "D",
+        "salon": "D-112"
+      }
+    ]
+  },
+  {
+    "id": "ALG-01",
+    "materia": "ALG",
+    "profesor": "p13",
+    "cupo": 14,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "F",
+        "salon": "F-212"
+      },
+      {
+        "dia": "J",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "F",
+        "salon": "F-212"
+      }
+    ]
+  },
+  {
+    "id": "PRG1-01",
+    "materia": "PRG1",
+    "profesor": "p24",
+    "cupo": 12,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "A",
+        "salon": "A-104"
+      },
+      {
+        "dia": "J",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "A",
+        "salon": "A-104"
+      }
+    ]
+  },
+  {
+    "id": "PEN-01",
+    "materia": "PEN",
+    "profesor": "p28",
+    "cupo": 14,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "F",
+        "salon": "F-208"
+      }
+    ]
+  },
+  {
+    "id": "CAL2-01",
+    "materia": "CAL2",
+    "profesor": "p13",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "G",
+        "salon": "G-108"
+      },
+      {
+        "dia": "S",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "G",
+        "salon": "G-108"
+      }
+    ]
+  },
+  {
+    "id": "CAL2-02",
+    "materia": "CAL2",
+    "profesor": "p17",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "A",
+        "salon": "A-110"
+      },
+      {
+        "dia": "J",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "A",
+        "salon": "A-110"
+      }
+    ]
+  },
+  {
+    "id": "FIS1-01",
+    "materia": "FIS1",
+    "profesor": "p07",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "E",
+        "salon": "E-110"
+      },
+      {
+        "dia": "V",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "E",
+        "salon": "E-110"
+      }
+    ]
+  },
+  {
+    "id": "FIS1-02",
+    "materia": "FIS1",
+    "profesor": "p07",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "C",
+        "salon": "C-209"
+      },
+      {
+        "dia": "V",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "C",
+        "salon": "C-209"
+      }
+    ]
+  },
+  {
+    "id": "FIS1-03",
+    "materia": "FIS1",
+    "profesor": "p08",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "G",
+        "salon": "G-305"
+      },
+      {
+        "dia": "J",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "G",
+        "salon": "G-305"
+      }
+    ]
+  },
+  {
+    "id": "PRG2-01",
+    "materia": "PRG2",
+    "profesor": "p20",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "C",
+        "salon": "C-304"
+      },
+      {
+        "dia": "J",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "C",
+        "salon": "C-304"
+      }
+    ]
+  },
+  {
+    "id": "PRG2-02",
+    "materia": "PRG2",
+    "profesor": "p20",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "H",
+        "salon": "H-312"
+      },
+      {
+        "dia": "V",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "H",
+        "salon": "H-312"
+      }
+    ]
+  },
+  {
+    "id": "PRG2-03",
+    "materia": "PRG2",
+    "profesor": "p23",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "C",
+        "salon": "C-101"
+      },
+      {
+        "dia": "S",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "C",
+        "salon": "C-101"
+      }
+    ]
+  },
+  {
+    "id": "LOG-01",
+    "materia": "LOG",
+    "profesor": "p15",
+    "cupo": 10,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "A",
+        "salon": "A-303"
+      },
+      {
+        "dia": "V",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "A",
+        "salon": "A-303"
+      }
+    ]
+  },
+  {
+    "id": "LOG-02",
+    "materia": "LOG",
+    "profesor": "p13",
+    "cupo": 10,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "A",
+        "salon": "A-306"
+      },
+      {
+        "dia": "J",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "A",
+        "salon": "A-306"
+      }
+    ]
+  },
+  {
+    "id": "CAL3-01",
+    "materia": "CAL3",
+    "profesor": "p15",
+    "cupo": 10,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "F",
+        "salon": "F-112"
+      },
+      {
+        "dia": "S",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "F",
+        "salon": "F-112"
+      }
+    ]
+  },
+  {
+    "id": "CAL3-02",
+    "materia": "CAL3",
+    "profesor": "p18",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "C",
+        "salon": "C-210"
+      },
+      {
+        "dia": "V",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "C",
+        "salon": "C-210"
+      }
+    ]
+  },
+  {
+    "id": "FIS2-01",
+    "materia": "FIS2",
+    "profesor": "p07",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "12:00",
+        "fin": "14:00",
+        "edificio": "A",
+        "salon": "A-204"
+      },
+      {
+        "dia": "V",
+        "inicio": "12:00",
+        "fin": "14:00",
+        "edificio": "A",
+        "salon": "A-204"
+      }
+    ]
+  },
+  {
+    "id": "FIS2-02",
+    "materia": "FIS2",
+    "profesor": "p07",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "E",
+        "salon": "E-109"
+      },
+      {
+        "dia": "S",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "E",
+        "salon": "E-109"
+      }
+    ]
+  },
+  {
+    "id": "FIS2-03",
+    "materia": "FIS2",
+    "profesor": "p07",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "H",
+        "salon": "H-106"
+      },
+      {
+        "dia": "S",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "H",
+        "salon": "H-106"
+      }
+    ]
+  },
+  {
+    "id": "EST-01",
+    "materia": "EST",
+    "profesor": "p32",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "C",
+        "salon": "C-204"
+      },
+      {
+        "dia": "V",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "C",
+        "salon": "C-204"
+      }
+    ]
+  },
+  {
+    "id": "EST-02",
+    "materia": "EST",
+    "profesor": "p33",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "F",
+        "salon": "F-108"
+      },
+      {
+        "dia": "S",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "F",
+        "salon": "F-108"
+      }
+    ]
+  },
+  {
+    "id": "EST-03",
+    "materia": "EST",
+    "profesor": "p25",
+    "cupo": 6,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "H",
+        "salon": "H-103"
+      },
+      {
+        "dia": "X",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "H",
+        "salon": "H-103"
+      }
+    ]
+  },
+  {
+    "id": "ECD-01",
+    "materia": "ECD",
+    "profesor": "p16",
+    "cupo": 10,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "C",
+        "salon": "C-305"
+      },
+      {
+        "dia": "J",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "C",
+        "salon": "C-305"
+      }
+    ]
+  },
+  {
+    "id": "ECD-02",
+    "materia": "ECD",
+    "profesor": "p14",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "C",
+        "salon": "C-211"
+      },
+      {
+        "dia": "X",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "C",
+        "salon": "C-211"
+      }
+    ]
+  },
+  {
+    "id": "PROB-01",
+    "materia": "PROB",
+    "profesor": "p13",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "C",
+        "salon": "C-107"
+      },
+      {
+        "dia": "V",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "C",
+        "salon": "C-107"
+      }
+    ]
+  },
+  {
+    "id": "PROB-02",
+    "materia": "PROB",
+    "profesor": "p18",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "G",
+        "salon": "G-112"
+      },
+      {
+        "dia": "J",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "G",
+        "salon": "G-112"
+      }
+    ]
+  },
+  {
+    "id": "ADA-01",
+    "materia": "ADA",
+    "profesor": "p20",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "A",
+        "salon": "A-104"
+      },
+      {
+        "dia": "X",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "A",
+        "salon": "A-104"
+      }
+    ]
+  },
+  {
+    "id": "ADA-02",
+    "materia": "ADA",
+    "profesor": "p30",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "B",
+        "salon": "B-103"
+      },
+      {
+        "dia": "V",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "B",
+        "salon": "B-103"
+      }
+    ]
+  },
+  {
+    "id": "ADA-03",
+    "materia": "ADA",
+    "profesor": "p34",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "C",
+        "salon": "C-206"
+      },
+      {
+        "dia": "J",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "C",
+        "salon": "C-206"
+      }
+    ]
+  },
+  {
+    "id": "BD-01",
+    "materia": "BD",
+    "profesor": "p27",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "A",
+        "salon": "A-312"
+      },
+      {
+        "dia": "J",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "A",
+        "salon": "A-312"
+      }
+    ]
+  },
+  {
+    "id": "BD-02",
+    "materia": "BD",
+    "profesor": "p23",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "A",
+        "salon": "A-102"
+      },
+      {
+        "dia": "V",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "A",
+        "salon": "A-102"
+      }
+    ]
+  },
+  {
+    "id": "ARQ-01",
+    "materia": "ARQ",
+    "profesor": "p05",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "G",
+        "salon": "G-101"
+      },
+      {
+        "dia": "V",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "G",
+        "salon": "G-101"
+      }
+    ]
+  },
+  {
+    "id": "ARQ-02",
+    "materia": "ARQ",
+    "profesor": "p05",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "G",
+        "salon": "G-203"
+      },
+      {
+        "dia": "J",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "G",
+        "salon": "G-203"
+      }
+    ]
+  },
+  {
+    "id": "ARQ-03",
+    "materia": "ARQ",
+    "profesor": "p06",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "D",
+        "salon": "D-307"
+      },
+      {
+        "dia": "V",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "D",
+        "salon": "D-307"
+      }
+    ]
+  },
+  {
+    "id": "ESTI-01",
+    "materia": "ESTI",
+    "profesor": "p19",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "B",
+        "salon": "B-203"
+      },
+      {
+        "dia": "S",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "B",
+        "salon": "B-203"
+      }
+    ]
+  },
+  {
+    "id": "ESTI-02",
+    "materia": "ESTI",
+    "profesor": "p13",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "E",
+        "salon": "E-202"
+      },
+      {
+        "dia": "X",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "E",
+        "salon": "E-202"
+      }
+    ]
+  },
+  {
+    "id": "ESTI-03",
+    "materia": "ESTI",
+    "profesor": "p13",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "12:00",
+        "fin": "14:00",
+        "edificio": "F",
+        "salon": "F-101"
+      },
+      {
+        "dia": "V",
+        "inicio": "12:00",
+        "fin": "14:00",
+        "edificio": "F",
+        "salon": "F-101"
+      }
+    ]
+  },
+  {
+    "id": "SO-01",
+    "materia": "SO",
+    "profesor": "p25",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "G",
+        "salon": "G-306"
+      },
+      {
+        "dia": "V",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "G",
+        "salon": "G-306"
+      }
+    ]
+  },
+  {
+    "id": "SO-02",
+    "materia": "SO",
+    "profesor": "p33",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "C",
+        "salon": "C-311"
+      },
+      {
+        "dia": "V",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "C",
+        "salon": "C-311"
+      }
+    ]
+  },
+  {
+    "id": "SO-03",
+    "materia": "SO",
+    "profesor": "p29",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "F",
+        "salon": "F-105"
+      },
+      {
+        "dia": "V",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "F",
+        "salon": "F-105"
+      }
+    ]
+  },
+  {
+    "id": "ISW1-01",
+    "materia": "ISW1",
+    "profesor": "p31",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "E",
+        "salon": "E-302"
+      },
+      {
+        "dia": "J",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "E",
+        "salon": "E-302"
+      }
+    ]
+  },
+  {
+    "id": "ISW1-02",
+    "materia": "ISW1",
+    "profesor": "p35",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "B",
+        "salon": "B-110"
+      },
+      {
+        "dia": "J",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "B",
+        "salon": "B-110"
+      }
+    ]
+  },
+  {
+    "id": "ISW1-03",
+    "materia": "ISW1",
+    "profesor": "p28",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "C",
+        "salon": "C-106"
+      },
+      {
+        "dia": "J",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "C",
+        "salon": "C-106"
+      }
+    ]
+  },
+  {
+    "id": "RED-01",
+    "materia": "RED",
+    "profesor": "p06",
+    "cupo": 10,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "F",
+        "salon": "F-208"
+      },
+      {
+        "dia": "J",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "F",
+        "salon": "F-208"
+      }
+    ]
+  },
+  {
+    "id": "RED-02",
+    "materia": "RED",
+    "profesor": "p06",
+    "cupo": 10,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "F",
+        "salon": "F-111"
+      },
+      {
+        "dia": "J",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "F",
+        "salon": "F-111"
+      }
+    ]
+  },
+  {
+    "id": "ISW2-01",
+    "materia": "ISW2",
+    "profesor": "p33",
+    "cupo": 10,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "H",
+        "salon": "H-309"
+      },
+      {
+        "dia": "J",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "H",
+        "salon": "H-309"
+      }
+    ]
+  },
+  {
+    "id": "ISW2-02",
+    "materia": "ISW2",
+    "profesor": "p27",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "G",
+        "salon": "G-110"
+      },
+      {
+        "dia": "J",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "G",
+        "salon": "G-110"
+      }
+    ]
+  },
+  {
+    "id": "COMP-01",
+    "materia": "COMP",
+    "profesor": "p27",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "B",
+        "salon": "B-106"
+      },
+      {
+        "dia": "S",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "B",
+        "salon": "B-106"
+      }
+    ]
+  },
+  {
+    "id": "COMP-02",
+    "materia": "COMP",
+    "profesor": "p20",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "F",
+        "salon": "F-308"
+      },
+      {
+        "dia": "X",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "F",
+        "salon": "F-308"
+      }
+    ]
+  },
+  {
+    "id": "COMP-03",
+    "materia": "COMP",
+    "profesor": "p21",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "F",
+        "salon": "F-203"
+      },
+      {
+        "dia": "J",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "F",
+        "salon": "F-203"
+      }
+    ]
+  },
+  {
+    "id": "OPT-01",
+    "materia": "OPT",
+    "profesor": "p14",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "G",
+        "salon": "G-104"
+      },
+      {
+        "dia": "V",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "G",
+        "salon": "G-104"
+      }
+    ]
+  },
+  {
+    "id": "OPT-02",
+    "materia": "OPT",
+    "profesor": "p18",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "C",
+        "salon": "C-112"
+      },
+      {
+        "dia": "J",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "C",
+        "salon": "C-112"
+      }
+    ]
+  },
+  {
+    "id": "OPT-03",
+    "materia": "OPT",
+    "profesor": "p16",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "A",
+        "salon": "A-307"
+      },
+      {
+        "dia": "S",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "A",
+        "salon": "A-307"
+      }
+    ]
+  },
+  {
+    "id": "ECO-01",
+    "materia": "ECO",
+    "profesor": "p04",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "B",
+        "salon": "B-210"
+      }
+    ]
+  },
+  {
+    "id": "ECO-02",
+    "materia": "ECO",
+    "profesor": "p04",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "F",
+        "salon": "F-102"
+      }
+    ]
+  },
+  {
+    "id": "ECO-03",
+    "materia": "ECO",
+    "profesor": "p04",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "E",
+        "salon": "E-207"
+      }
+    ]
+  },
+  {
+    "id": "IA-01",
+    "materia": "IA",
+    "profesor": "p34",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "12:00",
+        "fin": "14:00",
+        "edificio": "A",
+        "salon": "A-202"
+      },
+      {
+        "dia": "S",
+        "inicio": "12:00",
+        "fin": "14:00",
+        "edificio": "A",
+        "salon": "A-202"
+      }
+    ]
+  },
+  {
+    "id": "IA-02",
+    "materia": "IA",
+    "profesor": "p33",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "H",
+        "salon": "H-312"
+      },
+      {
+        "dia": "X",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "H",
+        "salon": "H-312"
+      }
+    ]
+  },
+  {
+    "id": "IA-03",
+    "materia": "IA",
+    "profesor": "p32",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "C",
+        "salon": "C-304"
+      },
+      {
+        "dia": "V",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "C",
+        "salon": "C-304"
+      }
+    ]
+  },
+  {
+    "id": "DIST-01",
+    "materia": "DIST",
+    "profesor": "p21",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "D",
+        "salon": "D-203"
+      },
+      {
+        "dia": "J",
+        "inicio": "16:00",
+        "fin": "18:00",
+        "edificio": "D",
+        "salon": "D-203"
+      }
+    ]
+  },
+  {
+    "id": "DIST-02",
+    "materia": "DIST",
+    "profesor": "p22",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "H",
+        "salon": "H-206"
+      },
+      {
+        "dia": "S",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "H",
+        "salon": "H-206"
+      }
+    ]
+  },
+  {
+    "id": "DIST-03",
+    "materia": "DIST",
+    "profesor": "p32",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "G",
+        "salon": "G-101"
+      },
+      {
+        "dia": "S",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "G",
+        "salon": "G-101"
+      }
+    ]
+  },
+  {
+    "id": "SIM-01",
+    "materia": "SIM",
+    "profesor": "p12",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "D",
+        "salon": "D-202"
+      },
+      {
+        "dia": "V",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "D",
+        "salon": "D-202"
+      }
+    ]
+  },
+  {
+    "id": "SIM-02",
+    "materia": "SIM",
+    "profesor": "p12",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "F",
+        "salon": "F-104"
+      },
+      {
+        "dia": "X",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "F",
+        "salon": "F-104"
+      }
+    ]
+  },
+  {
+    "id": "SIM-03",
+    "materia": "SIM",
+    "profesor": "p11",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "B",
+        "salon": "B-110"
+      },
+      {
+        "dia": "V",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "B",
+        "salon": "B-110"
+      }
+    ]
+  },
+  {
+    "id": "ETI-01",
+    "materia": "ETI",
+    "profesor": "p09",
+    "cupo": 14,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "D",
+        "salon": "D-301"
+      }
+    ]
+  },
+  {
+    "id": "GPR-01",
+    "materia": "GPR",
+    "profesor": "p11",
+    "cupo": 10,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "A",
+        "salon": "A-308"
+      },
+      {
+        "dia": "J",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "A",
+        "salon": "A-308"
+      }
+    ]
+  },
+  {
+    "id": "GPR-02",
+    "materia": "GPR",
+    "profesor": "p12",
+    "cupo": 10,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "D",
+        "salon": "D-207"
+      },
+      {
+        "dia": "V",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "D",
+        "salon": "D-207"
+      }
+    ]
+  },
+  {
+    "id": "SEG-01",
+    "materia": "SEG",
+    "profesor": "p24",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "12:00",
+        "fin": "14:00",
+        "edificio": "B",
+        "salon": "B-207"
+      },
+      {
+        "dia": "S",
+        "inicio": "12:00",
+        "fin": "14:00",
+        "edificio": "B",
+        "salon": "B-207"
+      }
+    ]
+  },
+  {
+    "id": "SEG-02",
+    "materia": "SEG",
+    "profesor": "p23",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "C",
+        "salon": "C-110"
+      },
+      {
+        "dia": "S",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "C",
+        "salon": "C-110"
+      }
+    ]
+  },
+  {
+    "id": "COMPU-01",
+    "materia": "COMPU",
+    "profesor": "p21",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "E",
+        "salon": "E-103"
+      },
+      {
+        "dia": "J",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "E",
+        "salon": "E-103"
+      }
+    ]
+  },
+  {
+    "id": "COMPU-02",
+    "materia": "COMPU",
+    "profesor": "p24",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "C",
+        "salon": "C-309"
+      },
+      {
+        "dia": "J",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "C",
+        "salon": "C-309"
+      }
+    ]
+  },
+  {
+    "id": "COMPU-03",
+    "materia": "COMPU",
+    "profesor": "p26",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "B",
+        "salon": "B-110"
+      },
+      {
+        "dia": "J",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "B",
+        "salon": "B-110"
+      }
+    ]
+  },
+  {
+    "id": "ML-01",
+    "materia": "ML",
+    "profesor": "p35",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "B",
+        "salon": "B-206"
+      },
+      {
+        "dia": "V",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "B",
+        "salon": "B-206"
+      }
+    ]
+  },
+  {
+    "id": "ML-02",
+    "materia": "ML",
+    "profesor": "p25",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "B",
+        "salon": "B-210"
+      },
+      {
+        "dia": "J",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "B",
+        "salon": "B-210"
+      }
+    ]
+  },
+  {
+    "id": "PG1-01",
+    "materia": "PG1",
+    "profesor": "p22",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "12:00",
+        "fin": "14:00",
+        "edificio": "B",
+        "salon": "B-112"
+      }
+    ]
+  },
+  {
+    "id": "PG1-02",
+    "materia": "PG1",
+    "profesor": "p35",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "E",
+        "salon": "E-211"
+      }
+    ]
+  },
+  {
+    "id": "EMP-01",
+    "materia": "EMP",
+    "profesor": "p01",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "A",
+        "salon": "A-205"
+      }
+    ]
+  },
+  {
+    "id": "EMP-02",
+    "materia": "EMP",
+    "profesor": "p01",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "H",
+        "salon": "H-209"
+      }
+    ]
+  },
+  {
+    "id": "EMP-03",
+    "materia": "EMP",
+    "profesor": "p01",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "V",
+        "inicio": "12:00",
+        "fin": "14:00",
+        "edificio": "B",
+        "salon": "B-307"
+      }
+    ]
+  },
+  {
+    "id": "NUB-01",
+    "materia": "NUB",
+    "profesor": "p28",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "A",
+        "salon": "A-311"
+      },
+      {
+        "dia": "V",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "A",
+        "salon": "A-311"
+      }
+    ]
+  },
+  {
+    "id": "NUB-02",
+    "materia": "NUB",
+    "profesor": "p32",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "G",
+        "salon": "G-107"
+      },
+      {
+        "dia": "S",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "G",
+        "salon": "G-107"
+      }
+    ]
+  },
+  {
+    "id": "NUB-03",
+    "materia": "NUB",
+    "profesor": "p30",
+    "cupo": 7,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "F",
+        "salon": "F-308"
+      },
+      {
+        "dia": "V",
+        "inicio": "08:00",
+        "fin": "10:00",
+        "edificio": "F",
+        "salon": "F-308"
+      }
+    ]
+  },
+  {
+    "id": "DAT-01",
+    "materia": "DAT",
+    "profesor": "p24",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "H",
+        "salon": "H-111"
+      },
+      {
+        "dia": "X",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "H",
+        "salon": "H-111"
+      }
+    ]
+  },
+  {
+    "id": "DAT-02",
+    "materia": "DAT",
+    "profesor": "p21",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "12:00",
+        "fin": "14:00",
+        "edificio": "G",
+        "salon": "G-106"
+      },
+      {
+        "dia": "J",
+        "inicio": "12:00",
+        "fin": "14:00",
+        "edificio": "G",
+        "salon": "G-106"
+      }
+    ]
+  },
+  {
+    "id": "DAT-03",
+    "materia": "DAT",
+    "profesor": "p26",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "A",
+        "salon": "A-101"
+      },
+      {
+        "dia": "J",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "A",
+        "salon": "A-101"
+      }
+    ]
+  },
+  {
+    "id": "PG2-01",
+    "materia": "PG2",
+    "profesor": "p28",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "E",
+        "salon": "E-303"
+      },
+      {
+        "dia": "S",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "E",
+        "salon": "E-303"
+      }
+    ]
+  },
+  {
+    "id": "PG2-02",
+    "materia": "PG2",
+    "profesor": "p34",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "G",
+        "salon": "G-304"
+      },
+      {
+        "dia": "V",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "G",
+        "salon": "G-304"
+      }
+    ]
+  },
+  {
+    "id": "TEO-01",
+    "materia": "TEO",
+    "profesor": "p09",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "S",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "A",
+        "salon": "A-107"
+      }
+    ]
+  },
+  {
+    "id": "TEO-02",
+    "materia": "TEO",
+    "profesor": "p09",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "G",
+        "salon": "G-212"
+      }
+    ]
+  },
+  {
+    "id": "ELEC1-01",
+    "materia": "ELEC1",
+    "profesor": "p20",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "D",
+        "salon": "D-112"
+      },
+      {
+        "dia": "V",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "D",
+        "salon": "D-112"
+      }
+    ]
+  },
+  {
+    "id": "ELEC1-02",
+    "materia": "ELEC1",
+    "profesor": "p30",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "A",
+        "salon": "A-108"
+      },
+      {
+        "dia": "S",
+        "inicio": "18:00",
+        "fin": "20:00",
+        "edificio": "A",
+        "salon": "A-108"
+      }
+    ]
+  },
+  {
+    "id": "ELEC2-01",
+    "materia": "ELEC2",
+    "profesor": "p30",
+    "cupo": 14,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "B",
+        "salon": "B-307"
+      },
+      {
+        "dia": "J",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "B",
+        "salon": "B-307"
+      }
+    ]
+  },
+  {
+    "id": "FOT-01",
+    "materia": "FOT",
+    "profesor": "p02",
+    "cupo": 13,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "17:00",
+        "fin": "19:00",
+        "edificio": "A",
+        "salon": "A-112"
+      }
+    ]
+  },
+  {
+    "id": "DEP-01",
+    "materia": "DEP",
+    "profesor": "p03",
+    "cupo": 9,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "10:00",
+        "fin": "12:00",
+        "edificio": "F",
+        "salon": "F-201"
+      }
+    ]
+  },
+  {
+    "id": "DEP-02",
+    "materia": "DEP",
+    "profesor": "p03",
+    "cupo": 8,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "H",
+        "salon": "H-308"
+      }
+    ]
+  }
+]

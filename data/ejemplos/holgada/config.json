@@ -1,0 +1,20 @@
+{
+  "max_creditos": 20,
+  "valor_sustituta": 0.8,
+  "desempate_semestre": false,
+  "semilla": 0,
+  "max_cambios": 10000,
+  "generador": {
+    "version": "0.1.0",
+    "parametros": {
+      "estudiantes": 250,
+      "secciones": 96,
+      "porcentaje_trabaja": 0.2,
+      "escasez": "holgada",
+      "semilla": 42,
+      "prob_sustituta": 0.25,
+      "prob_veto": 0.05,
+      "max_intentos": 60
+    }
+  }
+}

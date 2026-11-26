@@ -1,0 +1,342 @@
+[
+  {
+    "id": "p01",
+    "nombre": "Prof. Juliana Moreno",
+    "departamento": "Administración"
+  },
+  {
+    "id": "p02",
+    "nombre": "Prof. Natalia Restrepo",
+    "departamento": "Administración"
+  },
+  {
+    "id": "p03",
+    "nombre": "Prof. Emilio Arango",
+    "departamento": "Artes"
+  },
+  {
+    "id": "p04",
+    "nombre": "Prof. Samuel Ramírez",
+    "departamento": "Artes"
+  },
+  {
+    "id": "p05",
+    "nombre": "Prof. Natalia Pineda",
+    "departamento": "Bienestar"
+  },
+  {
+    "id": "p06",
+    "nombre": "Prof. Samuel Díaz",
+    "departamento": "Bienestar"
+  },
+  {
+    "id": "p07",
+    "nombre": "Prof. Antonia Jiménez",
+    "departamento": "Economía"
+  },
+  {
+    "id": "p08",
+    "nombre": "Prof. Mariana Mejía",
+    "departamento": "Economía"
+  },
+  {
+    "id": "p09",
+    "nombre": "Prof. Martín Herrera",
+    "departamento": "Electrónica"
+  },
+  {
+    "id": "p10",
+    "nombre": "Prof. Nicolás Jiménez",
+    "departamento": "Electrónica"
+  },
+  {
+    "id": "p11",
+    "nombre": "Prof. Paula Restrepo",
+    "departamento": "Electrónica"
+  },
+  {
+    "id": "p12",
+    "nombre": "Prof. Tomás Rojas",
+    "departamento": "Física"
+  },
+  {
+    "id": "p13",
+    "nombre": "Prof. Felipe Díaz",
+    "departamento": "Física"
+  },
+  {
+    "id": "p14",
+    "nombre": "Prof. Nicolás Quintero",
+    "departamento": "Física"
+  },
+  {
+    "id": "p15",
+    "nombre": "Prof. Andrés Rodríguez",
+    "departamento": "Humanidades"
+  },
+  {
+    "id": "p16",
+    "nombre": "Prof. David Mejía",
+    "departamento": "Humanidades"
+  },
+  {
+    "id": "p17",
+    "nombre": "Prof. Tomás Suárez",
+    "departamento": "Humanidades"
+  },
+  {
+    "id": "p18",
+    "nombre": "Prof. Lucía Ospina",
+    "departamento": "Industrial"
+  },
+  {
+    "id": "p19",
+    "nombre": "Prof. Julián Díaz",
+    "departamento": "Industrial"
+  },
+  {
+    "id": "p20",
+    "nombre": "Prof. Felipe Suárez",
+    "departamento": "Industrial"
+  },
+  {
+    "id": "p21",
+    "nombre": "Prof. Simón Quintero",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p22",
+    "nombre": "Prof. Salomé Martínez",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p23",
+    "nombre": "Prof. Sebastián Mejía",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p24",
+    "nombre": "Prof. Julián Suárez",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p25",
+    "nombre": "Prof. Andrés Arango",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p26",
+    "nombre": "Prof. Sebastián Martínez",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p27",
+    "nombre": "Prof. Paula Vargas",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p28",
+    "nombre": "Prof. Tomás Restrepo",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p29",
+    "nombre": "Prof. Camila Muñoz",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p30",
+    "nombre": "Prof. Alejandro Mejía",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p31",
+    "nombre": "Prof. Samuel Restrepo",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p32",
+    "nombre": "Prof. Santiago Gómez",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p33",
+    "nombre": "Prof. Tomás Mejía",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p34",
+    "nombre": "Prof. Samuel López",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p35",
+    "nombre": "Prof. Esteban Vargas",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p36",
+    "nombre": "Prof. Sara Mejía",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p37",
+    "nombre": "Prof. Catalina Suárez",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p38",
+    "nombre": "Prof. Emilio Ramírez",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p39",
+    "nombre": "Prof. Catalina Torres",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p40",
+    "nombre": "Prof. Martín Rojas",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p41",
+    "nombre": "Prof. Emilio Mejía",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p42",
+    "nombre": "Prof. Daniela Castro",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p43",
+    "nombre": "Prof. Esteban Suárez",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p44",
+    "nombre": "Prof. Simón Suárez",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p45",
+    "nombre": "Prof. Valentina Muñoz",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p46",
+    "nombre": "Prof. Santiago Díaz",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p47",
+    "nombre": "Prof. Esteban Torres",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p48",
+    "nombre": "Prof. Santiago Cárdenas",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p49",
+    "nombre": "Prof. Juliana Ospina",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p50",
+    "nombre": "Prof. Emilio Herrera",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p51",
+    "nombre": "Prof. Juliana Muñoz",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p52",
+    "nombre": "Prof. Valentina Rojas",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p53",
+    "nombre": "Prof. Simón Jiménez",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p54",
+    "nombre": "Prof. Julián Rojas",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p55",
+    "nombre": "Prof. Emilio Torres",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p56",
+    "nombre": "Prof. Gabriela Vargas",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p57",
+    "nombre": "Prof. Manuela Rojas",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p58",
+    "nombre": "Prof. Martín Díaz",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p59",
+    "nombre": "Prof. Alejandro Herrera",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p60",
+    "nombre": "Prof. Manuela Martínez",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p61",
+    "nombre": "Prof. Laura Castro",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p62",
+    "nombre": "Prof. Felipe Jiménez",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p63",
+    "nombre": "Prof. David López",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p64",
+    "nombre": "Prof. Valentina Vargas",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p65",
+    "nombre": "Prof. Isabella Salazar",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p66",
+    "nombre": "Prof. Emilio Salazar",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p67",
+    "nombre": "Prof. Isabella Castro",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p68",
+    "nombre": "Prof. Valentina Martínez",
+    "departamento": "Sistemas"
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "max_creditos": 10,
+  "valor_sustituta": 0.8,
+  "desempate_semestre": false,
+  "semilla": 42,
+  "max_cambios": 10000
+}

@@ -5,7 +5,7 @@ estudiantes que la piden con prioridad 5: e01 (semestre 2) y e02 (semestre 8).
 
 - Desempate por semestre **desactivado** (este `config.json`): S1 queda para e01
   por el desempate final de códigos; e02 recibe un aviso de "Cupo lleno".
-- Desempate por semestre **activado** (nivel 10, pendiente): S1 debería quedar para e02.
+- Desempate por semestre **activado** (nivel 10, casilla «desempate por semestre» en Ejecutar): S1 queda para e02 y e01 recibe "Cedida por prioridad".
 
 ```bash
 cd backend

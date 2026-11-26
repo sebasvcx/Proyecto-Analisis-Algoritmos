@@ -1,0 +1,32 @@
+[
+  {
+    "id": "P1",
+    "nombre": "Prof. Rojas",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "P2",
+    "nombre": "Prof. Díaz",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "P3",
+    "nombre": "Prof. Mora",
+    "departamento": "Física"
+  },
+  {
+    "id": "P4",
+    "nombre": "Prof. León",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "P5",
+    "nombre": "Prof. Vega",
+    "departamento": "Humanidades"
+  },
+  {
+    "id": "P6",
+    "nombre": "Prof. Ruiz",
+    "departamento": "Sistemas"
+  }
+]
