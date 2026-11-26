@@ -1,0 +1,17 @@
+[
+  {
+    "origen": "A",
+    "destino": "B",
+    "minutos": 5
+  },
+  {
+    "origen": "A",
+    "destino": "C",
+    "minutos": 9
+  },
+  {
+    "origen": "B",
+    "destino": "C",
+    "minutos": 6
+  }
+]

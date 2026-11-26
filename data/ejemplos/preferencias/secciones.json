@@ -1,0 +1,242 @@
+[
+  {
+    "id": "HIS-01",
+    "materia": "HIS",
+    "profesor": "P1",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "A",
+        "salon": "A-HIS-01"
+      }
+    ]
+  },
+  {
+    "id": "HIS-02",
+    "materia": "HIS",
+    "profesor": "P2",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "A",
+        "salon": "A-HIS-02"
+      }
+    ]
+  },
+  {
+    "id": "LIT-01",
+    "materia": "LIT",
+    "profesor": "P3",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "A",
+        "salon": "A-LIT-01"
+      }
+    ]
+  },
+  {
+    "id": "LIT-02",
+    "materia": "LIT",
+    "profesor": "P3",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "A",
+        "salon": "A-LIT-02"
+      }
+    ]
+  },
+  {
+    "id": "ALG-01",
+    "materia": "ALG",
+    "profesor": "P3",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "A",
+        "salon": "A-ALG-01"
+      }
+    ]
+  },
+  {
+    "id": "FIS-01",
+    "materia": "FIS",
+    "profesor": "P3",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "A",
+        "salon": "A-FIS-01"
+      }
+    ]
+  },
+  {
+    "id": "FIS-02",
+    "materia": "FIS",
+    "profesor": "P3",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "X",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "A",
+        "salon": "A-FIS-02"
+      }
+    ]
+  },
+  {
+    "id": "MAT-01",
+    "materia": "MAT",
+    "profesor": "P3",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "A",
+        "salon": "A-MAT-01"
+      }
+    ]
+  },
+  {
+    "id": "QUI-01",
+    "materia": "QUI",
+    "profesor": "P1",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "C",
+        "salon": "C-QUI-01"
+      }
+    ]
+  },
+  {
+    "id": "QUI-02",
+    "materia": "QUI",
+    "profesor": "P2",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "J",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "A",
+        "salon": "A-QUI-02"
+      }
+    ]
+  },
+  {
+    "id": "ECO-01",
+    "materia": "ECO",
+    "profesor": "P1",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "V",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "A",
+        "salon": "A-ECO-01"
+      }
+    ]
+  },
+  {
+    "id": "ECO-02",
+    "materia": "ECO",
+    "profesor": "P2",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "V",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "A",
+        "salon": "A-ECO-02"
+      }
+    ]
+  },
+  {
+    "id": "BIO-01",
+    "materia": "BIO",
+    "profesor": "P3",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "S",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "A",
+        "salon": "A-BIO-01"
+      }
+    ]
+  },
+  {
+    "id": "BIO-02",
+    "materia": "BIO",
+    "profesor": "P3",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "S",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "A",
+        "salon": "A-BIO-02"
+      }
+    ]
+  },
+  {
+    "id": "ART-01",
+    "materia": "ART",
+    "profesor": "P3",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "S",
+        "inicio": "13:00",
+        "fin": "15:00",
+        "edificio": "B",
+        "salon": "B-ART-01"
+      }
+    ]
+  },
+  {
+    "id": "ART-02",
+    "materia": "ART",
+    "profesor": "P3",
+    "cupo": 5,
+    "sesiones": [
+      {
+        "dia": "S",
+        "inicio": "15:00",
+        "fin": "17:00",
+        "edificio": "B",
+        "salon": "B-ART-02"
+      }
+    ]
+  }
+]

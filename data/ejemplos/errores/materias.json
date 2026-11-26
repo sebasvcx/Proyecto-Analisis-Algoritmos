@@ -1,0 +1,38 @@
+[
+  {
+    "codigo": "CAL",
+    "nombre": "Cálculo",
+    "creditos": 4,
+    "semestre": 1
+  },
+  {
+    "codigo": "FIS",
+    "nombre": "Física",
+    "creditos": 4,
+    "semestre": 2
+  },
+  {
+    "codigo": "PRG",
+    "nombre": "Programación",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "ETI",
+    "nombre": "Ética",
+    "creditos": 2,
+    "semestre": 1
+  },
+  {
+    "codigo": "ALG",
+    "nombre": "Álgebra",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "BD",
+    "nombre": "Bases de datos",
+    "creditos": 3,
+    "semestre": 5
+  }
+]

@@ -1,0 +1,171 @@
+[
+  {
+    "id": "ALG-01",
+    "materia": "ALG",
+    "profesor": "P1",
+    "cupo": 2,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "07:30",
+        "fin": "09:00",
+        "edificio": "A",
+        "salon": "A-101"
+      },
+      {
+        "dia": "X",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "A",
+        "salon": "A-101"
+      }
+    ]
+  },
+  {
+    "id": "BD-01",
+    "materia": "BD",
+    "profesor": "P99",
+    "cupo": 1,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "B",
+        "salon": "B-102"
+      },
+      {
+        "dia": "X",
+        "inicio": "14:00",
+        "fin": "16:00",
+        "edificio": "B",
+        "salon": "B-102"
+      }
+    ]
+  },
+  {
+    "id": "CAL-01",
+    "materia": "CAL",
+    "profesor": "P1",
+    "cupo": 1,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "A",
+        "salon": "A-101"
+      },
+      {
+        "dia": "X",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "A",
+        "salon": "A-101"
+      }
+    ]
+  },
+  {
+    "id": "CAL-02",
+    "materia": "CAL",
+    "profesor": "P2",
+    "cupo": 1,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "B",
+        "salon": "B-101"
+      },
+      {
+        "dia": "J",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "B",
+        "salon": "B-101"
+      }
+    ]
+  },
+  {
+    "id": "ETI-01",
+    "materia": "ETI",
+    "profesor": "P5",
+    "cupo": 3,
+    "sesiones": [
+      {
+        "dia": "V",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "edificio": "A",
+        "salon": "A-101"
+      }
+    ]
+  },
+  {
+    "id": "FIS-01",
+    "materia": "FIS",
+    "profesor": "P3",
+    "cupo": 2,
+    "sesiones": [
+      {
+        "dia": "L",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "C",
+        "salon": "C-101"
+      },
+      {
+        "dia": "X",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "C",
+        "salon": "C-101"
+      }
+    ]
+  },
+  {
+    "id": "FIS-02",
+    "materia": "FIS",
+    "profesor": "P6",
+    "cupo": 3,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "B",
+        "salon": "B-101"
+      },
+      {
+        "dia": "J",
+        "inicio": "11:00",
+        "fin": "13:00",
+        "edificio": "B",
+        "salon": "B-101"
+      }
+    ]
+  },
+  {
+    "id": "PRG-01",
+    "materia": "PRG",
+    "profesor": "P4",
+    "cupo": 1,
+    "sesiones": [
+      {
+        "dia": "M",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "A",
+        "salon": "A-101"
+      },
+      {
+        "dia": "J",
+        "inicio": "09:00",
+        "fin": "11:00",
+        "edificio": "A",
+        "salon": "A-101"
+      }
+    ]
+  }
+]

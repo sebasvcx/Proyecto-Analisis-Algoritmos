@@ -1,0 +1,254 @@
+[
+  {
+    "codigo": "CAL1",
+    "nombre": "Cálculo Diferencial",
+    "creditos": 4,
+    "semestre": 1
+  },
+  {
+    "codigo": "ALG",
+    "nombre": "Álgebra Lineal",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "PRG1",
+    "nombre": "Introducción a la Programación",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "PEN",
+    "nombre": "Pensamiento Sistémico",
+    "creditos": 2,
+    "semestre": 1
+  },
+  {
+    "codigo": "CAL2",
+    "nombre": "Cálculo Integral",
+    "creditos": 4,
+    "semestre": 2
+  },
+  {
+    "codigo": "FIS1",
+    "nombre": "Física Mecánica",
+    "creditos": 4,
+    "semestre": 2
+  },
+  {
+    "codigo": "PRG2",
+    "nombre": "Programación Avanzada",
+    "creditos": 3,
+    "semestre": 2
+  },
+  {
+    "codigo": "LOG",
+    "nombre": "Lógica y Matemáticas Discretas",
+    "creditos": 3,
+    "semestre": 2
+  },
+  {
+    "codigo": "CAL3",
+    "nombre": "Cálculo Vectorial",
+    "creditos": 4,
+    "semestre": 3
+  },
+  {
+    "codigo": "FIS2",
+    "nombre": "Electricidad y Magnetismo",
+    "creditos": 4,
+    "semestre": 3
+  },
+  {
+    "codigo": "EST",
+    "nombre": "Estructuras de Datos",
+    "creditos": 3,
+    "semestre": 3
+  },
+  {
+    "codigo": "ECD",
+    "nombre": "Ecuaciones Diferenciales",
+    "creditos": 3,
+    "semestre": 3
+  },
+  {
+    "codigo": "PROB",
+    "nombre": "Probabilidad",
+    "creditos": 3,
+    "semestre": 4
+  },
+  {
+    "codigo": "ADA",
+    "nombre": "Análisis de Algoritmos",
+    "creditos": 3,
+    "semestre": 4
+  },
+  {
+    "codigo": "BD",
+    "nombre": "Bases de Datos",
+    "creditos": 3,
+    "semestre": 4
+  },
+  {
+    "codigo": "ARQ",
+    "nombre": "Arquitectura de Computadores",
+    "creditos": 3,
+    "semestre": 4
+  },
+  {
+    "codigo": "ESTI",
+    "nombre": "Estadística Inferencial",
+    "creditos": 3,
+    "semestre": 5
+  },
+  {
+    "codigo": "SO",
+    "nombre": "Sistemas Operativos",
+    "creditos": 3,
+    "semestre": 5
+  },
+  {
+    "codigo": "ISW1",
+    "nombre": "Ingeniería de Software",
+    "creditos": 3,
+    "semestre": 5
+  },
+  {
+    "codigo": "RED",
+    "nombre": "Comunicaciones y Redes",
+    "creditos": 3,
+    "semestre": 5
+  },
+  {
+    "codigo": "ISW2",
+    "nombre": "Arquitectura de Software",
+    "creditos": 3,
+    "semestre": 6
+  },
+  {
+    "codigo": "COMP",
+    "nombre": "Teoría de la Computación",
+    "creditos": 3,
+    "semestre": 6
+  },
+  {
+    "codigo": "OPT",
+    "nombre": "Optimización",
+    "creditos": 3,
+    "semestre": 6
+  },
+  {
+    "codigo": "ECO",
+    "nombre": "Fundamentos de Economía",
+    "creditos": 2,
+    "semestre": 6
+  },
+  {
+    "codigo": "IA",
+    "nombre": "Inteligencia Artificial",
+    "creditos": 3,
+    "semestre": 7
+  },
+  {
+    "codigo": "DIST",
+    "nombre": "Sistemas Distribuidos",
+    "creditos": 3,
+    "semestre": 7
+  },
+  {
+    "codigo": "SIM",
+    "nombre": "Simulación Digital",
+    "creditos": 3,
+    "semestre": 7
+  },
+  {
+    "codigo": "ETI",
+    "nombre": "Ética Profesional",
+    "creditos": 2,
+    "semestre": 7
+  },
+  {
+    "codigo": "GPR",
+    "nombre": "Gerencia de Proyectos",
+    "creditos": 3,
+    "semestre": 8
+  },
+  {
+    "codigo": "SEG",
+    "nombre": "Seguridad Informática",
+    "creditos": 3,
+    "semestre": 8
+  },
+  {
+    "codigo": "COMPU",
+    "nombre": "Computación Gráfica",
+    "creditos": 3,
+    "semestre": 8
+  },
+  {
+    "codigo": "ML",
+    "nombre": "Aprendizaje de Máquina",
+    "creditos": 3,
+    "semestre": 8
+  },
+  {
+    "codigo": "PG1",
+    "nombre": "Proyecto de Grado I",
+    "creditos": 2,
+    "semestre": 9
+  },
+  {
+    "codigo": "EMP",
+    "nombre": "Emprendimiento",
+    "creditos": 2,
+    "semestre": 9
+  },
+  {
+    "codigo": "NUB",
+    "nombre": "Computación en la Nube",
+    "creditos": 3,
+    "semestre": 9
+  },
+  {
+    "codigo": "DAT",
+    "nombre": "Ciencia de Datos",
+    "creditos": 3,
+    "semestre": 9
+  },
+  {
+    "codigo": "PG2",
+    "nombre": "Proyecto de Grado II",
+    "creditos": 4,
+    "semestre": 10
+  },
+  {
+    "codigo": "TEO",
+    "nombre": "Teología",
+    "creditos": 2,
+    "semestre": 10
+  },
+  {
+    "codigo": "ELEC1",
+    "nombre": "Electiva de Énfasis I",
+    "creditos": 3,
+    "semestre": 10
+  },
+  {
+    "codigo": "ELEC2",
+    "nombre": "Electiva de Énfasis II",
+    "creditos": 3,
+    "semestre": 10
+  },
+  {
+    "codigo": "FOT",
+    "nombre": "Fotografía Básica",
+    "creditos": 1,
+    "semestre": 10
+  },
+  {
+    "codigo": "DEP",
+    "nombre": "Deporte Formativo",
+    "creditos": 1,
+    "semestre": 10
+  }
+]

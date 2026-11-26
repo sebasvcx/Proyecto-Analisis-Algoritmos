@@ -1,0 +1,92 @@
+[
+  {
+    "id": "p01",
+    "nombre": "Prof. Joaquín Rojas",
+    "departamento": "Administración"
+  },
+  {
+    "id": "p02",
+    "nombre": "Prof. Isabella López",
+    "departamento": "Artes"
+  },
+  {
+    "id": "p03",
+    "nombre": "Prof. Samuel Ortiz",
+    "departamento": "Bienestar"
+  },
+  {
+    "id": "p04",
+    "nombre": "Prof. Nicolás Castro",
+    "departamento": "Economía"
+  },
+  {
+    "id": "p05",
+    "nombre": "Prof. Catalina Mejía",
+    "departamento": "Electrónica"
+  },
+  {
+    "id": "p06",
+    "nombre": "Prof. Natalia Moreno",
+    "departamento": "Física"
+  },
+  {
+    "id": "p07",
+    "nombre": "Prof. Martín Arango",
+    "departamento": "Humanidades"
+  },
+  {
+    "id": "p08",
+    "nombre": "Prof. Isabella Ospina",
+    "departamento": "Industrial"
+  },
+  {
+    "id": "p09",
+    "nombre": "Prof. Julián Rojas",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p10",
+    "nombre": "Prof. Mariana Pineda",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p11",
+    "nombre": "Prof. Julián Ortiz",
+    "departamento": "Matemáticas"
+  },
+  {
+    "id": "p12",
+    "nombre": "Prof. David Cárdenas",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p13",
+    "nombre": "Prof. Samuel Ramírez",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p14",
+    "nombre": "Prof. Isabella Rojas",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p15",
+    "nombre": "Prof. Mariana Vargas",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p16",
+    "nombre": "Prof. Valentina Muñoz",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p17",
+    "nombre": "Prof. Daniela Díaz",
+    "departamento": "Sistemas"
+  },
+  {
+    "id": "p18",
+    "nombre": "Prof. Mateo Castro",
+    "departamento": "Sistemas"
+  }
+]

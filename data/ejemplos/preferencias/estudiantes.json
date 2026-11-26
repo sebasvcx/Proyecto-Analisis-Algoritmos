@@ -1,0 +1,162 @@
+[
+  {
+    "id": "e01",
+    "nombre": "Andrea Profesor",
+    "semestre": 3,
+    "materias": [
+      {
+        "codigo": "HIS",
+        "prioridad": 4
+      }
+    ],
+    "profesores": [
+      {
+        "id": "P2",
+        "afinidad": 2
+      }
+    ]
+  },
+  {
+    "id": "e02",
+    "nombre": "Bruno Tarde",
+    "semestre": 3,
+    "materias": [
+      {
+        "codigo": "LIT",
+        "prioridad": 4
+      }
+    ],
+    "franjas_preferidas": [
+      {
+        "dia": "*",
+        "inicio": "14:00",
+        "fin": "20:00"
+      }
+    ]
+  },
+  {
+    "id": "e03",
+    "nombre": "Camila Huecos",
+    "semestre": 3,
+    "materias": [
+      {
+        "codigo": "ALG",
+        "prioridad": 5
+      },
+      {
+        "codigo": "FIS",
+        "prioridad": 4
+      }
+    ]
+  },
+  {
+    "id": "e04",
+    "nombre": "David Cerca",
+    "semestre": 3,
+    "materias": [
+      {
+        "codigo": "MAT",
+        "prioridad": 5
+      },
+      {
+        "codigo": "QUI",
+        "prioridad": 4
+      }
+    ]
+  },
+  {
+    "id": "e05",
+    "nombre": "Eva Importancia",
+    "semestre": 3,
+    "materias": [
+      {
+        "codigo": "ECO",
+        "prioridad": 4
+      }
+    ],
+    "profesores": [
+      {
+        "id": "P1",
+        "afinidad": 2
+      }
+    ],
+    "franjas_preferidas": [
+      {
+        "dia": "*",
+        "inicio": "14:00",
+        "fin": "20:00"
+      }
+    ],
+    "importancia": {
+      "profesores": "alta",
+      "horario": "baja",
+      "cercania": "ninguna",
+      "huecos": "ninguna",
+      "social": "ninguna"
+    }
+  },
+  {
+    "id": "e06",
+    "nombre": "Fabio Amigo",
+    "semestre": 3,
+    "materias": [
+      {
+        "codigo": "BIO",
+        "prioridad": 3
+      }
+    ],
+    "social": [
+      {
+        "estudiante": "e07",
+        "afinidad": 2
+      }
+    ]
+  },
+  {
+    "id": "e07",
+    "nombre": "Gabriela Trabaja",
+    "semestre": 3,
+    "materias": [
+      {
+        "codigo": "BIO",
+        "prioridad": 5
+      }
+    ],
+    "franjas_libres": [
+      {
+        "dia": "S",
+        "inicio": "07:00",
+        "fin": "09:00",
+        "tipo": "obligatoria"
+      }
+    ]
+  },
+  {
+    "id": "e08",
+    "nombre": "Héctor Evita",
+    "semestre": 3,
+    "materias": [
+      {
+        "codigo": "ART",
+        "prioridad": 3
+      }
+    ],
+    "social": [
+      {
+        "estudiante": "e09",
+        "afinidad": -2
+      }
+    ]
+  },
+  {
+    "id": "e09",
+    "nombre": "Irene Pérez",
+    "semestre": 3,
+    "materias": [
+      {
+        "codigo": "ART",
+        "prioridad": 5
+      }
+    ]
+  }
+]

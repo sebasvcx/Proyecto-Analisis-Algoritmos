@@ -1,0 +1,92 @@
+[
+  {
+    "codigo": "CUP",
+    "nombre": "Cupo único",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "CH1",
+    "nombre": "Choque A",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "CH2",
+    "nombre": "Choque B",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "CR1",
+    "nombre": "Créditos 1",
+    "creditos": 4,
+    "semestre": 1
+  },
+  {
+    "codigo": "CR2",
+    "nombre": "Créditos 2",
+    "creditos": 4,
+    "semestre": 1
+  },
+  {
+    "codigo": "CR3",
+    "nombre": "Créditos 3",
+    "creditos": 4,
+    "semestre": 1
+  },
+  {
+    "codigo": "TRB",
+    "nombre": "Clase en horario de trabajo",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "VET",
+    "nombre": "Profesor vetado",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "ALT",
+    "nombre": "Alternativa",
+    "creditos": 2,
+    "semestre": 1
+  },
+  {
+    "codigo": "TR1",
+    "nombre": "Traslado A",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "TR2",
+    "nombre": "Traslado C",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "SIN",
+    "nombre": "Sin secciones",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "RE1",
+    "nombre": "Repetida 1",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "RE2",
+    "nombre": "Repetida 2",
+    "creditos": 3,
+    "semestre": 1
+  },
+  {
+    "codigo": "COM",
+    "nombre": "Sustituta común",
+    "creditos": 2,
+    "semestre": 1
+  }
+]
