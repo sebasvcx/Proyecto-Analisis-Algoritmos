@@ -46,6 +46,79 @@ Cada candidata se mide inscribiéndola de forma provisional con \emph{agregar} y
 
 \paragraph{N10: desempate por semestre y mejora local.} El voraz de N9 se ejecuta primero; si el desempate por semestre está activo, a igual prioridad se atiende antes al estudiante de mayor semestre. Después se hacen pasadas de mejora con dos tipos de cambio: (1) para cada solicitud no atendida por su principal, inscribir la principal (o, si está pendiente, una sustituta), moviendo si hace falta a un ocupante de la sección llena a otra sección de la misma materia con cupo; y (2) pasar cualquier inscripción a otra sección de la misma materia. Un cambio se acepta solo si mejora estrictamente el resultado según la Sección~\ref{sec:objetivo}; se examinan como máximo \texttt{max\_cambios} cambios. Al final los avisos se recalculan con el horario definitivo.
 
+\subsubsection{Fragmentos del código}\label{sec:codigo}
+
+Los listados siguientes son extractos del paquete \texttt{asignador} (ligeramente acortados). Muestran las tres piezas que definen el recorrido: ordenar y asignar solicitudes, elegir entre secciones válidas, y mejorar con desplazamientos. No se ejecutan los diez niveles en cadena: cada corrida usa un solo nivel; N10 parte de cero con el voraz completo y luego aplica la mejora.
+
+\paragraph{Orden y bucle voraz.} Una solicitud es el pedido de un estudiante por una materia (código, prioridad 1--5 y, opcionalmente, sustitutas). El algoritmo no llena salones de arriba a abajo: aplana todas las solicitudes, las ordena y, para cada una, intenta inscribir a \emph{ese} estudiante en alguna sección de \emph{esa} materia. Hasta N4 toma la primera válida; desde N5 delega en el elector. Si la principal no cabe y el nivel admite sustitutas, las prueba en orden (Listado~\ref{lst:voraz}).
+
+\begin{lstlisting}[style=python,caption={Orden de atenci\'on y bucle voraz (\texttt{voraz.py})},label={lst:voraz}]
+def orden_de_atencion(instancia, por_semestre=False):
+    pares = [(e, s) for e in instancia.estudiantes.values()
+             for s in e.solicitudes]
+    return sorted(pares, key=lambda par: (
+        -par[1].prioridad,
+        -par[0].semestre if por_semestre else 0,  # solo N10
+        par[0].id, par[1].materia))
+
+def asignar_voraz(instancia, nivel):
+    orden = orden_de_atencion(instancia, usa_semestre(instancia, nivel))
+    # ... crea horarios y cola de pendientes por estudiante ...
+    for estudiante, solicitud in orden:
+        candidatas = instancia.secciones_de(solicitud.materia)
+        if inscribir(candidatas):          # principal
+            continue
+        if nivel.sustitutas:               # desde N4
+            for codigo in solicitud.sustitutas:
+                if inscribir(instancia.secciones_de(codigo)):
+                    break
+        # si nada cupo: aviso con causas
+\end{lstlisting}
+
+\paragraph{Elección entre secciones válidas (N5--N9).} Cuando hay varias secciones que cumplen las reglas, no se elige solo por comodidad. Cada candidata se inscribe de forma provisional (\emph{agregar}/\emph{quitar}): primero se mide cuánto daña las solicitudes que al mismo estudiante aún le faltan (prioridad 5 a 1); solo después entra la satisfacción del nivel; al empatar, el menor identificador (Listado~\ref{lst:eleccion}).
+
+\begin{lstlisting}[style=python,caption={Puntaje al elegir secci\'on (\texttt{eleccion.py})},label={lst:eleccion}]
+def mejor(self, horario, solicitud, validas, pendientes):
+    return max(validas, key=lambda s: self._puntaje(
+        horario, Inscripcion(solicitud, s), pendientes))
+
+def _puntaje(self, horario, inscripcion, pendientes):
+    horario.agregar(inscripcion)           # prueba
+    try:
+        perdidas = self._perdidas(horario, pendientes)  # prio 5..1
+        total = self.satisfaccion(horario.estudiante.id)
+        # en N9 tambien suma la de quienes tienen afinidad hacia el
+    finally:
+        horario.quitar(inscripcion)        # deshace
+    # max() gana con el mayor: se niegan las perdidas
+    return tuple(-p for p in perdidas), total
+\end{lstlisting}
+
+\paragraph{Mejora local (N10).} Tras el voraz, se recorren primero las solicitudes no atendidas por su principal y luego reubicaciones a otra sección de la misma materia. Si el único obstáculo es el cupo, se intenta mover a un ocupante a otra sección con cupo y meter al que faltaba. Cada intento se acepta solo si la parte tocada de $Q$ mejora estrictamente; si no, se deshace (Listado~\ref{lst:mejora}).
+
+\begin{lstlisting}[style=python,caption={Pasadas de mejora y desplazamiento (\texttt{mejora.py})},label={lst:mejora}]
+def ejecutar(self):
+    while mejoro and not self.agotado:     # tope: max_cambios
+        mejoro = False
+        for estudiante, solicitud in orden:
+            mejoro |= self._mejorar_solicitud(...)  # insertar
+        for eid, insc in inscripciones:
+            mejoro |= self._mejorar_seccion(...)    # reubicar
+
+def _intentar(self, eid, solicitud, actual, seccion):
+    causas = self._causas_sin(horario, actual, seccion)
+    if not causas:
+        return self._probar([quitar_actual, agregar_nueva])
+    if causas != [Causa.CUPO_LLENO]:
+        return False
+    # desplazar a un ocupante a otra seccion de la misma materia
+    for otro in sorted(ocupantes[seccion.id]):
+        for alternativa in alternativas_con_cupo:
+            if self._probar([mover_otro, quitar_actual, agregar_nueva]):
+                return True
+    return False
+\end{lstlisting}
+
 \subsubsection{Decisiones tomadas al implementar}\label{sec:decisiones}
 
 \begin{itemize}
